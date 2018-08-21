@@ -1,0 +1,144 @@
+///////////////////////////////////////////////////////////
+//
+// user input (text field at top)
+//
+///////////////////////////////////////////////////////////
+
+
+.user-input {
+	padding: 10px;
+	background-color: transparent;
+	width: 100%;
+	border: none;
+	font-size: 15px;
+	padding: 5px;
+	box-sizing: border-box;
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	margin-top: 10px;
+	top: -10px;
+	padding-left: 10px;
+	padding-top: 10px;
+	margin-bottom: 5px;
+
+	&:focus {
+		outline: none;
+	}
+}
+
+///////////////////////////////////////////////////////////
+//
+// results
+//
+///////////////////////////////////////////////////////////
+
+///////////////////////////////
+// shared
+///////////////////////////////
+
+
+.autocomplete-results, .info {
+	position: absolute;
+	top: 35px;
+	left: 10px;
+	right: 10px;
+	bottom: 0px;
+	padding: 0;
+	margin: 0;
+	//border-top: 1px solid #a6a6a6;
+	overflow: auto;
+}
+
+///////////////////////////////
+// a result
+///////////////////////////////
+
+.autocomplete-result {
+	list-style: none;
+	text-align: left;
+	padding: 10px 2px;
+	padding-left: 5px;
+	cursor: pointer;
+	overflow: hidden;
+	text-overflow: ellipsis;
+
+	&.is-active{
+		border-radius: 3px;
+
+		background-color: rgba(0, 0, 0, 0.75);
+		color: white;
+	}
+
+	&:hover{
+		text-decoration: underline;
+	}
+
+	font-family: "Hack";
+	font-size: 12px;
+
+	// clippy specific action / function - has a special icon suffix
+	.icon-spacer{
+		width: 10px;
+		display: inline-block;
+	}
+}
+
+///////////////////////////////
+// info panel stuff
+///////////////////////////////
+
+
+.info {
+	padding-top: 25px;
+	text-align: left;
+
+}
+
+.copied {
+	font-weight: bold;
+}
+
+///////////////////////////////////////////////////////////
+//
+// placeholder replacement system
+//
+///////////////////////////////////////////////////////////
+
+.place-holder-replacement-system{
+	&.has-options{
+		&:after{
+			content: '↕';
+			float: right;
+			display: block;
+			//color: #8b8b00;
+		}
+
+		.user-input{
+			width: 95%;
+		}
+	}
+
+
+	.info{
+		padding-top: 10px;
+	}
+
+	.preview{
+		height: 190px;
+	}
+}
+
+///////////////////////////////////////////////////////////
+//
+// copied to clipboard
+//
+///////////////////////////////////////////////////////////
+
+.copied-to-clipboard{
+
+	.preview{
+		height: 242px;
+	}
+
+}

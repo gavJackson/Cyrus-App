@@ -1,0 +1,123 @@
+	<div class="template-form">
+		<form :class="{ 'is-dirty': formIsDirty }">
+			<input type="text"
+				   class="full-width"
+				   placeholder="Give your snippet a memorable name"
+				   ref="inputName"
+
+				   :class="{ 'invalid': invalidFields.indexOf('inputName') != -1 }"
+				   v-model="item.name"/>
+
+			<label>Name:</label>
+
+			<input type="text"
+				   class="full-width"
+				   placeholder="Add a note to remind you about this snippet"
+
+				   v-model="item.description"/>
+
+			<label>Desc:</label>
+
+			<input-tag class="full-width"
+					   placeholder="Add Tag"
+
+					   :tags.sync="item.tags"
+					   :add-tag-on-blur="false"
+					   :limit="-1"></input-tag>
+
+			<div class="snippet-container">
+				<div class="lang-container">
+					<select v-model="item.language">
+						<option :value="null" disabled hidden>Language</option>
+						<option v-for="option in languages" v-bind:value="option.id">
+							{{ option.label }}
+						</option>
+					</select>
+				</div>
+
+				<ul class="tabs">
+					<li>
+						<button class="in-active"
+
+								@click="setCurrentTab('SNIPPET')"
+								:class="{ 'selected': currentTab == 'SNIPPET' }">Snippet</button>
+					</li>
+
+					<li v-if="currentItemHasPlaceholders">
+						<button class="in-active"
+
+								@click="setCurrentTab('PLACEHOLDER')"
+								:class="{ 'selected': currentTab == 'PLACEHOLDER' }">Placeholders</button>
+					</li>
+
+					<li v-else>
+						(no placeholders)
+					</li>
+				</ul>
+
+				<div class="tab-pane">
+					<div class="snippet"
+
+						 :class="{ 'invalid': invalidFields.indexOf('inputSnippet') != -1 }"
+						 v-if="currentTab == 'SNIPPET'">
+
+						<editor id="aceEditor"
+								v-model="item.snippet"
+								@init="editorInit"
+								v-bind:lang="item.language"
+								theme="monokai"
+								wrap="true"
+								width="373"
+								height="110"></editor>
+
+						<div class="note body-font">
+							Wrap a word with <span style="color: yellow"><code>%</code></span> to turn it into a <span style="color: yellow">placeholder</span>, e.g. <span style="color: yellow"><code>%SAMPLE%</code></span>
+						</div>
+					</div>
+
+					<div class="placeholders"
+
+						 v-if="currentTab == 'PLACEHOLDER'">
+
+						<div class="placeholders-container">
+							<div v-for="(value, key, index) in item.variables">
+								<input-tag v-bind:placeholder="`Add ${key}`"
+										   v-bind:ref="'inputField' + index"
+										   v-bind:id="'inputField' + index"
+
+										   :tags.sync="item.variables[key]"
+										   :add-tag-on-blur="false"
+										   :limit="-1"></input-tag>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="buttons-container">
+				<router-link tag="button" :to="{ name: cancelButtonRouteName}">Cancel</router-link>
+
+				<button v-if="currentState == 'EDIT'"
+						v-on:click="resetForm()">Reset</button>
+
+				<div  style="float:right">
+					<button v-if="currentState == 'EDIT'"
+							v-on:click="onDeleteClicked()">{{ deleteButtonLabel }}</button>
+
+					<input type="submit" class="primary button"
+
+
+						   :class="{ 'invalid': isValid }"
+						    v-bind:value="saveButtonLabel"
+							v-on:click="saveForm()" />
+				</div>
+
+			</div>
+
+			<div class="message validation animated fadeInDown"
+
+				 v-if="validationMessage && formIsDirty">
+				{{validationMessage}}
+			</div>
+		</form>
+	</div>

@@ -1,0 +1,117 @@
+<div class="auto-complete" xmlns:v-clipboard="http://www.w3.org/1999/xhtml">
+
+	<!-- /////////////////////////////////////////////////////////////////
+
+	state = SEARCH_MODE
+
+	///////////////////////////////////////////////////////////////// -->
+
+	<div v-if="currentState == 'SEARCH_MODE'">
+
+		<input class="user-input"
+			   type="text"
+			   id="inputSearch"
+
+			   @input="onChange"
+			   v-model="search"
+			   @keydown.down="onArrowDown" @keydown.up="onArrowUp"
+			   @keyup.enter="onEnter" placeholder="What do you want to do?"
+			   @keyup.escape="onEscape"
+			   v-show="clipboard == ''"
+			   v-focus="appHasFocus"
+			   autocomplete="on" autofocus/>
+
+		<!-- ///////////////////////////////
+		results drop down
+		/////////////////////////////// -->
+
+		<ul id="autoCompleteResults" v-show="isOpen"
+			class="autocomplete-results top-bordered">
+			<li class="loading" v-if="isLoading">
+				Loading results...
+			</li>
+			<li v-else v-for="(result, i) in results" :key="i"
+				@click="setResult(result)" class="autocomplete-result"
+				:class="{ 'is-active': i === arrowCounter }">
+
+				<!-- ///////////////////////////////
+				icon
+				/////////////////////////////// -->
+
+				<span class="fa fa-paperclip fw icon-spacer"
+					  v-if="result.language === 'Clippy'"></span>
+
+				<!--<span class="icon-spacer"-->
+					  <!--v-else>&nbsp;</span>-->
+
+				<!-- ///////////////////////////////
+				label
+				/////////////////////////////// -->
+
+				<span v-html="$options.filters.highlightSearchTerm(result.name, search)"></span>
+
+			</li>
+		</ul>
+
+		<!-- ///////////////////////////////
+		info messages
+		/////////////////////////////// -->
+
+		<div class="info top-bordered" v-show="!isOpen || results.length == 0">
+			<span v-html="infoMessage"></span>
+		</div>
+
+	</div>
+
+
+	<!-- /////////////////////////////////////////////////////////////////
+
+	state = PLACE_HOLDER_REPLACEMENT
+
+	///////////////////////////////////////////////////////////////// -->
+
+	<div v-if="currentState == 'PLACE_HOLDER_REPLACEMENT'"
+		 class="place-holder-replacement-system"
+		 v-bind:class="{ 'has-options': currentPlaceHolderHasOptions }">
+
+		<input class="user-input" type="text"
+			   v-model="currentPlaceholderInput"
+			   v-bind:placeholder="currentPlaceholder"
+			   @keyup.enter="onPlaceHolderEnter"
+			   @keyup.escape="onPlaceHolderEscape"
+			   @keydown.tab="onPlaceHolderEnter"
+			   @keydown.down="onPlaceHolderArrowDown"
+			   @keydown.up="onPlaceHolderArrowUp"
+
+			   v-focus="appHasFocus && showPlaceHolderReplacementSystem"
+			   autocomplete="on" autofocus/>
+
+		<div class="info top-bordered">
+			The selected snippet contains placeholders.  Enter a value
+			for: <strong>{{currentPlaceholder.replace(/%/g, '')}}</strong>
+
+			<div class="preview"
+				 v-bind:class="{ 'enable-wrap': enableWrapOnPreview }"
+				 v-html="selectedSnippetWithPlaceholdersPreview"></div>
+
+		</div>
+	</div>
+
+	<!-- /////////////////////////////////////////////////////////////////
+
+	state = COPIED_TO_CLIPBOARD
+
+	///////////////////////////////////////////////////////////////// -->
+	<div v-if="currentState == 'COPIED_TO_CLIPBOARD'"
+		 class="copied-to-clipboard">
+
+		<strong>Copied to clipboard</strong> now ready to paste...
+
+		<div class="preview"
+			 v-bind:class="{ 'enable-wrap': enableWrapOnPreview }"
+			 v-html="clipboard"></div>
+	</div>
+
+
+</div>
+
