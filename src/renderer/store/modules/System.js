@@ -1,4 +1,4 @@
-import {systemMutations} from '../types'
+import {systemMutations, tourMutations} from '../types'
 
 const state = {
 	shortcutKey: {
@@ -9,10 +9,6 @@ const state = {
 			osx: 'CMD+Alt+C',
 		}
 	},
-
-	isRunningTour: false,
-	shouldSkipTour: false,
-	restartTour: false,
 }
 
 const mutations = {
@@ -50,9 +46,7 @@ const mutations = {
 	},
 
 	[systemMutations.RESTART_TOUR]() {
-		this.restartTour = true
-
-		setTimeout( () => this.restartTour = false, 2000 )
+		this.commit(tourMutations.START, null, { root: true })
 	},
 
 

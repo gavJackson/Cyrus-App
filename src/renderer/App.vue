@@ -171,55 +171,7 @@
 <style lang="less">
 	@import "assets/fonts/fontAwesome/css/all.css";
 	@import "assets/styles/animate.less";
-	/*@import "./../libs/hopscotch/css/hopscotch.css";*/
-
-	///////////////////////////////////////////////////////////
-	//
-	// mixins
-	//
-	///////////////////////////////////////////////////////////
-
-	.gradient(@color: #F5F5F5, @start: #EEE, @stop: #FFF) {
-		background: @color;
-		background: -webkit-gradient(linear,
-		left bottom,
-		left top,
-		color-stop(0, @start),
-		color-stop(1, @stop));
-		background: -ms-linear-gradient(bottom,
-		@start,
-		@stop);
-		background: -moz-linear-gradient(center bottom,
-		@start 0%,
-		@stop 100%);
-
-		filter: ~"progid:DXImageTransform.Microsoft.gradient( startColorstr='@{stop}', endColorstr='@{start}',GradientType=0 )";
-		background: linear-gradient(top, @start 1%, @stop 100%);
-	}
-
-	///////////////////////////////////////////////////////////
-	//
-	// variables
-	//
-	///////////////////////////////////////////////////////////
-
-	@highlightColor: yellow;
-	@linkColor: @highlightColor;
-	@textColor: black;
-	@backgroundColor: #ffffcd;
-	@borderColor: #94944c;
-	@bodyFont: 'Comic Neue Regular', "Comic Sans MS", Arial, "Helvetica Neue", Helvetica, sans-serif;
-	@codeFont: "Hack", "mono";
-	@inputFont: "Hack", Arial, "Helvetica Neue", Helvetica, sans-serif;
-	@outlineColor: darkCyan;
-	@codeBackground: #404040;
-	@codeText: white;
-	@invalidColor: darken(red, 10%);
-
-	@buttonColor: @textColor;
-	@buttonTextColor: #ffffff;
-	@primaryButtonColor: @linkColor;
-	@primarybuttonTextColor: @textColor;
+	@import "assets/styles/global.less";
 
 	///////////////////////////////////////////////////////////
 	//
@@ -439,6 +391,10 @@
 		overflow: hidden;
 	}
 
+	hr{
+		border-bottom: 1px solid @borderColor;
+	}
+
 	///////////////////////////////
 	// links / buttons / tabs
 	///////////////////////////////
@@ -472,6 +428,7 @@
 	}
 
 	button, .button, input[type=submit] {
+		display: inline-block;
 		cursor: pointer;
 		box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
 		border-radius: 3px;
@@ -480,6 +437,7 @@
 		border: none;
 		font-weight: normal;
 		min-width: 60px;
+		text-align: center;
 
 		background-color: @buttonColor;
 		color: @buttonTextColor;

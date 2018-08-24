@@ -29,5 +29,7 @@ export const categories = {
 export const tourMutations = {
 	START: 'START',
 	NEXT_STEP: 'NEXT_STEP',
-	DONT_SHOW_AGAIN: 'DONT_SHOW_AGAIN'
+	CLOSE_TOUR: 'CLOSE_TOUR',
+	HIDE_TOUR: 'HIDE_TOUR',
+	SHOW_TOUR: 'SHOW_TOUR',
 }

@@ -142,6 +142,7 @@ const mutations = {
 		let files =  fs.readdirSync(path.join(userDataPath, paths.SNIPPETS))
 		let startingLength = state.data.length
 
+		// TODO reinstate this when finished with working on the Tour
 		// files = files.filter( (item) => item.indexOf('.json') != -1)
 		//
 		// for(let i=0; i < files.length; i++){

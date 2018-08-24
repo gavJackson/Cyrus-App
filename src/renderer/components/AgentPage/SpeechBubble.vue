@@ -8,7 +8,7 @@
 
 		<autoComplete class="user-input"/>
 
-		<tourBubble v-if="tourMessageIndex >= 0" />
+		<tourBubble v-if="showTour" />
 	</div>
 
 
@@ -31,8 +31,7 @@
 
 		computed: mapState({
 			appHasFocus: state => state.Focus.appHasFocus,
-			showTour: state => state.Tour.getShowTour,
-			tourMessageIndex: state => state.Tour.messageIndex,
+			showTour: state => state.Tour.showTour,
 		}),
 
 		methods: {

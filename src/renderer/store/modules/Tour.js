@@ -1,20 +1,26 @@
 import {tourMutations} from '../types'
 
 const state = {
-	isRunningTour: false,
-	shouldSkipTour: false,
-	restartTour: false,
-	messageIndex: null,
+	showTour: false,
+	messageIndex: 0,
 
 	messages : [
 		{
-			text: `Hi there, I'm <strong>Cyrus</strong>! - lets find out how I can help you work smarter with live templates.<br /><br />You don't have any templates set up, but i've added a couple of examples to get you started.<br /><br />Try typing \`<strong><code>a simple example</code></strong>\` to see how this works.`,
-			height: '230px',
+			text: `<strong>Tour step 1:</strong> Try typing \`<strong><code>a simple example</code></strong>\` to see how this works (or just click next if you are feeling lazy).<br /><hr />Hi there, I'm <strong>Cyrus</strong>! - lets find out how I can help you work smarter with live templates.`,
+			height: '220',
 			delay: 1000,
 			nextStep: () => {
 				var el = document.getElementById('inputSearch');
 				el.value='example'
 				setTimeout ( () => el.dispatchEvent(new Event('input')), 100);
+			}
+		},
+		{
+			text: `<strong>Tour step 2:</strong> Use your UP and DOWN keys to move through the results, click or press ENTER on the first item. This will put it into your clip board ready to be pasted into another application (Ctrl+V or CMD+V).`,  //<br /><hr />You don't have any templates set up, but I've added a couple of examples to get you started.`,
+			height: '170',
+			delay: 1000,
+			nextStep: () => {
+
 			}
 		},
 
@@ -25,16 +31,26 @@ const state = {
 }
 
 const mutations = {
-	[tourMutations.DONT_SHOW_AGAIN](){
+	[tourMutations.CLOSE_TOUR](){
+		state.showTour = false
+	},
 
+	[tourMutations.HIDE_TOUR](){
+		state.showTour = false
+	},
+
+	[tourMutations.SHOW_TOUR](){
+		state.showTour = false
 	},
 
 	[tourMutations.START](){
-		this.messageIndex = 0
+		state.messageIndex = 0
+		state.showTour = true
 	},
 
 	[tourMutations.NEXT_STEP](){
-		this.messageIndex++
+		state.showTour = true
+		state.messageIndex++
 	},
 }
 
@@ -44,7 +60,7 @@ const getters = {
 	},
 
 	getShowTour: (state) => () => {
-		return this.messageIndex >= 0
+		return this.showTour
 	}
 
 }
