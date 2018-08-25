@@ -1,18 +1,32 @@
 <template>
-	<!--<div class="speech-bubble dialog xanimated xbounceIn"-->
-		 <!--v-if="appHasFocus">-->
+	<div>
+		<div v-if="isTourRunning">
+			<div class="speech-bubble dialog">
+				<div class="warning">Playing tour</div>
 
-	<div class="speech-bubble dialog">
-		<div class="warning">Forcing speech bubble always on</div>
 
+				<autoComplete class="user-input"/>
 
-		<autoComplete class="user-input"/>
+				<tourBubble v-if="showTour" />
+			</div>
+		</div>
 
-		<tourBubble v-if="showTour" />
+		<div v-else>
+			<div class="speech-bubble dialog"
+
+				 v-if="showSpeechBubble">
+
+				<autoComplete class="user-input"/>
+
+				<tourBubble v-if="showTour" />
+			</div>
+		</div>
 	</div>
 
 
-	<!--</div>-->
+	<!--<div class="speech-bubble dialog"-->
+		 <!--v-if="showSpeechBubble">-->
+
 
 </template>
 
@@ -32,6 +46,10 @@
 		computed: mapState({
 			appHasFocus: state => state.Focus.appHasFocus,
 			showTour: state => state.Tour.showTour,
+			isTourRunning: state => state.Tour.isTourRunning,
+			showSpeechBubble: state => {
+				return state.Focus.appHasFocus || state.Tour.isTourRunning
+			}
 		}),
 
 		methods: {
@@ -42,17 +60,23 @@
 
 <style lang="less" scoped>
 	.warning{
+		border-radius: 5px;
 		position: absolute;
 		bottom: 10px;
+		left: 10px;
 		font-weight: bold;
-		color: yellow;
+		color: black;
+		background-color: white;
+		border: 2px solid black;
 		font-family: "Hack";
 		font-size: 11px;
 		text-transform: uppercase;
-		background-color: black;
 		padding: 5px;
+		z-index: 1;
+
 		&:before{
-			content: 'Debug:'
+			content: '▶';
+			margin-right: 5px;
 		}
 	}
 

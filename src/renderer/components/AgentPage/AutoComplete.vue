@@ -15,8 +15,14 @@ JavaScript
 <script>
 	import Vue from 'vue'
 
-	const {clipboard} = require('electron')
-	import {focusMutations} from '../../store/types'
+	const { clipboard } = require('electron')
+	const {dialog } = require('electron').remote
+
+	import {
+		focusMutations,
+		searchMutations,
+		tourMutations
+	} from '../../store/types'
 	import _ from 'underscore'
 
 
@@ -151,6 +157,14 @@ JavaScript
 
 
 		computed: {
+			searchTerm(){
+				return this.$store.state.Search.searchTerm
+			},
+			isTourRunning(){
+				return this.$store.state.Tour.isTourRunning
+			},
+
+
 			appHasFocus() {
 				return this.$store.state.Focus.appHasFocus
 			},
@@ -181,9 +195,10 @@ JavaScript
 					if (this.results.length == 0) {
 						message = "Sorry, couldn't find a match.<br /><br />Try typing `<code>Create template</code>` or `<code>Edit templates</code>`."
 					}
-					else {
+					else if (this.results.length == 1) {
 						message = "Now hit <strong>Enter</strong>"
 					}
+
 
 				}
 
@@ -267,11 +282,40 @@ JavaScript
 		//
 		///////////////////////////////////////////////////////////
 
+		created: function(){
+			window.addEventListener('TOUR_TYPING_LETTER', (event) => {
+				var letter = event.detail.letter
+
+				if(this.showPlaceHolderReplacementSystem || event.detail.stepNumber == 5){
+					if (letter == '↑') {	// UP cursor key
+						this.doPlaceHolderArrowUp()
+					}
+					else if (letter == '↓') {	// DOWN cursor key
+						this.doPlaceHolderArrowDown()
+					}
+					else if (letter == '⏎') {	// ENTER key
+						this.doPlaceHolderEnter()
+					}
+				}
+				else{
+					if (letter == '↑') {	// UP cursor key
+						this.doArrowUp()
+					}
+					else if (letter == '↓') {	// DOWN cursor key
+						this.doArrowDown()
+					}
+					else if (letter == '⏎') {	// ENTER key
+						this.onEnter()
+					}
+				}
+			})
+		},
 
 		methods: {
 			onChange() {
 				// Let's warn the parent that a change was made
 				this.$emit("input", this.search);
+				this.$store.commit(searchMutations.SET_SEARCH_TERM, this.search);
 
 				// Is the data given by an outside ajax request?
 				if (this.isAsync) {
@@ -301,6 +345,13 @@ JavaScript
 			onArrowDown(event) {
 				event.preventDefault()
 
+				if(!this.isTourRunning) {
+					this.doArrowDown()
+				}
+			},
+
+			doArrowDown(){
+				this.isOpen = true;
 				if (this.arrowCounter < this.results.length - 1) {
 					this.arrowCounter = this.arrowCounter + 1;
 				}
@@ -314,6 +365,13 @@ JavaScript
 			onArrowUp(event) {
 				event.preventDefault()
 
+				if(!this.isTourRunning) {
+					this.doArrowUp()
+				}
+			},
+
+			doArrowUp(){
+				this.isOpen = true;
 				if (this.arrowCounter > 0) {
 					this.arrowCounter = this.arrowCounter - 1;
 				}
@@ -326,6 +384,24 @@ JavaScript
 
 			onEnter() {
 				this.setResult(this.results[this.arrowCounter])// || this.items[this.arrowCounter]);
+			},
+
+			onKeyDown(event){
+				if(this.isTourRunning){
+					event.preventDefault()
+
+					const dialogOptions = {type: 'info', buttons: ['OK', 'Cancel'], message: 'Are you sure you want to exit the tour?'}
+
+					dialog.showMessageBox(dialogOptions, i => {
+						if(i == 0){	// ok button
+							this.$store.commit(tourMutations.CLOSE_TOUR);
+						}
+						else if(i == 1){	// cancel button
+							// do nothing
+						}
+
+					})
+				}
 			},
 
 			onEscape() {
@@ -384,6 +460,8 @@ JavaScript
 
 							this.$root.$emit("NORMAL");
 							this.$store.commit(focusMutations.APP_BLUR)
+							// if(!this.isTourRunning){
+							// }
 						}, delay);
 					}
 
@@ -423,6 +501,8 @@ JavaScript
 						this.search = ""
 
 						this.$store.commit(focusMutations.APP_BLUR)
+						// if(!this.isTourRunning) {
+						// }
 					}, 2000);
 				}
 			},
@@ -433,6 +513,13 @@ JavaScript
 
 			onPlaceHolderEnter(event) {
 				event.preventDefault()
+
+				if(!this.isTourRunning) {
+					this.doPlaceHolderEnter()
+				}
+			},
+
+			doPlaceHolderEnter(){
 
 				// if(this.currentPlaceholderInput != ""){
 				this.selectedSnippetWithPlaceholders = this.selectedSnippetWithPlaceholders.replace(this.currentPlaceholder, this.currentPlaceholderInput)
@@ -458,12 +545,24 @@ JavaScript
 			onPlaceHolderArrowDown(event) {
 				event.preventDefault()
 
+				if(!this.isTourRunning) {
+					this.doPlaceHolderArrowDown()
+				}
+			},
+
+			doPlaceHolderArrowDown(){
 				this.goThroughVariables(1)
 			},
 
 			onPlaceHolderArrowUp(event) {
 				event.preventDefault()
 
+				if(!this.isTourRunning) {
+					this.doPlaceHolderArrowUp()
+				}
+			},
+
+			doPlaceHolderArrowUp(){
 				this.goThroughVariables(-1)
 			},
 
@@ -510,7 +609,18 @@ JavaScript
 					this.results = val;
 					this.isLoading = false;
 				}
-			}
+			},
+
+			searchTerm: function (newValue, oldValue){
+				if(newValue != this.search){
+					this.search = newValue
+				}
+			},
+
+			// selectedSnippet: function(newValue, oldValue){
+			// 	debugger
+			// },
+
 		},
 		mounted() {
 			document.addEventListener("click", this.handleClickOutside);

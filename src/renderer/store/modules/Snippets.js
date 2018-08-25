@@ -115,20 +115,33 @@ const state = {
 
 	examples: [
 		{
-			"name": "A Simple Example",
+			"name": "A simple example",
 			"category": categories.CLIPPY,
 			"language": "text",
 			"description": "",
 			"tags": ["example"],
-			"snippet": "This is an example snippet.  Once you have found a snippet in Clippy, it is automatically put into your clip board so you can paste it."
+			"snippet": "example snippet"
 		},
 		{
-			"name": "An Example With Placeholders",
+			"name": "An example snippet with placeholders",
 			"category": categories.CLIPPY,
 			"language": "text",
 			"description": "",
 			"tags": ["example"],
-			"snippet": "This is example has placeholders in it, a placeholder is a word wrapped in `%` characters:\n\nMy favourite color is %COLOUR%.\n\nMy favourite animal is %ANIMAL%."
+			"snippet": "This is has placeholders in it, which are words wrapped in `%` characters:\n\nMy favourite color is %COLOUR%.\n\nMy favourite animals are %ANIMAL%.",
+			"variables": {
+				"COLOUR": [
+					"red",
+					"green",
+					"blue",
+					"yellow"
+				],
+				"ANIMAL": [
+					"dogs",
+					"cats",
+					"fishes"
+				]
+			}
 		},
 
 	]

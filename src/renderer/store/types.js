@@ -33,3 +33,7 @@ export const tourMutations = {
 	HIDE_TOUR: 'HIDE_TOUR',
 	SHOW_TOUR: 'SHOW_TOUR',
 }
+
+export const searchMutations = {
+	SET_SEARCH_TERM: 'SET_SEARCH_TERM'
+}

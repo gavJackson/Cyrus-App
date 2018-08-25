@@ -1,89 +1,14 @@
 <template>
 	<div id="app">
 		<router-view></router-view>
-
-		<v-tour name="myTour" :steps="steps" :callbacks="myCallbacks" :options="myOptions">
-			<template slot-scope="tour">
-				<transition name="fade">
-					<v-step
-							v-if="tour.currentStep === index"
-							v-for="(step, index) of tour.steps"
-							:key="index"
-							:step="step"
-							:previous-step="tour.previousStep"
-							:next-step="tour.nextStep"
-							:stop="tour.stop"
-							:isFirst="tour.isFirst"
-							:isLast="tour.isLast"
-					>
-						<template v-if="tour.currentStep === 1">
-							<div slot="actions">
-								<button @click="tour.previousStep"
-										class="btn btn-primary">Previous step
-								</button>
-								<button @click="doSecondStep(tour)"
-										class="btn btn-primary">Next step
-								</button>
-							</div>
-						</template>
-					</v-step>
-				</transition>
-			</template>
-		</v-tour>
 	</div>
 </template>
 
 <script>
 	import {focusMutations, snippetsMutations} from './store/types'
 
-	// TODO look at http://linkedin.github.io/hopscotch/ as it looks like it has more options
 	export default {
 		name: 'clippy',
-
-		data() {
-			return {
-				myCallbacks: {
-					onPreviousStep: this.onPreviousStepCallback,
-					onNextStep: this.onNextStepCallback
-				},
-				myOptions: {
-					useKeyboardNavigation: true
-				},
-				steps: [
-					{
-						target: '#agentImage',  // We're using document.querySelector() under the hood
-						content: `Hi there, I'm <strong>Clippy</strong>! (name tbc) - Click 'Next' to begin the tour and find out how I can help you work smarter with live templates.`,
-						params: {
-							placement: 'top'
-						}
-					},
-					{
-						target: '#inputSearch',
-						content: 'This is the search field.  You can either search for your live templates here, to get you started I have added some examples.  Lets search for an `example`'
-					},
-					{
-						target: '#autoCompleteResults li:nth-child(2)',
-						content: 'Your results are shown here, you can use your up and down arrow keys to select which one, for now lets go with the first result. Select the first item and hit ENTER',
-						params: {
-							placement: 'bottom',
-							delay: 2000
-						}
-					},
-					{
-						target: '#inputSearch',
-						content: 'Now lets have xxxxa look at the other example which has placeholders.  Lets search for `Example with placeholders`',
-						params: {
-							placement: 'bottom',
-							delay: 2000
-						}
-					},
-				]
-			}
-		},
-
-		mounted: function () {
-			// this.$tours['myTour'].start()
-		},
 
 		created: function () {
 			window.addEventListener('focus', this.onFocus);
@@ -91,6 +16,7 @@
 
 
 			this.$store.commit(snippetsMutations.LOAD)
+
 		},
 
 
@@ -115,55 +41,6 @@
 			onBlur() {
 				this.$store.commit(focusMutations.APP_BLUR)
 			},
-
-			onPreviousStepCallback(currentStep){
-				debugger
-
-			},
-			onNextStepCallback(currentStep){
-				switch(currentStep){
-					case 0:
-						this.onFirstStep()
-						break
-					case 1:
-						this.onSecondStep()
-						break
-				}
-			},
-
-			///////////////////////////////////////////////////////////
-			//
-			// custom step actions
-			//
-			///////////////////////////////////////////////////////////
-
-			onFirstStep() {
-				this.onFocus();
-
-				document.getElementById('agentImage').click()
-			},
-
-			onSecondStep() {
-				this.onFocus();
-
-				var el = document.getElementById('inputSearch');
-				el.value='example'
-				setTimeout ( () => el.dispatchEvent(new Event('input')), 100);
-			},
-
-			///////////////////////////////////////////////////////////
-			//
-			// tour helps
-			//
-			///////////////////////////////////////////////////////////
-
-			doSecondStep(tour) {
-				this.onSecondStep()
-
-				setTimeout ( () => tour.nextStep(), 1100);
-
-			}
-
 		}
 	}
 </script>

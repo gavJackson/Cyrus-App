@@ -1,4 +1,5 @@
 import {systemMutations, tourMutations} from '../types'
+import is from 'electron-is'
 
 const state = {
 	shortcutKey: {
@@ -48,19 +49,26 @@ const mutations = {
 	[systemMutations.RESTART_TOUR]() {
 		this.commit(tourMutations.START, null, { root: true })
 	},
-
-
-
-
-
 }
 
 const actions = {
 
 }
 
+const getters = {
+	getShortcutKeys: (state) => () => {
+		if(is.macOS()){
+			return state.shortcutKey.label.osx
+		}
+		else{
+			return state.shortcutKey.label.win
+		}
+	},
+}
+
 export default {
 	state,
 	mutations,
+	getters,
 	actions
 }

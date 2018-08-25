@@ -14,6 +14,7 @@
 
 			   @input="onChange"
 			   v-model="search"
+			   @keydown="onKeyDown"
 			   @keydown.down="onArrowDown" @keydown.up="onArrowUp"
 			   @keyup.enter="onEnter" placeholder="What do you want to do?"
 			   @keyup.escape="onEscape"
@@ -74,7 +75,7 @@
 		 class="place-holder-replacement-system"
 		 v-bind:class="{ 'has-options': currentPlaceHolderHasOptions }">
 
-		<input class="user-input" type="text"
+		<input id="inputPlaceholder" class="user-input" type="text"
 			   v-model="currentPlaceholderInput"
 			   v-bind:placeholder="currentPlaceholder"
 			   @keyup.enter="onPlaceHolderEnter"

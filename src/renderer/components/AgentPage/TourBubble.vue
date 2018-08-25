@@ -1,11 +1,20 @@
 <template>
-	<div class="thought-container animated fadeIn"
+	<div class="thought-container xanimated xfadeIn"
 			 v-bind:style="{ 'height': message.height + 'px',
 			  				 '--arrow-position-var': (270 - message.height) + 'px'}"
 			 v-if="message">
 
 
 		<div class="thought-dialog">
+			<div class="xdont-show-again-container">
+				<button class="button primary"
+						@click="onTourNext()">Next</button>
+
+				<!--<div style="float: right">-->
+					<!--<button class="button" @click="onTourClose()">Close tour</button>-->
+				<!--</div>-->
+			</div>
+			<br />
 			<div class="tour-message"
 
 				 v-html="message.text">
@@ -14,14 +23,6 @@
 			</div>
 
 
-			<div class="xdont-show-again-container">
-				<button class="button" @click="onTourClose()">Close tour</button>
-
-				<div style="float: right">
-					<button class="button primary"
-							@click="onTourNext()">Next</button>
-				</div>
-			</div>
 		</div>
 	</div>
 
@@ -62,7 +63,6 @@
 						this.$store.commit(tourMutations.NEXT_STEP)
 					}, this.message.delay || 1)
 				}
-
 			},
 
 		}
@@ -72,7 +72,7 @@
 <style lang="less" scoped>
 	@import "../../assets/styles/global.less";
 
-	@tourBackground: mix(@backgroundColor, black, 90%);
+	@tourBackground: mix(@backgroundColor, black, 80%);
 
 	.thought-container {
 		position: absolute;
@@ -82,6 +82,13 @@
 		display: block;
 		height: 230px;
 		background-color: @tourBackground;
+		z-index: 2;
+		/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#1e5799+84,7db9e8+100 */
+		background: rgb(30,87,153); /* Old browsers */
+		background: -moz-linear-gradient(top, @tourBackground 10%, @backgroundColor 100%); /* FF3.6-15 */
+		background: -webkit-linear-gradient(top, @tourBackground 10%,@backgroundColor 100%); /* Chrome10-25,Safari5.1-6 */
+		background: linear-gradient(to bottom, @tourBackground 10%,@backgroundColor 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#7db9e8',GradientType=0 ); /* IE6-9 */
 
 		&:before {
 			display: block;
@@ -100,21 +107,21 @@
 		}
 
 		// this arrow bit is there, just cannot see it cos its below another arrow thing which is annoying
-		&:after{
-			content: '';
-			position: absolute;
-			bottom: 0;
-			left: 65%;
-			width: 0;
-			height: 0;
-			border: 26px solid transparent;
-			border-top-color: red;//#ffffcd;
-			border-bottom: 0;
-			border-right: 0;
-			margin-left: 40px;
-			margin-bottom: -26px;
-			/*z-index: 99999;*/
-		}
+		/*&:after{*/
+			/*content: '';*/
+			/*position: absolute;*/
+			/*bottom: 0;*/
+			/*left: 65%;*/
+			/*width: 0;*/
+			/*height: 0;*/
+			/*border: 26px solid transparent;*/
+			/*border-top-color: red;//#ffffcd;*/
+			/*border-bottom: 0;*/
+			/*border-right: 0;*/
+			/*margin-left: 40px;*/
+			/*margin-bottom: -26px;*/
+			/*!*z-index: 99999;*!*/
+		/*}*/
 	}
 
 	.thought-dialog {
