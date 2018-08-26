@@ -106,7 +106,7 @@
 				return this.currentTourKeyBeingPressed && /\S/.test(this.currentTourKeyBeingPressed)
 			},
 			shouldShowTourStarter(){
-				return this.$store.state.Tour.isTourRunning && !this.showSpeechBubble
+				return this.$store.state.Tour.isTourRunning && !this.showSpeechBubble && this.agentState != agentStates.DRAGGING
 			},
 
 			keys(){

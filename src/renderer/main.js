@@ -1,3 +1,11 @@
+//handle setupevents as quickly as possible
+const setupEvents = require('./installers/setupEvents')
+if (setupEvents.handleSquirrelEvent()) {
+	// squirrel event handled and app will exit in 1000ms, so don't do anything else
+	return;
+}
+
+
 import Vue from 'vue'
 import axios from 'axios'
 
@@ -11,8 +19,8 @@ Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
-  components: { App },
-  router,
-  store,
-  template: '<App/>'
+	components: {App},
+	router,
+	store,
+	template: '<App/>'
 }).$mount('#app')
