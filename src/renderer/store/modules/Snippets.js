@@ -79,13 +79,21 @@ const state = {
 			"snippet": "EXPORT_TEMPLATES"
 		},
 		{
-			"name": "Switch to menu mode",
+			"name": "About Cyrus",
 			"category": categories.CLIPPY,
 			"language": "Clippy",
-			"description": "Get rid of/kill/hurt Clippy, the paperclip avatar character and switch to menu mode, i hate clippy, clippy must die",
+			"description": "About Cyrus, version number and author details",
 			"tags": [],
-			"snippet": "GENERAL_SETTINGS"
+			"snippet": "ABOUT"
 		},
+		// {
+		// 	"name": "Switch to menu mode",
+		// 	"category": categories.CLIPPY,
+		// 	"language": "Clippy",
+		// 	"description": "Get rid of/kill/hurt Clippy, the paperclip avatar character and switch to menu mode, i hate clippy, clippy must die",
+		// 	"tags": [],
+		// 	"snippet": "GENERAL_SETTINGS"
+		// },
 		{
 			"name": "Enter settings mode",
 			"category": categories.CLIPPY,
@@ -95,7 +103,7 @@ const state = {
 			"snippet": "SETTINGS_MENU"
 		},
 		{
-			"name": "Show tips",
+			"name": "Show Help",
 			"category": categories.CLIPPY,
 			"language": "Clippy",
 			"description": "Show tips, help me, keyboard shortcuts, how to guide, instructions, what do i do, wtf, fuck",

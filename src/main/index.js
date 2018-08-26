@@ -71,6 +71,24 @@ function createWindow(app) {
 		mainWindow = null
 	})
 
+	///////////////////////////////////////////////////////////
+	//
+	// handle links
+	//
+	///////////////////////////////////////////////////////////
+
+	// let webContents = mainWindow.webContents
+	//
+	// var handleRedirect = (e, url) => {
+	// 	if (url != webContents.getURL()) {
+	// 		e.preventDefault()
+	// 		require('electron').shell.openExternal(url)
+	// 	}
+	// }
+	//
+	// webContents.on('will-navigate', handleRedirect)
+	// webContents.on('new-window', handleRedirect)
+
 }
 
 function registerShortCutsKeys() {

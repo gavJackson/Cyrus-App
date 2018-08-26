@@ -1,56 +1,72 @@
 <template>
 	<div class="templates-list-container">
 
-		<div class="tags-container" v-if="tags.length > 0">
-			<ul>
-				<li class="tag"
-					v-for="item in tags"
+		<div v-if="data.length == 0">
+			<h1>Snippets</h1>
 
-					 :class="{ 'in-active': selectedTags.indexOf(item.tag) == -1}"
-					@click="selectItem(item.tag, $event)">
-					{{ item.tag }} ({{ item.count }})
-				</li>
-			</ul>
+			<p>
+				This page would list all your snippets and provide you with a way of filtering your snippets by the tags you can use to organise your snippets....but you do not have any set up yet.
+			</p>
+
+			<router-link tag="a" class="button primary xcreate-new-button" to="/settings/create">
+				Click here to create a new snippet
+			</router-link>
+
 		</div>
 
-		<router-link tag="a" class="button primary create-new-button" to="/settings/create">
-			Create new
-		</router-link>
+		<div v-else>
+			<div class="tags-container" v-if="tags.length > 0">
+				<ul>
+					<li class="tag"
+						v-for="item in tags"
 
-		<h1>Templates</h1>
+						 :class="{ 'in-active': selectedTags.indexOf(item.tag) == -1}"
+						@click="selectItem(item.tag, $event)">
+						{{ item.tag }} ({{ item.count }})
+					</li>
+				</ul>
+			</div>
 
-		<div class="scroller">
 
-			<ul>
-				<li class="item-container" v-for="item in data">
+			<router-link tag="a" class="button primary create-new-button" to="/settings/create">
+				Create new
+			</router-link>
 
+			<h1>Snippets</h1>
 
-					 <router-link tag="div" :to="{ name: 'edit', params: { id: item.id } }">
+			<br />
 
-						 <div class="tags">
-							 <ul>
-								 <li class="tag"
+			<div class="scroller">
+				<ul>
+					<li class="item-container" v-for="item in data">
+						 <router-link tag="div" :to="{ name: 'edit', params: { id: item.id } }">
 
-									 :class="{ 'in-active': selectedTags.indexOf(item) == -1}"
-									 v-for="item in item.tags"
-									 @click="selectItem(item, $event)">
-									 {{ item }}
-								 </li>
-							 </ul>
-						 </div>
+							 <div class="tags">
+								 <ul>
+									 <li class="tag"
 
-						 <div class="name code">{{item.name}}</div>
+										 :class="{ 'in-active': selectedTags.indexOf(item) == -1}"
+										 v-for="item in item.tags"
+										 @click="selectItem(item, $event)">
+										 {{ item }}
+									 </li>
+								 </ul>
+							 </div>
 
-						 <!--<div class="icons-container">-->
-							 <!--<span class="fa fa-edit" title="Edit template"></span>-->
-						 <!--</div>-->
+							 <div class="name code">{{item.name}}</div>
 
-						 <div class="description code">{{item.description}}</div>
+							 <!--<div class="icons-container">-->
+								 <!--<span class="fa fa-edit" title="Edit template"></span>-->
+							 <!--</div>-->
 
-					 </router-link>
-				</li>
-			</ul>
+							 <div class="description code">{{item.description}}</div>
+
+						 </router-link>
+					</li>
+				</ul>
+			</div>
 		</div>
+
 
 	</div>
 </template>
@@ -87,6 +103,10 @@
 
 			tags() {
 				return this.$store.getters.getTags()
+			},
+
+			hasTemplates() {
+				return this.$store.state.Snippets.hasUserGeneratedSnippets
 			},
 		},
 
@@ -139,7 +159,7 @@
 		position: sticky;
 		top: 0px;
 		z-index: 1;
-		background-color: transparent;
+		background-color: #292929;
 		max-height: 50px;
 		overflow-x: auto;
 		overflow-y: fragments;
@@ -174,9 +194,10 @@
 			margin-bottom: 10px;
 			margin-right: 5px;
 			position: relative;
-			min-height: 35px;
+			min-height: 60px;
 			padding: 10px;
 			cursor: pointer;
+			box-sizing: border-box;
 
 			&:hover, & *:hover{
 				text-decoration: none;

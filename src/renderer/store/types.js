@@ -22,7 +22,7 @@ export const systemMutations  = {
 }
 
 export const categories = {
-	CLIPPY: 'CLIPPY',
+	CLIPPY: 'CYRUS',
 	USER_GENERATED: 'USER_GENERATED',
 	IMPORTED: 'IMPORTED'
 }

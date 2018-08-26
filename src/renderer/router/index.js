@@ -41,7 +41,7 @@ export default new Router({
 					meta: {
 						breadcrumb: [
 							{ name: 'Settings', link: '/settings/menu' },
-							{ name: 'About Clippy' },
+							{ name: 'About Cyrus' },
 
 						]
 					}
@@ -64,7 +64,7 @@ export default new Router({
 					meta: {
 						breadcrumb: [
 							{ name: 'Settings', link: '/settings/menu' },
-							{ name: 'Templates' },
+							{ name: 'Snippets' },
 
 						]
 					}
@@ -76,7 +76,7 @@ export default new Router({
 					meta: {
 						breadcrumb: [
 							{ name: 'Settings', link: '/settings/menu' },
-							{ name: 'Templates', link: '/settings/templates' },
+							{ name: 'Snippets', link: '/settings/templates' },
 							{ name: 'Edit template' },
 
 						]
@@ -88,7 +88,7 @@ export default new Router({
 					meta: {
 						breadcrumb: [
 							{ name: 'Settings', link: '/settings/menu' },
-							{ name: 'Export templates' },
+							{ name: 'Export snippets' },
 
 						]
 					}
@@ -99,7 +99,7 @@ export default new Router({
 					meta: {
 						breadcrumb: [
 							{ name: 'Settings', link: '/settings/menu' },
-							{ name: 'Import templates' },
+							{ name: 'Import snippets' },
 
 						]
 					}

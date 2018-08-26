@@ -156,5 +156,9 @@
 				}
 			}
 		}
+
+		.message{
+			bottom: 175px;
+		}
 	}
 </style>
