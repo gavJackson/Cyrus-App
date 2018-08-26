@@ -17,10 +17,11 @@ module.exports = {
 		const spawn = function (command, args) {
 			let spawnedProcess, error;
 
-			try {
+			// GJ: ESLint doesnt like the empty catch!
+			// try {
 				spawnedProcess = ChildProcess.spawn(command, args, {detached: true});
-			} catch (error) {
-			}
+			// } catch (error) {
+			// }
 
 			return spawnedProcess;
 		};

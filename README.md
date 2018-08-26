@@ -18,6 +18,8 @@ npm install
 npm run dev
 
 # build electron application for production (via electron-packager)
+# WIP @see https://www.christianengvall.se/electron-windows-installer/
+
 npm run package-mac
 
 npm run package-win
