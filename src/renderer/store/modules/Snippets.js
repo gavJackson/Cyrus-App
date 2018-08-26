@@ -136,7 +136,7 @@ const state = {
 			"language": "text",
 			"description": "",
 			"tags": ["example"],
-			"snippet": "This is has placeholders in it, which are words wrapped in `%` characters:\n\nMy favourite color is %COLOUR%.\n\nMy favourite animals are %ANIMAL%.",
+			"snippet": "This snippet has placeholders in it, which are words wrapped in `%` characters, for example:\n\nMy favourite color is %COLOUR% and my favourite animals are %ANIMAL%",
 			"variables": {
 				"COLOUR": [
 					"red",

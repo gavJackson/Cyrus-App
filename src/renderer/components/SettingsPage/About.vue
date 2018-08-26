@@ -30,6 +30,10 @@
 				<td class="info">Website</td>
 				<td class="value"><a @click="openLink('http://www.digital-mojo.com', $event)" target="_blank">www.digital-mojo.com</a></td>
 			</tr>
+			<tr>
+				<td class="info">YouTube</td>
+				<td class="value"><a @click="openLink('https://www.youtube.com/channel/UC8B9Bb2RQEC1kgwZXtrO8Sg', $event)" target="_blank">Digital Mojo</a></td>
+			</tr>
 			<!--<tr>-->
 				<!--<td class="info">Source</td>-->
 				<!--<td class="value"><a @click="openLink('https://github.com/gavJackson/Cyrus-App', $event)" target="_blank">github.com</a></td>-->

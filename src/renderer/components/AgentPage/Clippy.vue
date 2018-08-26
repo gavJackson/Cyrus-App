@@ -30,17 +30,18 @@
 
 		///////////////////////////////////////////////////////////////// -->
 
-		<div class="current-tour-key-being-pressed animated zoomIn faster"
+		<div class="current-tour-key-being-pressed xanimated zoomIn faster"
 
-			 v-if="letterChanged">
+			 v-if="showLetter">
 			{{ currentTourKeyBeingPressed }}
 		</div>
 
 		<div class="tour-start-dialog dialog" v-if="shouldShowTourStarter">
 
-			Hi there! I'm <strong>Cyrus</strong>, press <strong>{{keys}}</strong> or
-			<br />
-			<a class="button primary">Click here</a> to activate me.
+			Hi there! I'm <strong>Cyrus</strong>, thanks for installing me. I'm a productivity tool and I aim to provide you with quick and easy access to snippets (<strong>which are useful bits of text</strong>) which I put into your clipboard so you can paste them into any other application.
+			<br /><br />
+			You do not have any snippets set up yet, so I will take you through a tour of my features. Press <strong>{{keys}}</strong> or
+			<a class="button primary">Click here</a> to begin the tour.
 
 		</div>
 
@@ -50,6 +51,7 @@
 <script>
 
 	const {app} = require('electron').remote;
+	const shell = require('electron').shell;
 
 	import SpeechBubble from '../AgentPage/SpeechBubble'
 	import { focusMutations } from './../../store/types'
@@ -100,6 +102,9 @@
 		},
 
 		computed: {
+			showLetter(){
+				return this.currentTourKeyBeingPressed && /\S/.test(this.currentTourKeyBeingPressed)
+			},
 			shouldShowTourStarter(){
 				return this.$store.state.Tour.isTourRunning && !this.showSpeechBubble
 			},
@@ -141,8 +146,16 @@
 
 				this.showSpeechBubble = true
 				this.agentState = agentStates.NORMAL
-			}
+			},
 
+			openLink: function(url, event){
+				event.preventDefault()
+
+				shell.openExternal(url)
+
+				return false
+
+			}
 		},
 
 		watch: {
@@ -230,8 +243,8 @@
 		position: absolute;
 		color: white;
 		bottom: 100px;
-		left: -200px;
-		width: 220px;
+		left: -300px;
+		width: 320px;
 		color: @textColor;
 
 		&:after{

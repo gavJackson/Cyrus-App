@@ -2,9 +2,11 @@
 	<div>
 		<div v-if="isTourRunning">
 			<div class="speech-bubble dialog running-tour">
-				<div class="warning">Playing tour</div>
+				<div class="warning">Playing tour, please wait...</div>
 
-				<autoComplete class="user-input auto-complete"/>
+				<div>
+					<autoComplete class="user-input auto-complete" />
+				</div>
 
 				<tourBubble v-if="showTour" />
 			</div>
@@ -44,6 +46,9 @@
 				return state.Focus.appHasFocus || state.Tour.isTourRunning
 			}
 		}),
+
+		methods: {
+		}
 	}
 </script>
 

@@ -1,10 +1,11 @@
 <template>
-	<div class="settings-mode dialog">
+	<div class="settings-mode dialog"
+		 v-bind:class="{ 'is-tour-running': showTour }">
 		<a class="close not-a-link" href="/" ><span class="fa fa-times-circle"></span></a>
 
 		<ul class="breadcrumbs xbottom-bordered">
 			<li class="crumb">
-				<a href="/" tabindex="0">Clippy</a>
+				<a href="/" tabindex="0">Cyrus</a>
 			</li>
 
 			<li class="crumb"
@@ -19,7 +20,7 @@
 
 		<router-view class="router-view"></router-view>
 
-		<tourBubble isSettingsMode="true"
+		<tourBubble class="tour-bubble" isSettingsMode="true"
 
 					v-if="showTour" />
 	</div>
@@ -57,9 +58,11 @@
 		mounted (){
 			this.updateList()
 
-			// if(this.isTourRunning){
-			// 	this.$store.commit(tourMutations.JUMP_TO_SETTINGS_BIT)
-			// }
+			if(this.isTourRunning){
+				window.location.hash = '/settings/menu'
+
+				this.$store.commit(tourMutations.JUMP_TO_SETTINGS_BIT)
+			}
 		},
 
 		watch: { '$route'() { this.updateList() } },
@@ -138,6 +141,13 @@
 
 			li:last-child:after {
 				content: '';
+			}
+		}
+
+		&.is-tour-running{
+			& *:not(.tour-bubble){
+				pointer-events: none;
+				/*border: 1px solid hotpink;*/
 			}
 		}
 

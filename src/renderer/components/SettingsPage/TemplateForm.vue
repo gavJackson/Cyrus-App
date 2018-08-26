@@ -4,6 +4,7 @@
 	import { snippetsMutations} from './../../store/types'
 	import editor from 'vue2-ace-editor'
 	import InputTag from 'vue-input-tag'
+	const {dialog } = require('electron').remote
 
 	export default {
 		name: "CreateTemplate",
@@ -26,7 +27,7 @@
 				deleteTimerId: null,
 				deleteButtonLabel: "Delete",
 				editor: null,
-				tagAddKeys: [13,188,32,9],	//ENTER, COMMA, TAB, SPACE
+				tagAddKeys: [13,188,9],	//ENTER, COMMA, TAB
 
 				item: {
 					id: null,
@@ -158,7 +159,12 @@
 					{id: "javascript", label: "JSON"},
 					{id: "xml", label: "XML"},
 				]
-			}
+			},
+
+			isTourRunning() {
+				return this.$store.state.Tour.isTourRunning
+			},
+
 		},
 
 		// loads an item to be edited
@@ -197,7 +203,9 @@
 
 			let that = this
 			setTimeout(() => {
-				that.$refs.inputName.focus()
+				if(!this.isTourRunning){
+					that.$refs.inputName.focus()
+				}
 			}, 1)
 		},
 
@@ -280,6 +288,16 @@
 
 			setCurrentTab(tab){
 				this.currentTab = tab;
+			},
+
+			showHelp(message){
+				const dialogOptions = {type: 'info', buttons: ['OK'], message: message}
+
+				dialog.showMessageBox(dialogOptions, i => {
+					if(i == 0){	// ok button
+						// do nothing
+					}
+				})
 			},
 		}
 	}

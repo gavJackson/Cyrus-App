@@ -1,7 +1,7 @@
 <template>
 	<div class="help-page">
 		<p>
-			Cyrus is designed to be operated by keyboard
+			Cyrus is designed to be operated by keyboard.  <a @click="openLink('https://youtu.be/Mf8PFIL-4cQ', $event)" target="_blank">Watch the intro video on YouTube</a>
 		</p>
 
 		<h2>
@@ -26,7 +26,14 @@
 		<h2>Placeholders</h2>
 
 		<p>
-			Cyrus supports the use of placeholders in snippets.  A placeholder is a piece of text that is meant to be replaced.  You can provide multiple options for a placeholder and you can free type into the field too.
+			Cyrus supports the use of placeholders in snippets.  A placeholder is a piece of text that is meant to be replaced.  You can provide multiple options for a placeholder and you can free type into the field too.<br /><br />Wrap any word in your snippet with `%` to define it as a placeholder, this will make the placeholders tab available where you can add options for each placeholder.
+		</p>
+
+
+		<h2>Tags</h2>
+
+		<p>
+			Tags are an optional way to organise your snippets, for example if you had a snippet called `My email address` you might want to use the tag `personal`.<br /><br />You can also use tags to quickly find your snippets in settings mode, or even when searching, so if you wanted to find all the snippets with a certain tag you can use a colon.  So searching for `personal:` would show all snippets with the personal tag, and you can even perform searches within a tag, e.g. `personal: address` would find all snippets with the `personal` tag that contained the word `address`.
 		</p>
 
 
@@ -46,6 +53,8 @@
 </template>
 
 <script>
+	const shell = require('electron').shell;
+
 	export default {
 		name: "Help",
 
@@ -54,6 +63,15 @@
 				return this.$store.getters.getShortcutKeys()
 			}
 		},
+
+		methods: {
+			openLink: function (url, event) {
+				event.preventDefault()
+
+				shell.openExternal(url)
+
+			},
+		}
 	}
 </script>
 

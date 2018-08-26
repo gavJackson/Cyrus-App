@@ -1,3 +1,4 @@
+@import "../../assets/styles/global.less";
 
 ///////////////////////////////////////////////////////////
 //
@@ -135,4 +136,35 @@ select.half-width{
 	color: white;
 	border-radius: 4px 4px 0px 0px;
 
+}
+
+.tag-holder{
+	position: relative;
+
+	.placeholder-info{
+		font-weight: normal;
+		color: fade(white, 40%);
+		pointer-events: none;
+	}
+
+	.tag-helper{
+		position: absolute;
+		right: 10px;
+		top: 10px;
+	}
+}
+
+.help-icon{
+	transition: all 0.25s ease-in-out;
+	border-radius: 3px;
+	box-sizing: border-box;
+	display: inline-block;
+	padding: 3px 10px;
+	background-color: transparent;
+
+	&:hover{
+		background-color: @highlightColor;
+		color: black;
+
+	}
 }
