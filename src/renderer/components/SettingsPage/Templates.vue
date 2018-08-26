@@ -1,9 +1,7 @@
 <template>
 	<div class="templates-list-container">
 
-		<!--<strong>Filter by tag</strong>-->
-
-		<div class="tags-container">
+		<div class="tags-container" v-if="tags.length > 0">
 			<ul>
 				<li class="tag"
 					v-for="item in tags"
@@ -141,7 +139,7 @@
 		position: sticky;
 		top: 0px;
 		z-index: 1;
-		background-color: black;
+		background-color: transparent;
 		max-height: 50px;
 		overflow-x: auto;
 		overflow-y: fragments;
@@ -156,6 +154,12 @@
 			/*&.is-selected{*/
 				/*opacity: 1;*/
 			/*}*/
+		}
+
+		ul{
+			&:before{
+				content: 'Filter by tag(s): '
+			}
 		}
 
 	}

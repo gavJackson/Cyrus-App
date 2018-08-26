@@ -12,7 +12,7 @@
 				<router-link tag="a" class="icon-link not-a-link" to="/settings/templates">
 					<div class="far fa fa-edit fa-3x fa-border fa-fw"></div>
 
-					<div class="label">Edit templates</div>
+					<div class="label">Edit snippets</div>
 				</router-link>
 			</li>
 
@@ -20,7 +20,7 @@
 				<router-link tag="a" class="icon-link not-a-link" to="/settings/create">
 					<div class="far fa fa-file-alt fa-3x fa-border fa-fw"></div>
 
-					<div class="label">Create new template</div>
+					<div class="label">Create new snippet</div>
 				</router-link>
 			</li>
 
@@ -36,7 +36,7 @@
 				<router-link tag="a" class="icon-link not-a-link" to="/settings/import">
 					<div class="far fa fa-file-import fa-3x fa-border fa-fw"></div>
 
-					<div class="label">Import templates</div>
+					<div class="label">Import snippets</div>
 				</router-link>
 			</li>
 
@@ -44,7 +44,7 @@
 				<router-link tag="a" class="icon-link not-a-link" to="/settings/export">
 					<div class="far fa fa-file-export fa-3x fa-border fa-fw"></div>
 
-					<div class="label">Export templates</div>
+					<div class="label">Export snippets</div>
 				</router-link>
 			</li>
 
@@ -61,6 +61,14 @@
 					<div class="far fa fa-info fa-3x fa-border fa-fw"></div>
 
 					<div class="label">About</div>
+				</router-link>
+			</li>
+
+			<li>
+				<router-link tag="a" class="icon-link not-a-link" to="/">
+					<div class="far fa fa-times-circle fa-3x fa-border fa-fw"></div>
+
+					<div class="label">Exit settings</div>
 				</router-link>
 			</li>
 		</ul>

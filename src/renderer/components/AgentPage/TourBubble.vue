@@ -1,34 +1,28 @@
 <template>
-	<div class="thought-container xanimated xfadeIn"
+	<div class="thought-container animated fadeIn faster"
+		 v-bind:class="{ 'in-settings': isSettingsMode }"
 			 v-bind:style="{ 'height': message.height + 'px',
-			  				 '--arrow-position-var': (270 - message.height) + 'px'}"
+							 '--arrow-position-x-var': (message.arrowX) + 'px',
+							 '--arrow-position-y-var': (270 - message.height) + 'px',
+							 '--arrow-position-settings-y-var': (360 - message.height) + 'px'}"
 			 v-if="message">
 
 
 		<div class="thought-dialog">
 			<div class="xdont-show-again-container">
 				<button class="button primary"
-						@click="onTourNext()">Next</button>
+						@click="onTourNext()">{{ nextStepButtonLabel }}</button>
 
-				<!--<div style="float: right">-->
-					<!--<button class="button" @click="onTourClose()">Close tour</button>-->
-				<!--</div>-->
 			</div>
 			<br />
 			<div class="tour-message"
 
 				 v-html="message.text">
 
-
 			</div>
-
-
 		</div>
+
 	</div>
-
-
-	<!--</div>-->
-
 </template>
 
 <script>
@@ -38,11 +32,22 @@
 	export default {
 		name: "TourBubble",
 
+		props: ['isSettingsMode'],
+
 
 		computed: mapState({
 			messageIndex: state => state.Tour.messageIndex,
 			message: state => {
 				return state.Tour.messages[state.Tour.messageIndex]
+			},
+			nextStepButtonLabel: state => {
+				if(state.Tour.messageIndex == state.Tour.messages.length - 1)
+				{
+					return "Close tour"
+				}
+				else{
+					return "Show me"
+				}
 			}
 		}),
 
@@ -81,19 +86,19 @@
 		bottom: 0px;
 		display: block;
 		height: 230px;
-		background-color: @tourBackground;
 		z-index: 2;
-		/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#1e5799+84,7db9e8+100 */
-		background: rgb(30,87,153); /* Old browsers */
+		font-family: @bodyFont;
+		font-size: 16px;
+
+		background-color: @tourBackground;
 		background: -moz-linear-gradient(top, @tourBackground 10%, @backgroundColor 100%); /* FF3.6-15 */
 		background: -webkit-linear-gradient(top, @tourBackground 10%,@backgroundColor 100%); /* Chrome10-25,Safari5.1-6 */
 		background: linear-gradient(to bottom, @tourBackground 10%,@backgroundColor 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#7db9e8',GradientType=0 ); /* IE6-9 */
 
 		&:before {
 			display: block;
-			top: var(--arrow-position-var);//40px;
-			left: 80px;
+			top: var(--arrow-position-y-var);
+			left: var(--arrow-position-x-var);
 			border: solid transparent;
 			content: " ";
 			height: 0;
@@ -106,28 +111,28 @@
 			margin-left: -20px;
 		}
 
-		// this arrow bit is there, just cannot see it cos its below another arrow thing which is annoying
-		/*&:after{*/
-			/*content: '';*/
-			/*position: absolute;*/
-			/*bottom: 0;*/
-			/*left: 65%;*/
-			/*width: 0;*/
-			/*height: 0;*/
-			/*border: 26px solid transparent;*/
-			/*border-top-color: red;//#ffffcd;*/
-			/*border-bottom: 0;*/
-			/*border-right: 0;*/
-			/*margin-left: 40px;*/
-			/*margin-bottom: -26px;*/
-			/*!*z-index: 99999;*!*/
-		/*}*/
+		&.in-settings{
+			z-index: 999999999;
+			position: fixed;
+			/*border:2px solid red;*/
+
+			@bgFrom: lighten(@codeBackground, 10%);
+			@bgTo: darken(@codeBackground, 10%);
+
+			background-color: @bgFrom;
+			background: -moz-linear-gradient(top, @bgFrom 10%, @bgTo 100%); /* FF3.6-15 */
+			background: -webkit-linear-gradient(top, @bgFrom 10%,@bgTo 100%); /* Chrome10-25,Safari5.1-6 */
+			background: linear-gradient(to bottom, @bgFrom 10%,@bgTo 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+
+			&:before{
+				top: var(--arrow-position-settings-y-var);
+				border-bottom-color: @bgFrom;
+			}
+
+		}
 	}
 
 	.thought-dialog {
-		/*box-shadow: none;*/
-
-		/*background-color: transparent !important;*/
 		box-sizing: border-box;
 		height: 100%;
 		width: 100%;
@@ -161,6 +166,30 @@
 		background-color: @tourBackground;
 	}
 
+	///////////////////////////////////////////////////////////
+	//
+	// hit killer
+	//
+	///////////////////////////////////////////////////////////
+
+	.bubble-container{
+		position: absolute;
+		left: 0px;
+		right: 0px;
+		top: 0px;
+		bottom: 0px;
+
+	}
+
+	.hit-killer{
+		position: absolute;
+		left: 0px;
+		right: 0px;
+		top: 0px;
+		bottom: 0px;
+		background-color: fade(cyan, 50%);
+		pointer-events: all;
+	}
 
 
 </style>

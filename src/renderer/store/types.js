@@ -32,6 +32,7 @@ export const tourMutations = {
 	CLOSE_TOUR: 'CLOSE_TOUR',
 	HIDE_TOUR: 'HIDE_TOUR',
 	SHOW_TOUR: 'SHOW_TOUR',
+	JUMP_TO_SETTINGS_BIT: 'JUMP_TO_SETTINGS_BIT',
 }
 
 export const searchMutations = {

@@ -26,6 +26,7 @@
 				deleteTimerId: null,
 				deleteButtonLabel: "Delete",
 				editor: null,
+				tagAddKeys: [13,188,32,9],	//ENTER, COMMA, TAB, SPACE
 
 				item: {
 					id: null,

@@ -7,7 +7,7 @@ const state = {
 		label: {
 			win: 'Ctrl+Alt+C',
 			linux: 'Ctrl+Alt+C',
-			osx: 'CMD+Alt+C',
+			osx: 'CMD ⌘+Alt+C',
 		}
 	},
 }

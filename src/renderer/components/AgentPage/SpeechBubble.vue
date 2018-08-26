@@ -1,11 +1,10 @@
 <template>
 	<div>
 		<div v-if="isTourRunning">
-			<div class="speech-bubble dialog">
+			<div class="speech-bubble dialog running-tour">
 				<div class="warning">Playing tour</div>
 
-
-				<autoComplete class="user-input"/>
+				<autoComplete class="user-input auto-complete"/>
 
 				<tourBubble v-if="showTour" />
 			</div>
@@ -16,18 +15,12 @@
 
 				 v-if="showSpeechBubble">
 
-				<autoComplete class="user-input"/>
+				<autoComplete class="user-input auto-complete"/>
 
 				<tourBubble v-if="showTour" />
 			</div>
 		</div>
 	</div>
-
-
-	<!--<div class="speech-bubble dialog"-->
-		 <!--v-if="showSpeechBubble">-->
-
-
 </template>
 
 <script>
@@ -51,10 +44,6 @@
 				return state.Focus.appHasFocus || state.Tour.isTourRunning
 			}
 		}),
-
-		methods: {
-
-		}
 	}
 </script>
 
@@ -115,8 +104,16 @@
 			outline: none;
 		}
 
+		&.running-tour{
+			.auto-complete{
+				pointer-events: none;
 
+				*{
 
+					pointer-events: none;
+				}
+			}
+		}
 	}
 
 
@@ -141,4 +138,5 @@
 	.user-input:focus {
 		outline: none;
 	}
+
 </style>

@@ -21,6 +21,8 @@
 			<input-tag class="full-width"
 					   placeholder="Add Tag"
 
+					   v-bind:addTagOnKeys="tagAddKeys"
+
 					   :tags.sync="item.tags"
 					   :add-tag-on-blur="false"
 					   :limit="-1"></input-tag>
@@ -80,10 +82,17 @@
 						 v-if="currentTab == 'PLACEHOLDER'">
 
 						<div class="placeholders-container">
+							<div class="xnote body-font">
+								Use commas (<span style="color: yellow"><code>,</code></span>) to add multiple options for each placeholder. e.g. <span style="color: yellow"><code>option 1,option 2,option 3</code></span>
+							</div>
+							<br />
+
+
 							<div v-for="(value, key, index) in item.variables">
 								<input-tag v-bind:placeholder="`Add ${key}`"
 										   v-bind:ref="'inputField' + index"
 										   v-bind:id="'inputField' + index"
+										   v-bind:addTagOnKeys="tagAddKeys"
 
 										   :tags.sync="item.variables[key]"
 										   :add-tag-on-blur="false"

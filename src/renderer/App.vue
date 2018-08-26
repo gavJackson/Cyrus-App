@@ -305,6 +305,8 @@
 	}
 
 	button, .button, input[type=submit] {
+		transition: all 0.25s ease-in-out;
+
 		display: inline-block;
 		cursor: pointer;
 		box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
@@ -356,11 +358,12 @@
 
 		&.primary {
 			min-width: 90px;
+
 			background-color: @primaryButtonColor;
 			color: @primarybuttonTextColor;
 
 			&:hover, &:focus {
-				background-color: lighten(@primaryButtonColor, 20%);
+				background-color: mix(@primaryButtonColor, cyan, 50%);
 			}
 
 			&:disabled {

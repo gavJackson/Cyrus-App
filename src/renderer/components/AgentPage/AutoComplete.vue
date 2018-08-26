@@ -180,12 +180,12 @@ JavaScript
 
 				if (this.search === "") {
 					if (this.clipboard === "") {
-						// if (this.hasTemplates) {
-							message = "Start typing to find one of your templates.<br /><br />Remember you can search using any property of your snippets and you can use upper case characters to shortcut multi-word searches.<br /><br />You can also trigger me from the global keyboard shortcut <strong>CMD+Alt+C</strong> (OSX) or <strong>Ctrl+Alt+C</strong> (Win or Linux)"
-						// }
-						// else {
-						// 	message = "Hi there, I'm <strong>Clippy</strong>! (name tbc) - lets find out how I can help you work smarter with live templates.<br /><br />You don't have any templates set up, but i've added a couple of examples to get you started.<br /><br />Try typing `<code>a simple example</code>` to see how this works."
-						// }
+						message = "Start typing to find one of your templates.<br /><br />Remember you can search using any property of your snippets and you can use upper case characters to shortcut multi-word searches.<br /><br />You can also trigger me from the global keyboard shortcut <strong>CMD+Alt+C</strong> (OSX) or <strong>Ctrl+Alt+C</strong> (Win or Linux)"
+
+						if(this.isTourRunning){
+							message = ""
+						}
+
 					}
 					else {
 						message = `Copied to clipboard.<br /><br /><div class='preview'>${this.clipboard}</div>`
@@ -623,11 +623,11 @@ JavaScript
 
 		},
 		mounted() {
-			document.addEventListener("click", this.handleClickOutside);
+			// document.addEventListener("click", this.handleClickOutside);
 		},
 
 		destroyed() {
-			document.removeEventListener("click", this.handleClickOutside);
+			// document.removeEventListener("click", this.handleClickOutside);
 		}
 	};
 

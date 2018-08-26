@@ -19,12 +19,23 @@
 
 		<router-view class="router-view"></router-view>
 
+		<tourBubble isSettingsMode="true"
+
+					v-if="showTour" />
 	</div>
 </template>
 
 <script>
+	import TourBubble from './AgentPage/TourBubble'
+	import { mapState } from 'vuex'
+	import { tourMutations } from '../store/types'
+
 	export default {
 		name: "SettingsPage",
+
+		components: {
+			'tourBubble': TourBubble,
+		},
 
 		data (){
 			return {
@@ -32,8 +43,27 @@
 			}
 		},
 
-		mounted (){ this.updateList() },
+		computed: mapState({
+			appHasFocus: state => state.Focus.appHasFocus,
+			showTour: state => state.Tour.showTour,
+			isTourRunning: state => state.Tour.isTourRunning,
+			messageIndex: state => state.Tour.messageIndex,
+			showSpeechBubble: state => {
+				return state.Focus.appHasFocus || state.Tour.isTourRunning
+			}
+		}),
+
+
+		mounted (){
+			this.updateList()
+
+			// if(this.isTourRunning){
+			// 	this.$store.commit(tourMutations.JUMP_TO_SETTINGS_BIT)
+			// }
+		},
+
 		watch: { '$route'() { this.updateList() } },
+
 		methods: {
 			routeTo (pRouteTo){
 				if (this.breadcrumbList[pRouteTo].link){
@@ -114,8 +144,6 @@
 		.router-view{
 			margin-top: 20px;
 		}
-
-
 
 	}
 </style>

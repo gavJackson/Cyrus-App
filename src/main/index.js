@@ -80,6 +80,9 @@ function registerShortCutsKeys() {
 	// debugger
 	globalShortcut.register('CommandOrControl+Alt+C', () => {
 		mainWindow.focus();
+
+		app.emit('GLOBAL_SHORT_CUT_KEY');
+
 	})
 
 }

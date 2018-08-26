@@ -5,12 +5,30 @@
 		 @mousedown="onAgentMouseDown"
 		 @mouseup="onAgentMouseUp" >
 
+		<!-- /////////////////////////////////////////////////////////////////
+
+		speech bubble
+
+		///////////////////////////////////////////////////////////////// -->
+
 		<speech-bubble v-if="showSpeechBubble"></speech-bubble>
+
+		<!-- /////////////////////////////////////////////////////////////////
+
+		agent image
+
+		///////////////////////////////////////////////////////////////// -->
 
 		<img id="agentImage"
 			 src="~@/assets/images/agents/clippy/ClippyWithPaper.png"/>
 
-		<div class="agent-state">{{ agentState }}</div>
+		<!--<div class="agent-state">{{ agentState }}</div>-->
+
+		<!-- /////////////////////////////////////////////////////////////////
+
+		tour stuff
+
+		///////////////////////////////////////////////////////////////// -->
 
 		<div class="current-tour-key-being-pressed animated zoomIn faster"
 
@@ -20,7 +38,9 @@
 
 		<div class="tour-start-dialog dialog" v-if="shouldShowTourStarter">
 
-			Hi there, I'm <strong>Cyrus</strong>, press <strong>{{keys}}</strong> or <a class="button primary">Click here</a> to activate me.
+			Hi there! I'm <strong>Cyrus</strong>, press <strong>{{keys}}</strong> or
+			<br />
+			<a class="button primary">Click here</a> to activate me.
 
 		</div>
 
@@ -28,6 +48,8 @@
 </template>
 
 <script>
+
+	const {app} = require('electron').remote;
 
 	import SpeechBubble from '../AgentPage/SpeechBubble'
 	import { focusMutations } from './../../store/types'
@@ -60,16 +82,20 @@
 			window.addEventListener('TOUR_TYPING_LETTER', (event) => {
 				this.currentTourKeyBeingPressed = event.detail.letter
 
-				this.agentState = event.detail.stepNumber
+				// this.agentState = event.detail.stepNumber
 			} );
 
+			var self = this
+			app.on('GLOBAL_SHORT_CUT_KEY', () => {
+				self.showSpeechBubble = true
+			} );
 		},
 
 		mounted: function() {
-			// this.$root.$on('NORMAL', () => this.agentState = "NORMAL" );
-			// this.$root.$on('SEARCH_MODE', () => this.agentState = "SEARCHING" );
-			// this.$root.$on('PLACE_HOLDER_REPLACEMENT', () => this.agentState = "PLACEHOLDER" );
-			// this.$root.$on('COPIED_TO_CLIPBOARD', () => this.agentState = "FOUND" );
+			this.$root.$on('NORMAL', () => this.agentState = "NORMAL" );
+			this.$root.$on('SEARCH_MODE', () => this.agentState = "SEARCHING" );
+			this.$root.$on('PLACE_HOLDER_REPLACEMENT', () => this.agentState = "PLACEHOLDER" );
+			this.$root.$on('COPIED_TO_CLIPBOARD', () => this.agentState = "FOUND" );
 
 		},
 
@@ -205,7 +231,7 @@
 		color: white;
 		bottom: 100px;
 		left: -200px;
-		width: 200px;
+		width: 220px;
 		color: @textColor;
 
 		&:after{

@@ -47,7 +47,7 @@ const state = {
 	// pre-populated with `Clippy` specific items (which should be at the top)
 	data: [
 		{
-			"name": "Create new template",
+			"name": "Create new snippet",
 			"category": categories.CLIPPY,
 			"language": "Clippy",
 			"description": "Create a new live template snippet for Clippy",
@@ -55,15 +55,15 @@ const state = {
 			"snippet": "CREATE_NEW_TEMPLATE"
 		},
 		{
-			"name": "Edit templates",
+			"name": "Edit snippets",
 			"category": categories.CLIPPY,
 			"language": "Clippy",
-			"description": "Edit existing live template snippets for Clippy",
+			"description": "Edit or delete existing snippets for Clippy",
 			"tags": [],
 			"snippet": "EDIT_TEMPLATES"
 		},
 		{
-			"name": "Import templates",
+			"name": "Import snippets",
 			"category": categories.CLIPPY,
 			"language": "Clippy",
 			"description": "Import live templates into Clippy from an external json file",
@@ -71,7 +71,7 @@ const state = {
 			"snippet": "IMPORT_TEMPLATES"
 		},
 		{
-			"name": "Export templates",
+			"name": "Export snippets",
 			"category": categories.CLIPPY,
 			"language": "Clippy",
 			"description": "Export and share your live templates from Clippy.  Send to a friend",
@@ -87,20 +87,20 @@ const state = {
 			"snippet": "GENERAL_SETTINGS"
 		},
 		{
+			"name": "Enter settings mode",
+			"category": categories.CLIPPY,
+			"language": "Clippy",
+			"description": "Create or edit snippets, import / export snippets, help, about, manage snippets, general settings",
+			"tags": [],
+			"snippet": "SETTINGS_MENU"
+		},
+		{
 			"name": "Show tips",
 			"category": categories.CLIPPY,
 			"language": "Clippy",
 			"description": "Show tips, help me, keyboard shortcuts, how to guide, instructions, what do i do, wtf, fuck",
 			"tags": [],
 			"snippet": "SHOW_TIPS"
-		},
-		{
-			"name": "Enter settings mode",
-			"category": categories.CLIPPY,
-			"language": "Clippy",
-			"description": "Create or edit templates, import / export templates, help, about, manage snippets, general settings",
-			"tags": [],
-			"snippet": "SETTINGS_MENU"
 		},
 		{
 			"name": "Restart tour",
@@ -156,14 +156,16 @@ const mutations = {
 		let startingLength = state.data.length
 
 		// TODO reinstate this when finished with working on the Tour
-		// files = files.filter( (item) => item.indexOf('.json') != -1)
-		//
-		// for(let i=0; i < files.length; i++){
-		//
-		// 	let filePath = path.join(userDataPath, paths.SNIPPETS, files[i])
-		//
-		// 	state.data = state.data.concat(parseDataFile(filePath, []))
-		// }
+		files = files.filter( (item) => item.indexOf('.json') != -1)
+
+		for(let i=0; i < files.length; i++){
+
+			let filePath = path.join(userDataPath, paths.SNIPPETS, files[i])
+
+			state.data = state.data.concat(parseDataFile(filePath, []))
+		}
+
+
 		state.hasUserGeneratedSnippets = startingLength != state.data.length
 
 		// if there are no user generated snippets, add the sample ones to get us started
@@ -201,7 +203,7 @@ const mutations = {
 		}
 
 		// now save the effected json file (ie based on the category)
-		let dataToSave = state.data.filter( (item) => item.category != 'Clippy')
+		let dataToSave = state.data.filter( (item) => item.category != categories.CLIPPY)
 		fs.writeFileSync(path.join(userDataPath, paths.SNIPPETS, paths.DATA_FILE), JSON.stringify(dataToSave, null, '\t'))
 	},
 
@@ -211,7 +213,7 @@ const mutations = {
 		state.data = state.data.filter( (item) => item.id != editedItem.id)
 
 		// now save the effected json file (ie based on the category)
-		let dataToSave = state.data.filter( (item) => item.category != 'Clippy')
+		let dataToSave = state.data.filter( (item) => item.category != categories.CLIPPY)
 		fs.writeFileSync(path.join(userDataPath, paths.SNIPPETS, paths.DATA_FILE), JSON.stringify(dataToSave, null, '\t'))
 	},
 
