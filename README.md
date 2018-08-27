@@ -17,7 +17,11 @@ npm install
 # serve with hot reload at localhost:9080
 npm run dev
 
-# build electron application for production (via electron-packager)
+# build electron application for production (USE THIS ONE!!)
+
+npm run build
+
+# Packaging via electron-packager
 # WIP @see https://www.christianengvall.se/electron-windows-installer/
 
 npm run package-mac

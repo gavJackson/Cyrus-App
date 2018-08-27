@@ -24,6 +24,8 @@
 				</router-link>
 			</li>
 
+			<li></li>
+
 			<li>
 				<router-link tag="a" class="icon-link not-a-link" to="/settings/general">
 					<div class="far fa fa-cog fa-3x fa-border fa-fw"></div>
@@ -58,7 +60,7 @@
 
 			<li>
 				<router-link tag="a" class="icon-link not-a-link" to="/settings/about">
-					<div class="far fa fa-info fa-3x fa-border fa-fw"></div>
+					<div class="far fa fa-info-circle fa-3x fa-border fa-fw"></div>
 
 					<div class="label">About</div>
 				</router-link>
@@ -66,7 +68,7 @@
 
 			<li>
 				<router-link tag="a" class="icon-link not-a-link" to="/">
-					<div class="far fa fa-times-circle fa-3x fa-border fa-fw"></div>
+					<div class="far fa fa-times fa-3x fa-border fa-fw"></div>
 
 					<div class="label">Exit settings</div>
 				</router-link>

@@ -1,5 +1,9 @@
 <template>
-	<h1>Import</h1>
+	<div class="import-page">
+		<h1>Import</h1>
+
+		<p>TODO - I haven't built this feature yet</p>
+	</div>
 </template>
 
 <script>

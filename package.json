@@ -19,13 +19,7 @@
 		"pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
 		"test": "npm run unit && npm run e2e",
 		"unit": "karma start test/unit/karma.conf.js",
-		"postinstall": "npm run lint:fix",
-		"package-darwin": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=src/renderer/assets/images/icons/CyrusIcon --prune=true --out=release-builds",
-		"package-mac": "electron-packager . --overwrite --platform=mas --arch=x64 --icon=src/renderer/assets/images/icons/CyrusIcon --prune=true --out=release-builds",
-		"package-win": "electron-packager . electron-tutorial-app --overwrite --asar=true --platform=win32 --arch=ia32 --icon=src/renderer/assets/images/icons/CyrusIcon --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Cyrus App\"",
-		"package-linux": "electron-packager . electron-tutorial-app --overwrite --asar=true --platform=linux --arch=x64 --icon=src/renderer/assets/images/icons/CyrusIcon --prune=true --out=release-builds",
-		"create-installer-mac": "electron-installer-dmg ./release-builds/Cyrus-app-darwin-x64/Cyrus-App.app Cyrus-app --out=release-builds --overwrite --icon=src/renderer/assets/images/icons/CyrusIcon.icns",
-		"create-installer-win": "node installers/windows/createinstaller.js"
+		"postinstall": "npm run lint:fix"
 	},
 	"build": {
 		"productName": "Cyrus-App",

@@ -43,7 +43,9 @@
 		</h2>
 
 		<p>
-			Cyrus was created by me, Gavin Jackson and I would love to hear your thoughts, but if you have any problems PM me on twitter <a @click="openLink('https://twitter.com/gav_jackson', $event)" target="_blank">@gav_jackson</a> and I will do my best to help you.
+			Cyrus was created by me, Gavin Jackson and I would love to hear your thoughts, but if you have any problems, questions or suggestions for improvements please email me <a @click="openLink('mailto:digital.mojo.gavin@gmail.com?subject=I need help with CYRUS', $event)" target="_blank">digital.mojo.gavin@gmail.com</a> and I will do my best to help you.
+
+			<br /><br />
 
 			You can also check out my website <a @click="openLink('http://www.digital-mojo.com', $event)" target="_blank">www.digital-mojo.com</a>.
 

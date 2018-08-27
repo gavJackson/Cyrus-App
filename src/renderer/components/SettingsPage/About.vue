@@ -28,11 +28,15 @@
 			</tr>
 			<tr>
 				<td class="info">Website</td>
-				<td class="value"><a @click="openLink('http://www.digital-mojo.com', $event)" target="_blank">www.digital-mojo.com</a></td>
+				<td class="value"><a @click="openLink('http://www.digital-mojo.com/cyrus', $event)" target="_blank">digital-mojo.com</a></td>
 			</tr>
 			<tr>
 				<td class="info">YouTube</td>
 				<td class="value"><a @click="openLink('https://www.youtube.com/channel/UC8B9Bb2RQEC1kgwZXtrO8Sg', $event)" target="_blank">Digital Mojo</a></td>
+			</tr>
+			<tr>
+				<td class="info">Email</td>
+				<td class="value"><a @click="openLink('mailto:digital.mojo.gavin@gmail.com?subject=About CYRUS...', $event)" target="_blank">digital.mojo.gavin@gmail.com</a></td>
 			</tr>
 			<!--<tr>-->
 				<!--<td class="info">Source</td>-->
@@ -80,9 +84,11 @@
 	}
 
 	.info{
-		width: 80px;
-		text-align: left;
-		padding-right: 20px;
+		opacity: 0.5;
+		width: 60px;
+		text-align: right;
+		padding-right: 10px;
+		//text-transform: uppercase;
 
 		&:after{
 			content: ':';
@@ -91,6 +97,9 @@
 
 	.mojo-logo{
 		float: right;
+		position: absolute;
+		right: 10px;
+		margin-top: -15px;
 	}
 
 </style>

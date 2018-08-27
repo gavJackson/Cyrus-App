@@ -27,8 +27,15 @@ function createWindow(app) {
 	var initPath = path.join(userDataPath, "UserData/settings.json")
 	var dirname = path.dirname(initPath)
 	if(!fs.existsSync(dirname) || !fs.existsSync(initPath)){
+		// make UserData folder
 		fs.mkdirSync(dirname)
+
+		// write settings.json into UserData
 		fs.writeFileSync(initPath, JSON.stringify({}));
+
+		// make snippets folder
+		fs.mkdirSync(path.join(dirname, "snippets"))
+
 	}
 
 	var data
@@ -70,25 +77,6 @@ function createWindow(app) {
 	mainWindow.on('closed', () => {
 		mainWindow = null
 	})
-
-	///////////////////////////////////////////////////////////
-	//
-	// handle links
-	//
-	///////////////////////////////////////////////////////////
-
-	// let webContents = mainWindow.webContents
-	//
-	// var handleRedirect = (e, url) => {
-	// 	if (url != webContents.getURL()) {
-	// 		e.preventDefault()
-	// 		require('electron').shell.openExternal(url)
-	// 	}
-	// }
-	//
-	// webContents.on('will-navigate', handleRedirect)
-	// webContents.on('new-window', handleRedirect)
-
 }
 
 function registerShortCutsKeys() {
