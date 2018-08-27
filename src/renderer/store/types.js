@@ -7,6 +7,7 @@ export const snippetsMutations  = {
 	LOAD: 'LOAD',
 	SAVE_ITEM: 'SAVE_ITEM',
 	DELETE_ITEM: 'DELETE_ITEM',
+	ADD_EXAMPLES_FOR_TOUR: 'ADD_EXAMPLES_FOR_TOUR',
 }
 
 export const systemMutations  = {
@@ -19,6 +20,7 @@ export const systemMutations  = {
 	SETTINGS_MENU: 'SETTINGS_MENU',
 	ABOUT: 'ABOUT',
 	RESTART_TOUR: 'RESTART_TOUR',
+	CLOSE_CYRUS: 'CLOSE_CYRUS',
 }
 
 export const categories = {
@@ -33,6 +35,7 @@ export const tourMutations = {
 	HIDE_TOUR: 'HIDE_TOUR',
 	SHOW_TOUR: 'SHOW_TOUR',
 	JUMP_TO_SETTINGS_BIT: 'JUMP_TO_SETTINGS_BIT',
+	HAVE_CLICKED_VIDEO_LINK: 'HAVE_CLICKED_VIDEO_LINK',
 }
 
 export const searchMutations = {

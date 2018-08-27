@@ -9,29 +9,46 @@
 
 
 		<div class="thought-dialog">
-			<!--<div class="xdont-show-again-container">-->
-			<!--</div>-->
-			<!--<br />-->
-			<!--<div class="tour-message"-->
 
-			<!--</div>-->
+			<div class="video-nag" v-if="!haveClickedOnVideoLink && !isSettingsMode">
+				<span v-if="!showNagDismiss">
+					Before you get started, please watch this
+				</span>
+
+				<span v-else>
+					Please watch this
+				</span>
+
+				<a @click="openLink('https://youtu.be/e_Iuim_uIxQ', $event)" target="_blank">2 minute video on YouTube</a> showing what I can do, it will really help make the rest of the tour make sense.
+				<div v-if="showNagDismiss">
+					<br />
+					<input type="checkbox" id="checkDismiss" v-model="haveCheckedDismiss" />
+					<label for="checkDismiss">
+						I don't need to see a video, I already know what to do.
+					</label>
+				</div>
+			</div>
 
 			<div class="tour-message" v-html="message.text"></div>
+
+
 
 			<button class="button primary"
 					@click="onTourNext()">{{ message.buttonLabel || nextStepButtonLabel }}</button>
 
-			<br />
-			<br />
+			<div class="dismiss-container tour"
 
-			<div>
-				If you want to find out more about snippets and what I can do, <a @click="openLink('https://youtu.be/Mf8PFIL-4cQ', $event)" target="_blank">Watch my intro video on YouTube</a>.
+				 v-if="!isSettingsMode">
+				<input type="checkbox" id="checkDismissTour" v-model="haveCheckedDismissEntireTour" />
+				<label for="checkDismissTour">
+					Dismiss tour, I already know how to search for and create snippets and placeholders.
+				</label>
 			</div>
 
-			<em v-if="!isSettingsMode">
-				<br />
-				Btw you can dismiss this tour at any point by pressing any key (on your keyboard).
-			</em>
+			<!--<em v-if="!isSettingsMode">-->
+				<!--<br />-->
+				<!--Btw you can dismiss this tour at any point by pressing any key (on your keyboard).-->
+			<!--</em>-->
 
 		</div>
 
@@ -48,8 +65,15 @@
 
 		props: ['isSettingsMode'],
 
+		data: function () {
+			return {
+				haveCheckedDismiss: false,
+				haveCheckedDismissEntireTour: false,
+			}
+		},
 
 		computed: mapState({
+			haveClickedOnVideoLink: state => state.Tour.haveClickedOnVideoLink,
 			messageIndex: state => state.Tour.messageIndex,
 			message: state => {
 				return state.Tour.messages[state.Tour.messageIndex]
@@ -62,11 +86,16 @@
 				else{
 					return "Next"
 				}
+			},
+			showNagDismiss: state => {
+				return state.Tour.messageIndex >= 2
 			}
 		}),
 
 		methods: {
 			openLink: function(url, event){
+				this.$store.commit(tourMutations.HAVE_CLICKED_VIDEO_LINK)
+
 				event.preventDefault()
 
 				shell.openExternal(url)
@@ -90,15 +119,28 @@
 					}, this.message.delay || 1)
 				}
 			},
+		},
 
+		watch: {
+			haveCheckedDismiss: function (newValue, oldValue) {
+				if(newValue == true){
+					this.$store.commit(tourMutations.HAVE_CLICKED_VIDEO_LINK)
+				}
+			},
+			haveCheckedDismissEntireTour: function (newValue, oldValue) {
+				if(newValue == true){
+					this.$store.commit(tourMutations.CLOSE_TOUR)
+				}
+			},
 		}
+
+
 	}
 </script>
 
 <style lang="less" scoped>
 	@import "../../assets/styles/global.less";
 
-	@tourBackground: mix(@backgroundColor, black, 80%);
 
 	.thought-container {
 		border-radius: 3px;
@@ -206,6 +248,55 @@
 
 	a{
 		color: @outlineColor;
+	}
+
+	///////////////////////////////////////////////////////////
+	//
+	// nag
+	//
+	///////////////////////////////////////////////////////////
+
+	.video-nag{
+		font-family: @codeFont;
+		font-size: 11px;
+		font-weight: normal;
+		/*font-style: italic;*/
+		background-color: rgba(0,0,0,0.5);
+		color: white;
+		padding: 10px;
+		border-radius: 10px;
+		position: relative;
+		margin-bottom: 10px;
+	}
+
+	.dismiss-container{
+		position: relative;
+		font-family: @codeFont;
+		font-size: 11px;
+		font-weight: normal;
+
+		&.tour{
+			border-top: 1px solid @borderColor;
+			margin-top: 40px;
+		}
+	}
+
+	input{
+		margin: 0px;
+		margin-right: 10px;
+		/*float: left;*/
+		position: absolute;
+	}
+
+	label{
+		margin-top: 10px;
+		margin-left: 20px;
+		display: inline-block;
+		/*float: right;*/
+	}
+
+	a{
+		color: @linkColor;
 	}
 
 

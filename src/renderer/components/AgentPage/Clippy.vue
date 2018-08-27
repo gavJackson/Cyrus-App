@@ -23,7 +23,7 @@
 			 src="~@/assets/images/agents/clippy/ClippyWithPaper.png"/>
 
 		<div class="agent-state">
-			BETA
+			BETA v{{ versionNumber }} {{ shouldShowTourStarter }} {{ showSpeechBubble }}
 			<!--{{ agentState }}-->
 		</div>
 
@@ -33,13 +33,13 @@
 
 		///////////////////////////////////////////////////////////////// -->
 
-		<div class="current-tour-key-being-pressed xanimated zoomIn faster"
+		<div class="current-tour-key-being-pressed animated zoomIn faster"
 
 			 v-if="showLetter">
 			{{ currentTourKeyBeingPressed }}
 		</div>
 
-		<div class="tour-start-dialog dialog" v-if="shouldShowTourStarter">
+		<div class="tour-start-dialog dialog animated fadeIn" v-if="shouldShowTourStarter">
 
 			Hi there! I'm <strong>Cyrus</strong>, thanks for installing me. I'm a productivity tool and I aim to provide you with quick and easy access to snippets (<strong>which are useful bits of text</strong>) which I put into your clipboard so you can paste them into any other application.
 			<br /><br />
@@ -79,7 +79,8 @@
 				showSpeechBubble: false,
 				mouseDownTimer: null,
 				currentTourKeyBeingPressed: null,
-				letterChanged: false
+				letterChanged: false,
+				versionNumber: null,
 			}
 		},
 
@@ -94,6 +95,9 @@
 			app.on('GLOBAL_SHORT_CUT_KEY', () => {
 				self.showSpeechBubble = true
 			} );
+
+			this.versionNumber = app.getVersion()
+
 		},
 
 		mounted: function() {

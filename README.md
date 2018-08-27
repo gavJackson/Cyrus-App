@@ -19,23 +19,9 @@ npm run dev
 
 # build electron application for production (USE THIS ONE!!)
 
-npm run build
+npm run build:all
 
-# Packaging via electron-packager
-# WIP @see https://www.christianengvall.se/electron-windows-installer/
-
-npm run package-mac
-
-npm run package-win
-
-npm run package-linux
-
-# build installers dmg
-
-npm run create-installer-mac
-
-npm run create-installer-win
-
+# this incremements the build number in package.json and builds both osx and win versions
 
 # run unit & end-to-end tests
 npm test

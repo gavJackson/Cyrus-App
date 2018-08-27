@@ -5,6 +5,9 @@ import { snippetsMutations, categories, tourMutations } from '../types'
 import logger from 'electron-timber'
 import _ from 'underscore'
 
+
+import log from 'electron-log'
+
 // Renderer process has to get `app` module via `remote`, whereas the main process can get it directly
 // app.getPath('userData') will return a string of the user's app data directory path.
 const userDataPath = (electron.app || electron.remote.app).getPath('userData');
@@ -118,36 +121,50 @@ const state = {
 			"tags": [],
 			"snippet": "RESTART_TOUR"
 		},
+		{
+			"name": "Close Cyrus",
+			"category": categories.CLIPPY,
+			"language": "Clippy",
+			"description": "Exit Cyrus, Close the Application, Quit",
+			"tags": [],
+			"snippet": "CLOSE_CYRUS"
+		},
+
 	],
 	hasUserGeneratedSnippets: false,
+	hasAddedExamples: false,
 
 	examples: [
 		{
-			"name": "A simple example",
+			"name": "The term `email`",
 			"category": categories.CLIPPY,
 			"language": "text",
 			"description": "",
 			"tags": ["example"],
-			"snippet": "example snippet"
+			"snippet": "email"
 		},
 		{
-			"name": "An example snippet with placeholders",
+			"name": "Stop sending me spam email template",
 			"category": categories.CLIPPY,
 			"language": "text",
 			"description": "",
 			"tags": ["example"],
-			"snippet": "This snippet has placeholders in it, which are words wrapped in `%` characters, for example:\n\nMy favourite color is %COLOUR% and my favourite animals are %ANIMAL%",
+			"snippet": "%RECIPIENT%\n\nPlease take me off your email list.  %REASON%.\n\n%SIGN_OFF%\n\nCYRUS",
 			"variables": {
-				"COLOUR": [
-					"red",
-					"green",
-					"blue",
-					"yellow"
+				"RECIPIENT": [
+					"Dear Sir/Madam",
+					"To Whom it may concern",
+					"To unwelcome marketer"
 				],
-				"ANIMAL": [
-					"dogs",
-					"cats",
-					"fishes"
+				"REASON": [
+					"I do not remember signing up",
+					"You are sending me too many emails",
+					"I am no longer interested in your product"
+				],
+				"SIGN_OFF": [
+					"Your sincerely",
+					"Regards",
+					"Faithfully"
 				]
 			}
 		},
@@ -159,6 +176,17 @@ const state = {
 const mutations = {
 	// iterates through all json files in "UserData/Snippets" and loads them
 	// as snippets
+
+	[snippetsMutations.ADD_EXAMPLES_FOR_TOUR](state) {
+		// if there are no user generated snippets, add the sample ones to get us started
+		if(!state.hasAddedExamples){
+			state.data = state.data.concat(state.examples)
+
+			state.hasAddedExamples = true
+		}
+	},
+
+
 	[snippetsMutations.LOAD](state) {
 		let files =  fs.readdirSync(path.join(userDataPath, paths.SNIPPETS))
 		let startingLength = state.data.length
@@ -173,14 +201,17 @@ const mutations = {
 			state.data = state.data.concat(parseDataFile(filePath, []))
 		}
 
-
 		state.hasUserGeneratedSnippets = startingLength != state.data.length
 
 		// if there are no user generated snippets, add the sample ones to get us started
 		if(!state.hasUserGeneratedSnippets){
 			state.data = state.data.concat(state.examples)
+			state.hasAddedExamples = true
 
 			this.commit(tourMutations.START, null, { root: true })
+
+			// this messes the tour up from within settings mode
+			// setTimeout( () => this.commit(tourMutations.START, null, { root: true }), 2500)
 		}
 
 		// strip out any duplicates that might have snuck in (based on snippet names only)

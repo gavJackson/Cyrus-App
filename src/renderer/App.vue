@@ -1,14 +1,23 @@
 <template>
-	<div id="app">
+	<div id="app" v-bind:class="{ 'is-win': !isMac,
+	 							  'is-mac': isMac }">
 		<router-view></router-view>
 	</div>
 </template>
 
 <script>
 	import {focusMutations, snippetsMutations} from './store/types'
-
+	import is from 'electron-is'
 	export default {
 		name: 'clippy',
+
+
+		data (){
+			return {
+				// isWindows: false,
+				isMac: false,
+			}
+		},
 
 		created: function () {
 			window.addEventListener('focus', this.onFocus);
@@ -17,6 +26,8 @@
 
 			this.$store.commit(snippetsMutations.LOAD)
 
+			// this.isWindows = is.windows()
+			this.isMac = is.macOS()
 		},
 
 
@@ -423,7 +434,8 @@
 		&.capital-letter {
 			background-color: fade(@highlightColor, 50%);
 			border: 1px solid darken(@highlightColor, 10%);
-			margin-left: 2px;
+			padding: 2px 1px;
+			margin-left: 5px;
 		}
 	}
 
@@ -522,5 +534,56 @@
 			background-color: darken(@invalidColor, 10%);
 		}
 	}
+
+	///////////////////////////////////////////////////////////
+	//
+	// windows specific changes (due to rubbish rendering)
+	//
+	///////////////////////////////////////////////////////////
+
+	/*.is-mac{*/
+	.is-win{
+		// corrects the weird padding which changes the y position of text
+		.highlight:not(.capital-letter) {
+			padding: 0px;
+			margin: 0px;
+			display: inline;
+		}
+
+		// moves the arrow in the tour bubble down a bit as its high for some reason
+		.thought-container {
+			&:before{
+				margin-top: 10px;
+			}
+		}
+
+
+		// introducing custom scrollbars everywhere as the default windows ones are horrible
+
+		::-webkit-scrollbar {
+			width: 5px;
+			height: 5px;
+		}
+
+		// Track
+		::-webkit-scrollbar-track {
+			background: mix(@tourBackground, black, 75%);
+		}
+
+		// Handle
+		::-webkit-scrollbar-thumb {
+			-webkit-border-radius: 0px;
+			border-radius: 0px;
+			background: @outlineColor;
+		}
+		::-webkit-scrollbar-thumb:window-inactive {
+			background: grey;
+		}
+
+		.autocomplete-result{
+			margin-right: 5px;
+		}
+	}
+
 
 </style>

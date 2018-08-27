@@ -287,7 +287,9 @@
 			},
 
 			setCurrentTab(tab){
-				this.currentTab = tab;
+				if(this.currentTab != tab){
+					this.currentTab = tab;
+				}
 			},
 
 			showHelp(message){
@@ -299,6 +301,10 @@
 					}
 				})
 			},
+
+			onTagKeyUp(){
+				debugger
+			}
 		}
 	}
 </script>

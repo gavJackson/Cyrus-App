@@ -12,7 +12,7 @@
 
 			<input type="text"
 				   class="full-width"
-				   placeholder="Add a note to remind you about this snippet"
+				   placeholder="An optional note to remind you about this snippet"
 
 				   v-model="item.description"/>
 
@@ -22,18 +22,22 @@
 				<input-tag class="full-width"
 						   placeholder="Add Tag"
 
+						   @keyup="onTagKeyUp"
+
 						   v-bind:addTagOnKeys="tagAddKeys"
 
 						   :tags.sync="item.tags"
-						   :add-tag-on-blur="false"
+						   :add-tag-on-blur="true"
 						   :limit="-1"></input-tag>
 
 				<div class="tag-helper">
-					<span class="placeholder-info animated fadeIn" v-if="item.tags.length == 0">
-						use tags to organise your snippets
+					<span class="placeholder-info animated fadeIn"
+
+						  v-if="item.tags.length == 0">
+						<marquee class="tag-marquee" scrolldelay="200" behaviour="slide">Use tags to organise your snippets.  Press ENTER or TAB for multiple tags.</marquee>
 					</span>
 
-					<a class="help-icon" @click="showHelp('Tags are an optional way to organise your snippets, for example if you had a snippet called `My email address` you might want to use the tag `personal`.\n\nYou can also use tags to quickly find your snippets in settings mode, or even when searching, so if you wanted to find all the snippets with a certain tag you can use a colon.  So searching for `personal:` would show all snippets with the personal tag, and you can even perform searches within a tag, e.g. `personal: address` would find all snippets with the `personal` tag that contained the word `address`.')">
+					<a class="help-icon" @click="showHelp('Tags are an optional way to organise your snippets, for example if you had a snippet called `My email address` you might want to use the tag `personal`.\n\nYou can enter multiple tags by hitting ENTER or TAB to turn a word or phrase into a tag.\n\nYou can also use tags to quickly find your snippets in settings mode, or even when searching, so if you wanted to find all the snippets with a certain tag you can use a colon.  So searching for `personal:` would show all snippets with the personal tag, and you can even perform searches within a tag, e.g. `personal: address` would find all snippets with the `personal` tag that contained the word `address`.')">
 						<span class="fa fa-info"></span>
 					</a>
 				</div>
@@ -41,7 +45,9 @@
 			</div>
 
 			<div class="snippet-container">
-				<div class="lang-container">
+				<div class="lang-container"
+
+					 v-if="currentTab == 'SNIPPET'">
 					<select v-model="item.language">
 						<option :value="null" disabled hidden>Language</option>
 						<option v-for="option in languages" v-bind:value="option.id">
@@ -111,7 +117,7 @@
 										   v-bind:addTagOnKeys="tagAddKeys"
 
 										   :tags.sync="item.variables[key]"
-										   :add-tag-on-blur="false"
+										   :add-tag-on-blur="true"
 										   :limit="-1"></input-tag>
 							</div>
 						</div>

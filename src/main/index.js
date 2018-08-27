@@ -61,6 +61,7 @@ function createWindow(app) {
 
 	mainWindow = new BrowserWindow(data);
 	mainWindow.loadURL(winURL)
+	mainWindow.setResizable(false)
 
 	if(!haveLoadedBounds){
 		var positioner = new Positioner(mainWindow)

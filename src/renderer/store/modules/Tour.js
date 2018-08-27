@@ -47,10 +47,10 @@ function typeWriterEffect(word, stepNumber) {
 				stepNumber: stepNumber
 			}}));
 
-		el.value = 'example snippet';
+		el.value = 'email';
 
 		setTimeout( () => {
-			el.value = 'example snippet';
+			el.value = 'email';
 			el.dispatchEvent(new Event('input'))
 		}, 100)
 	}
@@ -97,24 +97,25 @@ function typeWriterEffect(word, stepNumber) {
 }
 
 var tourKeyboardInputs = {
-	STEP_1: 'e  x  a mple',
-	STEP_2: '↓  ↑  ⏎',
+	STEP_1: 'e    m   ail',
+	STEP_2: '↓  ↑      ⏎',
 	STEP_3: 'PASTE',
 	STEP_4: '↓⏎',
-	STEP_5: '↓  ↓  ⏎  ↓  ↓  ↓  ↓  piggies  ⏎',
-	STEP_6: 'S M     ↓  ⏎',
+	STEP_5: '↓↓↓ ⏎  ↓↓↓  ↑ ⏎ ↓↓↓ Adios  ⏎',
+	STEP_6: 'S M o de  ↓  ⏎',
 }
 
 const state = {
 	showTour: false,
 	isTourRunning: false,
+	haveClickedOnVideoLink: false,
 	messageIndex: 0,
 
 	messages: [
 		{
-			text: `You control me with your keyboard using the field above to search for a snippet or even a function that I can perform.<br /><br />As you have not set up any snippets of your own, I've added a couple of examples and we'll use them to find out how I can help you work smarter.<br /><br />`,
-			height: '230',
-			arrowX: '80',
+			text: `You can control me with your keyboard entering in <strong>What do you want to do</strong> to search for snippets or even a function that I can perform.<br /><br />As you have not set up any snippets of your own, I've added a couple of examples and we'll use them in this tour to find out how I can help you work smarter.<br /><br />First lets search for our email snippets. During the tour the keys that I am pressing will appear below.`,
+			height: '290',
+			arrowX: '-80',
 			buttonLabel: 'Lets get started',
 			delay: getTypeWriterDuration(tourKeyboardInputs.STEP_1),
 			nextStep: () => {
@@ -122,9 +123,10 @@ const state = {
 			}
 		},
 		{
-			text: `Our search has returned two results, you could scroll through them with the <strong>UP</strong> and <strong>DOWN</strong> keys. Pressing <strong>ENTER</strong> selects one to put into your clipboard, ready to be pasted (<strong>${PASTE_KEYS}</strong>) into another application.`,
+			text: `Our search has returned two results as both example snippets have the word <em>email</em> in their names. When you have more than one result you can scroll through them with the <strong>UP</strong> and <strong>DOWN</strong> keys. Pressing <strong>ENTER</strong> selects one.`,
 			height: '170',
 			arrowX: '80',
+			buttonLabel: 'Show me',
 			delay: getTypeWriterDuration(tourKeyboardInputs.STEP_2, 1500),
 			nextStep: () => {
 				typeWriterEffect(tourKeyboardInputs.STEP_2, 2)
@@ -132,7 +134,7 @@ const state = {
 			}
 		},
 		{
-			text: `Normally, I would disappear now to let you carry on with what you were doing, but for this tour I am going to hang around to show you how snippets with <strong>Placeholders</strong> work.  A placeholder is a replaceable part of your snippet.  We are going to paste (<strong>${PASTE_KEYS}</strong>) what we just found in the search box above to find our next snippet.`,
+			text: `Normally, I would disappear now to let you carry on with what you were doing, but for this tour I am going to hang around to show you how snippets with <em>Placeholders</em> work.  A placeholder is a replaceable bit of text in the  snippet.  We are going to paste (<strong>${PASTE_KEYS}</strong>) what we just found in the search box above to find our next snippet.`,
 			height: '230',
 			arrowX: '80',
 			buttonLabel: 'Search for the placeholder example',
@@ -143,8 +145,8 @@ const state = {
 			}
 		},
 		{
-			text: `Now we are going to select the single result by pressing <strong>ENTER</strong>, and as this one has <strong>Placeholders</strong> we will need to fill them in before it can go into our clipboard.  `,
-			height: '200',
+			text: `Now we are going to select the second result by pressing <strong>DOWN</strong> and then <strong>ENTER</strong>, and as this one has <strong>Placeholders</strong> we will need to fill them in before it can go into our clipboard.  `,
+			height: '160',
 			arrowX: '80',
 			delay: getTypeWriterDuration(tourKeyboardInputs.STEP_4, 2000),
 			nextStep: () => {
@@ -153,8 +155,8 @@ const state = {
 			}
 		},
 		{
-			text: `This is our example snippet and its placeholders (replaceable bits of text).`,
-			height: '100',
+			text: `This is our example spam email snippet.`,
+			height: '80',
 			arrowX: '150',
 			buttonLabel: 'Tell me more...',
 			delay: 0,
@@ -163,7 +165,7 @@ const state = {
 			}
 		},
 		{
-			text: `We are now going to fill in two placeholders from this example snippet, (Colours and Animals). Each placeholder can either be free text or if options have been defined, you can scroll through them using the <strong>UP</strong> and <strong>DOWN</strong> keys. Hitting, <strong>ENTER</strong> moves through the placeholders until all are satisfied and then the snippet with the replacements are placed in your clipboard.`,
+			text: `We are now going to fill in all three placeholders from this example snippet, (Recipient, Reason and Sign off).<br /><br />Each placeholder is a word surrounded by %, e.g. <strong>%RECIPIENT%</strong> and can either be free text or if options have been defined, you can scroll through them using the <strong>UP</strong> and <strong>DOWN</strong> keys.<br /><br />Hitting, <strong>ENTER</strong> moves through the placeholders until all are satisfied and then the snippet with the replacements are placed in your clipboard ready to be pasted into another application (<strong>${PASTE_KEYS}</strong>).`,
 			height: '290',
 			arrowX: '-80',
 			buttonLabel: 'Lets fill in placeholders',
@@ -174,7 +176,7 @@ const state = {
 			}
 		},
 		{
-			text: `Try pasting your snippet into another application (<strong>${PASTE_KEYS}</strong>).<br /><br>The next thing I want to show you is <strong>how to create your own snippets</strong> and a nifty searching trick.<br /><br />You can search for functions not just snippets AND you can use <strong>CAPITAL</strong> letters to search for the first letters of each word, so to get into <strong>S</strong>ettings <strong>M</strong>ode we can enter <strong>SM</strong>.`,
+			text: `Try pasting your snippet into another application (<strong>${PASTE_KEYS}</strong>).<br /><br>The next thing I want to show you is <strong>how to create your own snippets</strong> and a nifty searching trick.<br /><br />You can search for functions not just snippets AND you can use <strong>CAPITAL</strong> letters to search for the first letters of each word, so to get into <strong>S</strong>ettings <strong>M</strong>ode we can enter <strong>SMode</strong>.`,
 			height: '290',
 			arrowX: '-80',
 			buttonLabel: 'Show me the nifty searching trick',
@@ -233,7 +235,6 @@ const mutations = {
 	},
 
 	[tourMutations.START]() {
-		state.messageIndex = 0
 		state.isTourRunning = true
 		state.showTour = true
 	},
@@ -256,6 +257,9 @@ const mutations = {
 		state.showTour = true
 		state.isTourRunning = true
 
+	},
+	[tourMutations.HAVE_CLICKED_VIDEO_LINK]() {
+		state.haveClickedOnVideoLink = true
 	},
 }
 

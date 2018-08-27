@@ -180,7 +180,7 @@ JavaScript
 
 				if (this.search === "") {
 					if (this.clipboard === "") {
-						message = "Start typing to find one of your templates.<br /><br />Remember you can search using any property of your snippets and you can use upper case characters to shortcut multi-word searches.<br /><br />You can also trigger me from the global keyboard shortcut <strong>CMD+Alt+C</strong> (OSX) or <strong>Ctrl+Alt+C</strong> (Win or Linux)"
+						message = "Start typing to find one of your snippets.<br /><br />Remember you can search using any property of your snippets and you can use upper case characters to shortcut multi-word searches.<br /><br />You can also trigger me from the global keyboard shortcut <strong>CMD+Alt+C</strong> (OSX) or <strong>Ctrl+Alt+C</strong> (Win or Linux)"
 
 						if(this.isTourRunning){
 							message = ""
@@ -193,7 +193,7 @@ JavaScript
 				}
 				else {
 					if (this.results.length == 0) {
-						message = "Sorry, couldn't find a match.<br /><br />Try typing `<code>Create template</code>` or `<code>Edit templates</code>`."
+						message = "Sorry, couldn't find a match.<br /><br />Try typing `<code>Create snippet</code>` or `<code>Edit snippet</code>`."
 					}
 					else if (this.results.length == 1) {
 						message = "Now hit <strong>Enter</strong>"

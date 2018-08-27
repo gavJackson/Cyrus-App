@@ -33,7 +33,7 @@
 		<h2>Tags</h2>
 
 		<p>
-			Tags are an optional way to organise your snippets, for example if you had a snippet called `My email address` you might want to use the tag `personal`.<br /><br />You can also use tags to quickly find your snippets in settings mode, or even when searching, so if you wanted to find all the snippets with a certain tag you can use a colon.  So searching for `personal:` would show all snippets with the personal tag, and you can even perform searches within a tag, e.g. `personal: address` would find all snippets with the `personal` tag that contained the word `address`.
+			Tags are an optional way to organise your snippets, for example if you had a snippet called `My email address` you might want to use the tag `personal`.<br /><br />You can enter multiple tags by hitting ENTER or TAB to turn a word or phrase into a tag.<br /><br />You can also use tags to quickly find your snippets in settings mode, or even when searching, so if you wanted to find all the snippets with a certain tag you can use a colon.  So searching for `personal:` would show all snippets with the personal tag, and you can even perform searches within a tag, e.g. `personal: address` would find all snippets with the `personal` tag that contained the word `address`.
 		</p>
 
 

@@ -1,4 +1,4 @@
-import {systemMutations, tourMutations} from '../types'
+import {systemMutations, tourMutations, snippetsMutations} from '../types'
 import is from 'electron-is'
 
 const state = {
@@ -47,7 +47,14 @@ const mutations = {
 	},
 
 	[systemMutations.RESTART_TOUR]() {
+		this.commit(snippetsMutations.ADD_EXAMPLES_FOR_TOUR, null, { root: true })
 		this.commit(tourMutations.START, null, { root: true })
+	},
+
+	[systemMutations.CLOSE_CYRUS]() {
+		const remote = require('electron').remote
+		let w = remote.getCurrentWindow()
+		w.close()
 	},
 }
 
