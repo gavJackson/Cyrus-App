@@ -24,7 +24,15 @@
 				</router-link>
 			</li>
 
-			<li></li>
+			<li>
+				<a @click="openLink('https://github.com/gavJackson/Cyrus-App/issues', $event)"
+				   target="_blank"
+				   class="icon-link not-a-link">
+					<div class="far fa fa-bug fa-3x fa-border fa-fw"></div>
+
+					<div class="label">Report issue</div>
+				</a>
+			</li>
 
 			<li>
 				<router-link tag="a" class="icon-link not-a-link" to="/settings/general">
@@ -50,9 +58,11 @@
 				</router-link>
 			</li>
 
+
+
 			<li>
 				<router-link tag="a" class="icon-link not-a-link" to="/settings/help">
-					<div class="far fa fa-question-circle fa-3x fa-border fa-fw"></div>
+					<div class="far fa fa-question fa-3x fa-border fa-fw"></div>
 
 					<div class="label">Help</div>
 				</router-link>
@@ -60,7 +70,7 @@
 
 			<li>
 				<router-link tag="a" class="icon-link not-a-link" to="/settings/about">
-					<div class="far fa fa-info-circle fa-3x fa-border fa-fw"></div>
+					<div class="far fa fa-info fa-3x fa-border fa-fw"></div>
 
 					<div class="label">About</div>
 				</router-link>
@@ -68,7 +78,7 @@
 
 			<li>
 				<router-link tag="a" class="icon-link not-a-link" to="/">
-					<div class="far fa fa-times fa-3x fa-border fa-fw"></div>
+					<div class="far fa fa-times-circle fa-3x fa-border fa-fw"></div>
 
 					<div class="label">Exit settings</div>
 				</router-link>
@@ -93,12 +103,23 @@
 </template>
 
 <script>
+	const shell = require('electron').shell;
+
 	export default {
 		name: "Menu",
 
 		data () {
 			return {
 				message: "",
+			}
+		},
+
+		methods: {
+			openLink: function(url, event){
+				event.preventDefault()
+
+				shell.openExternal(url)
+
 			}
 		},
 

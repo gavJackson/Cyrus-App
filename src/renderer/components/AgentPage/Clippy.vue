@@ -22,7 +22,10 @@
 		<img id="agentImage"
 			 src="~@/assets/images/agents/clippy/ClippyWithPaper.png"/>
 
-		<!--<div class="agent-state">{{ agentState }}</div>-->
+		<div class="agent-state">
+			BETA
+			<!--{{ agentState }}-->
+		</div>
 
 		<!-- /////////////////////////////////////////////////////////////////
 
