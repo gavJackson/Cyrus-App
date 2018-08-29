@@ -77,7 +77,7 @@
 			</li>
 
 			<li>
-				<router-link tag="a" class="icon-link not-a-link" to="/">
+				<router-link tag="a" class="icon-link not-a-link" to="/agent">
 					<div class="far fa fa-times-circle fa-3x fa-border fa-fw"></div>
 
 					<div class="label">Exit settings</div>

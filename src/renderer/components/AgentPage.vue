@@ -19,6 +19,10 @@
 			// 'speechBubble': SpeechBubble,
 		},
 
+		// created(){
+		// 	debugger
+		// }
+
 
 	}
 </script>

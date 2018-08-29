@@ -27,81 +27,93 @@ if(is.macOS()){
 }
 
 
-function typeWriterEffect(word, stepNumber) {
-	const keyCodes = {
-		UP: 38,
-		DOWN: 40,
-		ENTER: 13,
-	}
+function typeWriterEffect(word, stepNumber, state) {
+	// need to make sure the tour is still running
+	if(state.isTourRunning) {
+		const keyCodes = {
+			UP: 38,
+			DOWN: 40,
+			ENTER: 13,
+		}
 
-	var el = document.getElementById('inputSearch');
+		var el = document.getElementById('inputSearch');
 
-	if(stepNumber == 5){
-		el = document.getElementById('inputPlaceholder');
-	}
+		if (stepNumber == 5) {
+			el = document.getElementById('inputPlaceholder');
+		}
 
-	if(word == 'PASTE'){
-		window.dispatchEvent(new CustomEvent("TOUR_TYPING_LETTER", {
-			detail: {
-				letter: PASTE_KEYS,
-				stepNumber: stepNumber
-			}}));
+		if (word == 'PASTE') {
+			window.dispatchEvent(new CustomEvent("TOUR_TYPING_LETTER", {
+				detail: {
+					letter: PASTE_KEYS,
+					stepNumber: stepNumber
+				}
+			}));
 
-		el.value = 'email';
-
-		setTimeout( () => {
 			el.value = 'email';
-			el.dispatchEvent(new Event('input'))
-		}, 100)
-	}
-	else{
-		var typed = ""
-		for (var i = 0; i < word.length; i++) {
-			typed = typed + word.charAt(i)
 
-			var delay = stepDelay * i
-			if(word.charAt(i) =='⏎'){
-				delay = delay + stepDelay
-			}
-
-			setTimeout((wordToType, letter) => {
-				var dispatchKeyPress = true
-				if (letter == '↑') {	// UP cursor key
-
-				}
-				else if (letter == '↓') {	// DOWN cursor key
-
-				}
-				else if (letter == '⏎') {	// ENTER key
-
-				}
-				else if (letter == ' ') {	// space key
-					dispatchKeyPress = false
-				}
-				else {	// a proper input key
-					el.value = wordToType.replace(/\W/g,'');
+			setTimeout((state) => {
+				// need to make sure the tour is still running
+				if (state.isTourRunning) {
+					el.value = 'email';
 					el.dispatchEvent(new Event('input'))
 				}
+			}, 100, state)
+		}
+		else {
+			var typed = ""
+			for (var i = 0; i < word.length; i++) {
+				typed = typed + word.charAt(i)
 
-				if(dispatchKeyPress){
-					window.dispatchEvent(new CustomEvent("TOUR_TYPING_LETTER", {
-						detail: {
-							letter: letter,
-							stepNumber: stepNumber
-						}}));
+				var delay = stepDelay * i
+				if (word.charAt(i) == '⏎') {
+					delay = delay + stepDelay
 				}
 
-			}, delay, typed, word.charAt(i));
+				setTimeout((wordToType, letter, state) => {
+					// need to make sure the tour is still running
+					if (state.isTourRunning) {
+
+						var dispatchKeyPress = true
+						if (letter == '↑') {	// UP cursor key
+
+						}
+						else if (letter == '↓') {	// DOWN cursor key
+
+						}
+						else if (letter == '⏎') {	// ENTER key
+
+						}
+						else if (letter == ' ') {	// space key
+							dispatchKeyPress = false
+						}
+						else {	// a proper input key
+							el.value = wordToType.replace(/\W/g, '');
+							el.dispatchEvent(new Event('input'))
+						}
+
+						if (dispatchKeyPress) {
+							window.dispatchEvent(new CustomEvent("TOUR_TYPING_LETTER", {
+								detail: {
+									letter: letter,
+									stepNumber: stepNumber
+								}
+							}));
+						}
+					}
+
+				}, delay, typed, word.charAt(i), state);
+			}
 		}
 	}
 }
 
 var tourKeyboardInputs = {
-	STEP_1: 'e    m   ail',
-	STEP_2: '↓  ↑      ⏎',
+	STEP_1: 'e  m  ail',
+	STEP_2: '↓  ↑   ⏎',
 	STEP_3: 'PASTE',
 	STEP_4: '↓⏎',
-	STEP_5: '↓↓↓ ⏎  ↓↓↓  ↑ ⏎ ↓↓↓ Adios  ⏎',
+	STEP_5: '↓↓↓⏎↓↓↓↑⏎↓↓↓ Adios  ⏎',
 	STEP_6: 'S M o de  ↓  ⏎',
 }
 
@@ -113,13 +125,13 @@ const state = {
 
 	messages: [
 		{
-			text: `You can control me with your keyboard entering in <strong>What do you want to do</strong> to search for snippets or even a function that I can perform.<br /><br />As you have not set up any snippets of your own, I've added a couple of examples and we'll use them in this tour to find out how I can help you work smarter.<br /><br />First lets search for our email snippets. During the tour the keys that I am pressing will appear below.`,
+			text: `You control me with your keyboard by telling me <strong>What do you want to do</strong> to search for snippets or functions that I can perform.<br /><br />As you have not set up any snippets of your own, I've added a couple of examples and we'll use them in this tour to find out how I can help you work smarter.<br /><br />First lets search for our email snippets. During the tour the keys that I am pressing will appear below.`,
 			height: '290',
 			arrowX: '-80',
 			buttonLabel: 'Lets get started',
 			delay: getTypeWriterDuration(tourKeyboardInputs.STEP_1),
 			nextStep: () => {
-				typeWriterEffect(tourKeyboardInputs.STEP_1, 1)
+				typeWriterEffect(tourKeyboardInputs.STEP_1, 1, state)
 			}
 		},
 		{
@@ -129,7 +141,7 @@ const state = {
 			buttonLabel: 'Show me',
 			delay: getTypeWriterDuration(tourKeyboardInputs.STEP_2, 1500),
 			nextStep: () => {
-				typeWriterEffect(tourKeyboardInputs.STEP_2, 2)
+				typeWriterEffect(tourKeyboardInputs.STEP_2, 2, state)
 
 			}
 		},
@@ -140,7 +152,7 @@ const state = {
 			buttonLabel: 'Search for the placeholder example',
 			delay: getTypeWriterDuration(tourKeyboardInputs.STEP_3),
 			nextStep: () => {
-				typeWriterEffect(tourKeyboardInputs.STEP_3, 3)
+				typeWriterEffect(tourKeyboardInputs.STEP_3, 3, state)
 
 			}
 		},
@@ -150,7 +162,7 @@ const state = {
 			arrowX: '80',
 			delay: getTypeWriterDuration(tourKeyboardInputs.STEP_4, 2000),
 			nextStep: () => {
-				typeWriterEffect(tourKeyboardInputs.STEP_4, 4)
+				typeWriterEffect(tourKeyboardInputs.STEP_4, 4, state)
 
 			}
 		},
@@ -171,7 +183,7 @@ const state = {
 			buttonLabel: 'Lets fill in placeholders',
 			delay: getTypeWriterDuration(tourKeyboardInputs.STEP_5, 1350),
 			nextStep: () => {
-				typeWriterEffect(tourKeyboardInputs.STEP_5, 5)
+				typeWriterEffect(tourKeyboardInputs.STEP_5, 5, state)
 
 			}
 		},
@@ -182,7 +194,7 @@ const state = {
 			buttonLabel: 'Show me the nifty searching trick',
 			delay: getTypeWriterDuration(tourKeyboardInputs.STEP_6),
 			nextStep: () => {
-				typeWriterEffect(tourKeyboardInputs.STEP_6, 6)
+				typeWriterEffect(tourKeyboardInputs.STEP_6, 6, state)
 
 			}
 		},
@@ -224,6 +236,7 @@ const mutations = {
 	[tourMutations.CLOSE_TOUR]() {
 		state.showTour = false
 		state.isTourRunning = false
+		state.messageIndex = 0
 	},
 
 	[tourMutations.HIDE_TOUR]() {
@@ -235,6 +248,7 @@ const mutations = {
 	},
 
 	[tourMutations.START]() {
+		state.messageIndex = 0
 		state.isTourRunning = true
 		state.showTour = true
 	},

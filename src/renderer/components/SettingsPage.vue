@@ -1,11 +1,11 @@
 <template>
 	<div class="settings-mode dialog"
 		 v-bind:class="{ 'is-tour-running': showTour }">
-		<a class="close not-a-link" href="/" ><span class="fa fa-times-circle"></span></a>
+		<a class="close not-a-link" href="#/agent" ><span class="fa fa-times-circle"></span></a>
 
 		<ul class="breadcrumbs xbottom-bordered">
 			<li class="crumb">
-				<a href="/" tabindex="0">Cyrus</a>
+				<a href="#/agent" tabindex="0">Cyrus</a>
 			</li>
 
 			<li class="crumb"
@@ -58,11 +58,13 @@
 		mounted (){
 			this.updateList()
 
-			if(this.isTourRunning){
-				window.location.hash = '/settings/menu'
+			setTimeout( () => {
+				if(this.isTourRunning){
+					window.location.hash = '/settings/menu'
 
-				this.$store.commit(tourMutations.JUMP_TO_SETTINGS_BIT)
-			}
+					this.$store.commit(tourMutations.JUMP_TO_SETTINGS_BIT)
+				}
+			}, 2500)
 		},
 
 		watch: { '$route'() { this.updateList() } },

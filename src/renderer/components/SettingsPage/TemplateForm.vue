@@ -43,15 +43,6 @@
 		},
 
 		watch: {
-			// currentTab: function(newValue) {
-			// 	if(newValue == 'PLACEHOLDER'){
-			// 		let that = this
-			// 		setTimeout( () => {
-			// 			that.$refs.inputField0[0].focus()
-			// 		}, 1)
-			// 	}
-			// },
-
 			'item.language': function(newValue){
 				this.editor.setOption('wrap', (newValue == 'text' || newValue == 'textWithPlaceholders'))
 			},
@@ -63,7 +54,7 @@
 
 				// find all placeholders
 				let variables = []
-				let matches = newValue.match(/%(\w*?)%/g)
+				let matches = newValue.match(/%[A-Z_0-9]{1,}%/gim)
 
 				if (matches != null) {
 					this.currentItemHasPlaceholders = true
@@ -282,7 +273,6 @@
 
 				this.$store.commit(snippetsMutations.DELETE_ITEM, this.item)
 
-				// this.$router.push({name: 'menuWithMessage', params: { message: this.currentState == 'ADD' ? 'Template added' : 'Template updated' }})
 				this.$router.push({name: 'menuWithMessage', params: { message:'Template deleted' }})
 			},
 
@@ -301,10 +291,6 @@
 					}
 				})
 			},
-
-			onTagKeyUp(){
-				debugger
-			}
 		}
 	}
 </script>

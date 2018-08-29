@@ -22,8 +22,6 @@
 				<input-tag class="full-width"
 						   placeholder="Add Tag"
 
-						   @keyup="onTagKeyUp"
-
 						   v-bind:addTagOnKeys="tagAddKeys"
 
 						   :tags.sync="item.tags"
@@ -58,17 +56,17 @@
 
 				<ul class="tabs">
 					<li>
-						<button class="in-active"
+						<a class="button in-active"
 
 								@click="setCurrentTab('SNIPPET')"
-								:class="{ 'selected': currentTab == 'SNIPPET' }">Snippet</button>
+								:class="{ 'selected': currentTab == 'SNIPPET' }">Snippet</a>
 					</li>
 
 					<li v-if="currentItemHasPlaceholders">
-						<button class="in-active"
+						<a class="button in-active"
 
 								@click="setCurrentTab('PLACEHOLDER')"
-								:class="{ 'selected': currentTab == 'PLACEHOLDER' }">Placeholders</button>
+								:class="{ 'selected': currentTab == 'PLACEHOLDER' }">Placeholders</a>
 					</li>
 
 					<li v-else>
@@ -104,7 +102,7 @@
 						 v-if="currentTab == 'PLACEHOLDER'">
 
 						<div class="placeholders-container">
-							<div class="xnote body-font">
+							<div class="body-font">
 								Use commas (<span style="color: yellow"><code>,</code></span>) to add multiple options for each placeholder. e.g. <span style="color: yellow"><code>option 1,option 2,option 3</code></span>
 							</div>
 							<br />
@@ -128,12 +126,12 @@
 			<div class="buttons-container">
 				<router-link tag="button" :to="{ name: cancelButtonRouteName}">Cancel</router-link>
 
-				<button v-if="currentState == 'EDIT'"
-						v-on:click="resetForm()">Reset</button>
+				<a class="button" v-if="currentState == 'EDIT'"
+						v-on:click="resetForm()">Reset</a>
 
 				<div  style="float:right">
-					<button v-if="currentState == 'EDIT'"
-							v-on:click="onDeleteClicked()">{{ deleteButtonLabel }}</button>
+					<a class="button" v-if="currentState == 'EDIT'"
+							v-on:click="onDeleteClicked()">{{ deleteButtonLabel }}</a>
 
 					<input type="submit" class="primary button"
 

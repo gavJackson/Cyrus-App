@@ -4,6 +4,8 @@
 			<div class="speech-bubble dialog running-tour">
 				<div class="warning">Playing tour, please wait...</div>
 
+				<div class="bottom-gradient"></div>
+
 				<div>
 					<autoComplete class="user-input auto-complete" />
 				</div>
@@ -16,6 +18,8 @@
 			<div class="speech-bubble dialog"
 
 				 v-if="showSpeechBubble">
+
+				<div class="bottom-gradient"></div>
 
 				<autoComplete class="user-input auto-complete"/>
 
@@ -66,7 +70,7 @@
 		font-size: 11px;
 		text-transform: uppercase;
 		padding: 5px;
-		z-index: 1;
+		z-index: 2;
 
 		&:before{
 			content: '▶';

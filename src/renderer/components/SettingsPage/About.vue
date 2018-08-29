@@ -7,7 +7,7 @@
 		</p>
 
 		<img class="mojo-logo"
-			 src="~@/assets/images/DigitalMojoLogo.png"/>
+			 src="static/images/DigitalMojoLogo.png"/>
 
 		<table>
 			<tr>

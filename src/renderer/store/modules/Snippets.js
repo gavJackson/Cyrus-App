@@ -188,6 +188,7 @@ const mutations = {
 
 
 	[snippetsMutations.LOAD](state) {
+		// /Users/gavinjackson/Library/Application Support/Cyrus-App/UserData/Snippets
 		let files =  fs.readdirSync(path.join(userDataPath, paths.SNIPPETS))
 		let startingLength = state.data.length
 

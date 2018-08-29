@@ -6,7 +6,7 @@ Vue.use(Router)
 export default new Router({
 	routes: [
 		{
-			path: '/',
+			path: '/agent',
 			name: 'agent-page',
 			component: require('@/components/AgentPage').default
 		},
@@ -52,7 +52,7 @@ export default new Router({
 					meta: {
 						breadcrumb: [
 							{ name: 'Settings', link: '/settings/menu' },
-							{ name: 'Create new template' },
+							{ name: 'Create new snippet' },
 
 						]
 					}
@@ -77,7 +77,7 @@ export default new Router({
 						breadcrumb: [
 							{ name: 'Settings', link: '/settings/menu' },
 							{ name: 'Snippets', link: '/settings/templates' },
-							{ name: 'Edit template' },
+							{ name: 'Edit snippet' },
 
 						]
 					}
@@ -130,7 +130,7 @@ export default new Router({
 		},
 		{
 			path: '*',
-			redirect: '/'
+			redirect: '/agent'
 		}
 	]
 })

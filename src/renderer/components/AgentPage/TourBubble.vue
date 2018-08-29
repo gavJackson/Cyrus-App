@@ -7,10 +7,17 @@
 							 '--arrow-position-settings-y-var': (360 - message.height) + 'px'}"
 			 v-if="message">
 
+		<div class="bottom-gradient"></div>
 
 		<div class="thought-dialog">
-
-			<div class="video-nag" v-if="!haveClickedOnVideoLink && !isSettingsMode">
+			
+			<!-- /////////////////////////////////////////////////////////////////
+			
+			video nag
+			
+			///////////////////////////////////////////////////////////////// -->
+			
+			<div class="video-nag" v-if="!haveClickedOnVideoLink && !isSettingsMode && messageIsTallEnough">
 				<span v-if="!showNagDismiss">
 					Before you get started, please watch this
 				</span>
@@ -28,17 +35,32 @@
 					</label>
 				</div>
 			</div>
-
+			
+			<!-- /////////////////////////////////////////////////////////////////
+			
+			the actual message
+			
+			///////////////////////////////////////////////////////////////// -->
+			
 			<div class="tour-message" v-html="message.text"></div>
 
 
+			<!-- /////////////////////////////////////////////////////////////////
+			
+			next button
+			
+			///////////////////////////////////////////////////////////////// -->
 
-			<button class="button primary"
-					@click="onTourNext()">{{ message.buttonLabel || nextStepButtonLabel }}</button>
+			<a class="button primary"
+					@click="onTourNext()">{{ message.buttonLabel || nextStepButtonLabel }}</a>
+			
+			<!-- /////////////////////////////////////////////////////////////////
+			
+			dismiss tour
+			
+			///////////////////////////////////////////////////////////////// -->
 
-			<div class="dismiss-container tour"
-
-				 v-if="!isSettingsMode">
+			<div class="dismiss-container tour">
 				<input type="checkbox" id="checkDismissTour" v-model="haveCheckedDismissEntireTour" />
 				<label for="checkDismissTour">
 					Dismiss tour, I already know how to search for and create snippets and placeholders.
@@ -73,6 +95,7 @@
 		},
 
 		computed: mapState({
+			isTourRunning: state => state.Tour.isTourRunning,
 			haveClickedOnVideoLink: state => state.Tour.haveClickedOnVideoLink,
 			messageIndex: state => state.Tour.messageIndex,
 			message: state => {
@@ -89,6 +112,16 @@
 			},
 			showNagDismiss: state => {
 				return state.Tour.messageIndex >= 2
+			},
+			messageIsTallEnough: state => {
+				let isTallEnough = true
+				let message = state.Tour.messages[state.Tour.messageIndex]
+
+				if(message && message.hasOwnProperty('height')){
+					isTallEnough = message.height > 170
+				}
+
+				return isTallEnough
 			}
 		}),
 
@@ -115,7 +148,9 @@
 					}
 
 					setTimeout( () => {
-						this.$store.commit(tourMutations.NEXT_STEP)
+						if(this.isTourRunning){
+							this.$store.commit(tourMutations.NEXT_STEP)
+						}
 					}, this.message.delay || 1)
 				}
 			},
@@ -228,6 +263,8 @@
 		width: 100%;
 		overflow: auto;
 		padding: 10px;
+		padding-bottom: 50px;
+
 	}
 
 	///////////////////////////////////////////////////////////

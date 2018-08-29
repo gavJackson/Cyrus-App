@@ -28,6 +28,8 @@ JavaScript
 
 	const ROW_HEIGHT = 30;
 
+	const placeholdersRegExp = /%[A-Z_0-9]{1,}%/gim
+
 	const focus = {
 		inserted(el) {
 			el.focus()
@@ -431,7 +433,6 @@ JavaScript
 					}
 					else {
 						// its a live template / snipppet
-						let placeholdersRegExp = /%[A-Z_]{1,}%/g
 
 						// check for placeholders, if we have placeholders we need to replace them all first
 						if (placeholdersRegExp.test(newValue.snippet)) {
@@ -477,7 +478,7 @@ JavaScript
 
 
 			replaceNextSnippet() {
-				let placeholdersRegExp = /%[A-Z_]{1,}%/g
+
 				let placeholders = this.selectedSnippetWithPlaceholders.match(placeholdersRegExp) || []
 
 				this.placeHolderArrowCounter = 0

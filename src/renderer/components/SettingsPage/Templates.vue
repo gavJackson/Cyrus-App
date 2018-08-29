@@ -33,6 +33,7 @@
 			</router-link>
 
 			<h1>Snippets</h1>
+			<div style="margin-top: -10px">({{ numRecords }})</div>
 
 			<br />
 
@@ -84,6 +85,7 @@
 		},
 
 		computed: {
+
 			data() {
 				let data = this.$store.state.Snippets.data.filter(item => {
 					let inc = item.language != 'Clippy'
@@ -107,6 +109,19 @@
 
 			hasTemplates() {
 				return this.$store.state.Snippets.hasUserGeneratedSnippets
+			},
+
+			userDataLength(){
+				let data = this.$store.state.Snippets.data.filter(item => {
+					let inc = item.language != 'Clippy'
+					return inc
+				})
+
+				return data.length
+			},
+
+			numRecords() {
+				return this.data.length + (this.selectedTags.length > 0 ? ` of ${this.userDataLength}` : '')
 			},
 		},
 

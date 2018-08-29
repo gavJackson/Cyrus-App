@@ -19,11 +19,11 @@
 
 		///////////////////////////////////////////////////////////////// -->
 
-		<img id="agentImage"
-			 src="~@/assets/images/agents/clippy/ClippyWithPaper.png"/>
+		<img id="agentImage" v-bind:src="agentImage" />
 
 		<div class="agent-state">
-			BETA v{{ versionNumber }} {{ shouldShowTourStarter }} {{ showSpeechBubble }}
+			BETA v{{ versionNumber }}
+			<!--{{ shouldShowTourStarter }} {{ showSpeechBubble }}-->
 			<!--{{ agentState }}-->
 		</div>
 
@@ -118,7 +118,10 @@
 
 			keys(){
 				return this.$store.getters.getShortcutKeys()
+			},
 
+			agentImage(){
+				return this.$store.getters.getAgentImage()
 			}
 			//
 			// shouldShowSpeechBubble(){
@@ -201,9 +204,8 @@
 	}
 
 	#agentImage {
-
 		width: 100px;
-		height: 93px;
+		height: 100px;
 		-webkit-touch-callout: none; /* iOS Safari */
 		-webkit-user-select: none; /* Safari */
 		pointer-events: none;
@@ -217,6 +219,7 @@
 		position: absolute;
 		text-align: center;
 		bottom: 0px;
+		right: 100px;
 		margin: 0px auto;
 		padding: 2px 5px;
 		font-size: 10px;

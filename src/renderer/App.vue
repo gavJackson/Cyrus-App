@@ -30,7 +30,6 @@
 			this.isMac = is.macOS()
 		},
 
-
 		destroyed: function () {
 			window.removeEventListener('focus', this.onFocus);
 			window.removeEventListener('blur', this.onBlur);
@@ -52,7 +51,7 @@
 			onBlur() {
 				this.$store.commit(focusMutations.APP_BLUR)
 			},
-		}
+		},
 	}
 </script>
 
@@ -256,6 +255,14 @@
 		}
 	}
 
+	.placeholders-container{
+		.vue-input-tag-wrapper .input-tag,
+
+		.tag{
+			background-color: mix(@primaryButtonColor, cyan, 20%);
+		}
+	}
+
 	input {
 		font-family: @inputFont;
 	}
@@ -332,9 +339,11 @@
 		background-color: @buttonColor;
 		color: @buttonTextColor;
 		font-family: @codeFont;
+		text-decoration: none;
 
 		&:hover, &:focus {
 			background-color: lighten(@buttonColor, 30%);
+			text-decoration: none;
 		}
 
 		&.in-active {
@@ -448,7 +457,7 @@
 		padding: 10px;
 		box-sizing: border-box;
 		margin-top: 10px;
-		background-color: @codeBackground;
+		background-color: fade(@codeBackground, 80%);
 		color: @codeText;
 		width: 300px;
 		height: 175px;
@@ -457,6 +466,7 @@
 		white-space: pre;
 		tab-size: 2;
 		overflow: auto;
+		z-index: 3;
 	}
 
 	.preview.enable-wrap {
@@ -533,6 +543,22 @@
 		&.validation {
 			background-color: darken(@invalidColor, 10%);
 		}
+	}
+
+	///////////////////////////////
+	// utils
+	///////////////////////////////
+
+	.bottom-gradient{
+		position: absolute;
+		left: 0px;
+		right: 0px;
+		bottom: 0px;
+		height: 50px;
+		background-color: transparent;
+		background: -webkit-linear-gradient(top, fade(@backgroundColor, 0%) 20%, @backgroundColor 90%); /* Chrome10-25,Safari5.1-6 */
+		z-index: 1;
+		pointer-events: none;
 	}
 
 	///////////////////////////////////////////////////////////

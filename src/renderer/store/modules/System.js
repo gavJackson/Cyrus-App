@@ -10,6 +10,14 @@ const state = {
 			osx: 'CMD ⌘+Alt+C',
 		}
 	},
+
+	currentAgent: "Clippy",
+
+	agents: {
+		Clippy: "static/images/agents/clippy/ClippyWithPaper.png",
+		PooEggCrack: "static/images/agents/PooEggCrack/PooEggCrack-normal.png",
+		Pikachu: "static/images/agents/Pikachu/Pikachu.gif",
+	}
 }
 
 const mutations = {
@@ -70,6 +78,10 @@ const getters = {
 		else{
 			return state.shortcutKey.label.win
 		}
+	},
+
+	getAgentImage: (state) => () => {
+		return state.agents[state.currentAgent]
 	},
 }
 
