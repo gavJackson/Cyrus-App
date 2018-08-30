@@ -1,6 +1,9 @@
 'use strict'
 
 import {app, BrowserWindow, default as electron, globalShortcut} from 'electron'
+import MenuBar from 'menubar'
+
+
 // import System from '../renderer/store/modules/Snippets'
 
 
@@ -17,68 +20,70 @@ const winURL = process.env.NODE_ENV === 'development'
 	? `http://localhost:9080`
 	: `file://${__dirname}/index.html`
 
-function createWindow(app) {
 
-	const userDataPath = (electron.app || electron.remote.app).getPath('userData');
 
-	var Positioner = require('electron-positioner')
-	var path = require("path")
-	var fs = require("fs")
-	var initPath = path.join(userDataPath, "UserData/settings.json")
-	var dirname = path.dirname(initPath)
-	if(!fs.existsSync(dirname) || !fs.existsSync(initPath)){
-		// make UserData folder
-		fs.mkdirSync(dirname)
-
-		// write settings.json into UserData
-		fs.writeFileSync(initPath, JSON.stringify({}));
-
-		// make snippets folder
-		fs.mkdirSync(path.join(dirname, "snippets"))
-
-	}
-
-	var data
-	let haveLoadedBounds = false
-	try {
-		data = JSON.parse(fs.readFileSync(initPath, 'utf8')).bounds || {}
-	}
-	catch (e) {
-		data = { }
-	}
-
-	if(data.hasOwnProperty('x') && data.hasOwnProperty('y')){
-		haveLoadedBounds = true
-	}
-
-	data.height = 400
-	data.width = 401
-	data.useContentSize = true
-	data.transparent = true
-	data.resizable = false
-	data.frame = false
-	data.hasShadow = false
-
-	mainWindow = new BrowserWindow(data);
-	mainWindow.loadURL(winURL)
-	mainWindow.setResizable(false)
-
-	if(!haveLoadedBounds){
-		var positioner = new Positioner(mainWindow)
-		positioner.move('bottomRight')
-	}
-
-	mainWindow.on('close', () => {
-		var data = {
-			bounds: mainWindow.getBounds()
-		};
-		fs.writeFileSync(initPath, JSON.stringify(data));
-	})
-
-	mainWindow.on('closed', () => {
-		mainWindow = null
-	})
-}
+// function createWindow(app) {
+//
+// 	const userDataPath = (electron.app || electron.remote.app).getPath('userData');
+//
+// 	var Positioner = require('electron-positioner')
+// 	var path = require("path")
+// 	var fs = require("fs")
+// 	var initPath = path.join(userDataPath, "UserData/settings.json")
+// 	var dirname = path.dirname(initPath)
+// 	if (!fs.existsSync(dirname) || !fs.existsSync(initPath)) {
+// 		// make UserData folder
+// 		fs.mkdirSync(dirname)
+//
+// 		// write settings.json into UserData
+// 		fs.writeFileSync(initPath, JSON.stringify({}));
+//
+// 		// make snippets folder
+// 		fs.mkdirSync(path.join(dirname, "snippets"))
+//
+// 	}
+//
+// 	var data
+// 	let haveLoadedBounds = false
+// 	try {
+// 		data = JSON.parse(fs.readFileSync(initPath, 'utf8')).bounds || {}
+// 	}
+// 	catch (e) {
+// 		data = {}
+// 	}
+//
+// 	if (data.hasOwnProperty('x') && data.hasOwnProperty('y')) {
+// 		haveLoadedBounds = true
+// 	}
+//
+// 	data.height = 400
+// 	data.width = 400
+// 	data.useContentSize = true
+// 	data.transparent = true
+// 	data.resizable = false
+// 	data.frame = false
+// 	data.hasShadow = false
+//
+// 	mainWindow = new BrowserWindow(data);
+// 	mainWindow.loadURL(winURL)
+// 	mainWindow.setResizable(false)
+//
+// 	if (!haveLoadedBounds) {
+// 		var positioner = new Positioner(mainWindow)
+// 		positioner.move('bottomRight')
+// 	}
+//
+// 	mainWindow.on('close', () => {
+// 		var data = {
+// 			bounds: mainWindow.getBounds()
+// 		};
+// 		fs.writeFileSync(initPath, JSON.stringify(data));
+// 	})
+//
+// 	mainWindow.on('closed', () => {
+// 		mainWindow = null
+// 	})
+// }
 
 function registerShortCutsKeys() {
 	// TODO figure out how to get this from the store
@@ -94,24 +99,74 @@ function registerShortCutsKeys() {
 
 }
 
-app.on('ready', () => {
-	createWindow(app)
+const MENU_MODE = true
 
-	registerShortCutsKeys()
+if(MENU_MODE == false){
 
-})
+	///////////////////////////////////////////////////////////
+	//
+	// app mode
+	//
+	///////////////////////////////////////////////////////////
+	//
+	//
+	// app.on('ready', () => {
+	// 	createWindow(app)
+	//
+	// 	registerShortCutsKeys()
+	//
+	// })
+	//
+	// app.on('window-all-closed', () => {
+	// 	if (process.platform !== 'darwin') {
+	// 		app.quit()
+	// 	}
+	// })
+	//
+	// app.on('activate', () => {
+	// 	if (mainWindow === null) {
+	// 		createWindow()
+	// 	}
+	// })
+}
+else {
 
-app.on('window-all-closed', () => {
-	if (process.platform !== 'darwin') {
-		app.quit()
-	}
-})
+	///////////////////////////////////////////////////////////
+	//
+	// menu bar mode
+	//
+	///////////////////////////////////////////////////////////
 
-app.on('activate', () => {
-	if (mainWindow === null) {
-		createWindow()
-	}
-})
+
+	const menubar = new MenuBar({
+	  height: 400,
+	  width: 400,
+	  minHeight: 400,
+	  minWidth: 400,
+	  maxHeight: 400,
+	  maxWidth: 400,
+	  preloadWindow: true,
+	  alwaysOnTop: true,
+	});
+
+	menubar.on('after-create-window', () => {
+		menubar.window.loadURL(config.url);
+	});
+
+	mb.on('ready', function ready () {
+		console.log('app is ready')
+
+		registerShortCutsKeys()
+	})
+
+}
+
+///////////////////////////////////////////////////////////
+//
+// general stuff
+//
+///////////////////////////////////////////////////////////
+
 
 app.on('will-quit', () => {
 	globalShortcut.unregisterAll()
