@@ -61,8 +61,11 @@ const mutations = {
 
 	[systemMutations.CLOSE_CYRUS]() {
 		const remote = require('electron').remote
+		const app = require('electron').app
 		let w = remote.getCurrentWindow()
 		w.close()
+
+		app.quit()
 	},
 }
 
