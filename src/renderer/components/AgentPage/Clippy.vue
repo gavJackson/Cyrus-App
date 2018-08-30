@@ -19,10 +19,13 @@
 
 		///////////////////////////////////////////////////////////////// -->
 
-		<img id="agentImage" v-bind:src="agentImage" />
+		<!--<img id="agentImage" v-bind:src="agentImage" />-->
+
+		<img id="agentImage"
+			 src="static/images/agents/Clippy/ClippyWithPaper.png"/>
 
 		<div class="agent-state">
-			BETA v{{ versionNumber }}
+			xxxx BETA v{{ versionNumber }}
 			<!--{{ shouldShowTourStarter }} {{ showSpeechBubble }}-->
 			<!--{{ agentState }}-->
 		</div>
