@@ -58,9 +58,7 @@
 <style lang="less">
 
 
-	// TODO get rid of the CSS and delete from project
-	@import "assets/fonts/fontAwesome/css/all.css";
-	/*@import "assets/fonts/fontAwesome/less/fontawesome.less";*/
+	@import "assets/fonts/fontAwesome/css/all.min.css";
 	@import "assets/styles/animate.less";
 	@import "assets/styles/global.less";
 
