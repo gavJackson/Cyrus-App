@@ -25,7 +25,7 @@
 			 src="static/images/agents/Clippy/ClippyWithPaper.png"/>
 
 		<div class="agent-state">
-			xxxx BETA v{{ versionNumber }}
+			BETA v{{ versionNumber }}
 			<!--{{ shouldShowTourStarter }} {{ showSpeechBubble }}-->
 			<!--{{ agentState }}-->
 		</div>
@@ -44,7 +44,7 @@
 
 		<div class="tour-start-dialog dialog animated fadeIn" v-if="shouldShowTourStarter">
 
-			Hi there! I'm <strong>Cyrus</strong>, thanks for installing me. I'm a productivity tool and I aim to provide you with quick and easy access to snippets (<strong>which are useful bits of text</strong>) which I put into your clipboard so you can paste them into any other application.
+			Hi there! I'm <strong>CYRUS</strong>, thanks for installing me. I'm a productivity tool and I aim to provide you with quick and easy access to snippets (<strong>which are useful bits of text</strong>) which I put into your clipboard so you can paste them into any other application.
 			<br /><br />
 			You do not have any snippets set up yet, so I will take you through a tour of my features. Press <strong>{{keys}}</strong> or
 			<a class="button primary">Click here</a> to begin the tour.

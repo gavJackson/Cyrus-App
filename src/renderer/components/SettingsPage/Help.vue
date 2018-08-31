@@ -1,7 +1,7 @@
 <template>
 	<div class="help-page">
 		<p>
-			Cyrus is designed to be operated by keyboard.  <a @click="openLink('https://youtu.be/Mf8PFIL-4cQ', $event)" target="_blank">Watch the intro video on YouTube</a>
+			CYRUS is designed to be operated by keyboard.  <a @click="openLink('https://youtu.be/Mf8PFIL-4cQ', $event)" target="_blank">Watch the intro video on YouTube</a>
 		</p>
 
 		<h2>
@@ -9,7 +9,7 @@
 		</h2>
 
 		<p>
-			Use the activation short cut keys {{ keys }} to open Cyrus, this works from any other application and will bring Cyrus to the front, ready to accept your commands.
+			Use the activation short cut keys {{ keys }} to open CYRUS, this works from any other application and will bring CYRUS to the front, ready to accept your commands.
 		</p>
 
 		<h2>Searching</h2>
@@ -26,7 +26,7 @@
 		<h2>Placeholders</h2>
 
 		<p>
-			Cyrus supports the use of placeholders in snippets.  A placeholder is a piece of text that is meant to be replaced.  You can provide multiple options for a placeholder and you can free type into the field too.<br /><br />Wrap any word in your snippet with `%` to define it as a placeholder, this will make the placeholders tab available where you can add options for each placeholder.
+			CYRUS supports the use of placeholders in snippets.  A placeholder is a piece of text that is meant to be replaced.  You can provide multiple options for a placeholder and you can free type into the field too.<br /><br />Wrap any word in your snippet with `%` to define it as a placeholder, this will make the placeholders tab available where you can add options for each placeholder.
 		</p>
 
 
@@ -43,7 +43,7 @@
 		</h2>
 
 		<p>
-			Cyrus was created by me, Gavin Jackson and I would love to hear your thoughts, but if you have any problems, questions or suggestions for improvements please email me <a @click="openLink('mailto:digital.mojo.gavin@gmail.com?subject=I need help with CYRUS', $event)" target="_blank">digital.mojo.gavin@gmail.com</a> and I will do my best to help you.
+			CYRUS was created by me, Gavin Jackson and I would love to hear your thoughts, but if you have any problems, questions or suggestions for improvements please email me <a @click="openLink('mailto:digital.mojo.gavin@gmail.com?subject=I need help with CYRUS', $event)" target="_blank">digital.mojo.gavin@gmail.com</a> and I will do my best to help you.
 
 			<br /><br />
 

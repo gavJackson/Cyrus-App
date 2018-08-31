@@ -14,12 +14,12 @@ function getInstallerConfig () {
   const outPath = path.join(rootPath, 'release-builds')
 
   return Promise.resolve({
-    appDirectory: path.join(outPath, 'Cyrus-app-win32-x64/'),
+    appDirectory: path.join(outPath, 'CYRUS-app-win32-x64/'),
     authors: 'Gavin Jackson',
     noMsi: true,
     outputDirectory: path.join(outPath, 'windows-installer'),
-    exe: 'cyrus-app.exe',
-    setupExe: 'CyrusAppInstaller.exe',
-    setupIcon: path.join(rootPath, 'src', 'renderer', 'assets', 'images', 'icons', 'CyrusIcon.ico')
+    exe: 'CYRUS-app.exe',
+    setupExe: 'CYRUSAppInstaller.exe',
+    setupIcon: path.join(rootPath, 'src', 'renderer', 'assets', 'images', 'icons', 'CYRUSIcon.ico')
   })
 }

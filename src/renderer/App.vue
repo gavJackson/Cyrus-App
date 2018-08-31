@@ -158,7 +158,7 @@
 			// inputs
 			///////////////////////////////
 
-			input:not([type=submit]), select, textarea, .vue-input-tag-wrapper {
+			input, select, textarea, .vue-input-tag-wrapper {
 				box-sizing: border-box;
 				border-radius: 4px;
 				padding: 3px 5px;
@@ -170,15 +170,6 @@
 				padding-left: 50px;
 				transition: all 0.25s ease-in-out;
 
-				&:focus {
-					background-color: darken(@codeBackground, 10%);
-
-					padding-left: 5px;
-					& + label {
-						opacity: 0;
-					}
-				}
-
 				& + label {
 					transition: all 0.25s ease-in-out;
 					opacity: 0.7;
@@ -188,10 +179,39 @@
 					margin-top: -34px;
 					margin-left: 10px;
 				}
+			}
+
+			input[type=checkbox]{
+				padding: 0px;
+				margin: 0px;
+			}
+
+			input:not([type=submit]):not([type=checkbox]), select, textarea, .vue-input-tag-wrapper {
+				&:focus {
+					background-color: darken(@codeBackground, 10%);
+
+					padding-left: 5px;
+					& + label {
+						opacity: 0;
+					}
+				}
+
+
 
 				&:empty {
 
 				}
+
+				&:disabled{
+					opacity: 0.4;
+					background-color: lighten(@codeBackground, 5%);
+					color: lighten(@codeBackground, 40%);
+					border-color: lighten(@codeBackground, 10%);
+				}
+			}
+
+			label.disabled{
+				opacity: 0.4;
 			}
 
 			.vue-input-tag-wrapper {

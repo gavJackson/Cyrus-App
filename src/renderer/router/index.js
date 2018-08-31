@@ -41,7 +41,7 @@ export default new Router({
 					meta: {
 						breadcrumb: [
 							{ name: 'Settings', link: '/settings/menu' },
-							{ name: 'About Cyrus' },
+							{ name: 'About CYRUS' },
 
 						]
 					}

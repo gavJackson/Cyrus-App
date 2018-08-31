@@ -2,7 +2,6 @@ import electron from 'electron'
 import path from 'path'
 import fs from 'fs'
 import { snippetsMutations, categories, tourMutations } from '../types'
-import logger from 'electron-timber'
 import _ from 'underscore'
 
 
@@ -38,7 +37,7 @@ function parseDataFile(filePath, defaults) {
 		return data
 	} catch (error) {
 		// TODO read from global settings file on whether to report errors in the UI
-		logger.error(error.toString())
+		log.error(error.toString())
 
 		// if there was some kind of error, return the passed in defaults instead.
 		return defaults;
@@ -82,21 +81,21 @@ const state = {
 			"snippet": "EXPORT_TEMPLATES"
 		},
 		{
-			"name": "About Cyrus",
+			"name": "About CYRUS",
 			"category": categories.CLIPPY,
 			"language": "Clippy",
-			"description": "About Cyrus, version number and author details",
+			"description": "About CYRUS, version number and author details",
 			"tags": [],
 			"snippet": "ABOUT"
 		},
-		// {
-		// 	"name": "Switch to menu mode",
-		// 	"category": categories.CLIPPY,
-		// 	"language": "Clippy",
-		// 	"description": "Get rid of/kill/hurt Clippy, the paperclip avatar character and switch to menu mode, i hate clippy, clippy must die",
-		// 	"tags": [],
-		// 	"snippet": "GENERAL_SETTINGS"
-		// },
+		{
+			"name": "General settings",
+			"category": categories.CLIPPY,
+			"language": "Clippy",
+			"description": "Launch at login",
+			"tags": [],
+			"snippet": "GENERAL_SETTINGS"
+		},
 		{
 			"name": "Enter settings mode",
 			"category": categories.CLIPPY,
@@ -122,10 +121,10 @@ const state = {
 			"snippet": "RESTART_TOUR"
 		},
 		{
-			"name": "Close Cyrus",
+			"name": "Quit CYRUS",
 			"category": categories.CLIPPY,
 			"language": "Clippy",
-			"description": "Exit Cyrus, Close the Application, Quit",
+			"description": "Exit CYRUS, Close the Application, Quit",
 			"tags": [],
 			"snippet": "CLOSE_CYRUS"
 		},

@@ -5,7 +5,7 @@
 
 		<ul class="breadcrumbs xbottom-bordered">
 			<li class="crumb">
-				<a href="#/agent" tabindex="0">Cyrus</a>
+				<a href="#/agent" tabindex="0">CYRUS</a>
 			</li>
 
 			<li class="crumb"

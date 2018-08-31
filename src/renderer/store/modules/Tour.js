@@ -217,7 +217,7 @@ const state = {
 			}
 		},
 		{
-			text: `This is <strong>the end of the tour</strong>, I'll leave you on the Create new snippet form to crack on and add a few snippets, useful ones that could help you get started are: <ul><li>My email address</li><li>My home address</li><li>My mobile number</li></ul>I hope this tour has been helpful, you can restart it if you want to go through again.<br /><br />Happy snipping!<br /><br /><strong style="font-size: 30px">Cyrus</strong><br /><br />`,
+			text: `This is <strong>the end of the tour</strong>, I'll leave you on the Create new snippet form to crack on and add a few snippets, useful ones that could help you get started are: <ul><li>My email address</li><li>My home address</li><li>My mobile number</li></ul>I hope this tour has been helpful, you can restart it if you want to go through again.<br /><br />Happy snipping!<br /><br /><strong style="font-size: 30px">CYRUS</strong><br /><br />`,
 			height: '400',
 			arrowX: '-200',	// hiding
 			delay: 0,
