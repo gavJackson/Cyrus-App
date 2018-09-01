@@ -3,7 +3,7 @@
 		 v-bind:class="{ 'is-tour-running': showTour }">
 		<a class="close not-a-link" href="#/agent" ><span class="fa fa-times-circle"></span></a>
 
-		<ul class="breadcrumbs xbottom-bordered">
+		<ul class="breadcrumbs">
 			<li class="crumb">
 				<a href="#/agent" tabindex="0">CYRUS</a>
 			</li>
@@ -58,13 +58,13 @@
 		mounted (){
 			this.updateList()
 
-			setTimeout( () => {
-				if(this.isTourRunning){
-					window.location.hash = '/settings/menu'
-
-					this.$store.commit(tourMutations.JUMP_TO_SETTINGS_BIT)
-				}
-			}, 2500)
+			// setTimeout( () => {
+			// 	if(this.isTourRunning){
+			// 		window.location.hash = '/settings/menu'
+			//
+			// 		this.$store.commit(tourMutations.JUMP_TO_SETTINGS_BIT)
+			// 	}
+			// }, 2500)
 		},
 
 		watch: { '$route'() { this.updateList() } },
@@ -109,15 +109,16 @@
 		}
 
 		.breadcrumbs{
-			/*background-color: red;*/
 			-webkit-app-region: drag;
-			/*cursor: move;*/
+
+			//background-color: red;
 			padding: 0px;
 			margin: 0px;
 			position: absolute;
 			left: 0px;
 			right: 0px;
 			top: 0px;
+			z-index: 99999999;
 			padding-top: 10px;
 			padding-left: 10px;
 			-webkit-touch-callout: none; /* iOS Safari */
@@ -126,6 +127,7 @@
 			padding-bottom: 0px;
 			font-size: 11px;
 			text-transform: uppercase;
+			border-bottom: 1px solid darken(white, 60%);
 
 			li {
 				display: inline-block;

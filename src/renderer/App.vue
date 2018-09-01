@@ -8,6 +8,7 @@
 <script>
 	import {focusMutations, snippetsMutations} from './store/types'
 	import is from 'electron-is'
+
 	export default {
 		name: 'clippy',
 
@@ -22,6 +23,7 @@
 		created: function () {
 			window.addEventListener('focus', this.onFocus);
 			window.addEventListener('blur', this.onBlur);
+            window.addEventListener('click', this.onClick);
 
 
 			this.$store.commit(snippetsMutations.LOAD)
@@ -33,6 +35,7 @@
 		destroyed: function () {
 			window.removeEventListener('focus', this.onFocus);
 			window.removeEventListener('blur', this.onBlur);
+            window.removeEventListener('click', this.onClick);
 
 		},
 
@@ -44,11 +47,18 @@
 			//
 			///////////////////////////////////////////////////////////
 
+            onClick(){
+                //debugger
+				window.focus()
+			},
+
 			onFocus() {
+			    //debugger
 				this.$store.commit(focusMutations.APP_FOCUS)
 			},
 
 			onBlur() {
+			    //debugger
 				this.$store.commit(focusMutations.APP_BLUR)
 			},
 		},
@@ -56,7 +66,6 @@
 </script>
 
 <style lang="less">
-
 
 	@import "assets/fonts/fontAwesome/css/all.min.css";
 	@import "assets/styles/animate.less";
@@ -356,7 +365,7 @@
 		border: none;
 		font-weight: normal;
 		min-width: 60px;
-		text-align: center;
+		text-align: center !important;
 
 		background-color: @buttonColor;
 		color: @buttonTextColor;
@@ -601,7 +610,7 @@
 		// moves the arrow in the tour bubble down a bit as its high for some reason
 		.thought-container {
 			&:before{
-				margin-top: 10px;
+				margin-top: 0px;
 			}
 		}
 
@@ -633,5 +642,14 @@
 		}
 	}
 
+
+	// fixing drag issues
+	a,
+	input,
+	select,
+	button,
+	textarea {
+		-webkit-app-region: no-drag;
+	}
 
 </style>

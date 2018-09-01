@@ -188,10 +188,11 @@ const mutations = {
 
 	[snippetsMutations.LOAD](state) {
 		// /Users/gavinjackson/Library/Application Support/Cyrus-App/UserData/Snippets
-		let files =  fs.readdirSync(path.join(userDataPath, paths.SNIPPETS))
 		let startingLength = state.data.length
 
 		// TODO reinstate this when finished with working on the Tour
+		/*
+		let files =  fs.readdirSync(path.join(userDataPath, paths.SNIPPETS))
 		files = files.filter( (item) => item.indexOf('.json') != -1)
 
 		for(let i=0; i < files.length; i++){
@@ -200,6 +201,7 @@ const mutations = {
 
 			state.data = state.data.concat(parseDataFile(filePath, []))
 		}
+		*/
 
 		state.hasUserGeneratedSnippets = startingLength != state.data.length
 

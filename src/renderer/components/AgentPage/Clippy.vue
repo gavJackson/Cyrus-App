@@ -1,5 +1,5 @@
 <template>
-	<div class="agent"
+	<div class="agent" id="agent"
 
 		 @click="onAgentClick"
 		 @mousedown="onAgentMouseDown"
@@ -26,7 +26,7 @@
 
 		<div class="agent-state">
 			BETA v{{ versionNumber }}
-			<!--{{ shouldShowTourStarter }} {{ showSpeechBubble }}-->
+			<!--{{ shouldShowTourStarter }} {{ showSpeechBubble }} {{ appHasFocus }}-->
 			<!--{{ agentState }}-->
 		</div>
 
@@ -51,17 +51,19 @@
 
 		</div>
 
+
+
 	</div>
 </template>
 
 <script>
-
-	const {app} = require('electron').remote;
+    const { app } = require('electron').remote;
 	const shell = require('electron').shell;
 
 	import SpeechBubble from '../AgentPage/SpeechBubble'
 	import { focusMutations } from './../../store/types'
-	import is from 'electron-is'
+
+
 
 	const agentStates = {
 		NORMAL: "NORMAL",
@@ -100,7 +102,6 @@
 			} );
 
 			this.versionNumber = app.getVersion()
-
 		},
 
 		mounted: function() {
@@ -112,11 +113,19 @@
 		},
 
 		computed: {
-			showLetter(){
+            appHasFocus() {
+                return this.$store.state.Focus.appHasFocus
+            },
+            isTourRunning() {
+                return this.$store.state.Tour.isTourRunning
+            },
+
+
+            showLetter(){
 				return this.currentTourKeyBeingPressed && /\S/.test(this.currentTourKeyBeingPressed)
 			},
 			shouldShowTourStarter(){
-				return this.$store.state.Tour.isTourRunning && !this.showSpeechBubble && this.agentState != agentStates.DRAGGING
+				return this.isTourRunning && !this.showSpeechBubble && this.agentState != agentStates.DRAGGING
 			},
 
 			keys(){
@@ -126,14 +135,11 @@
 			agentImage(){
 				return this.$store.getters.getAgentImage()
 			}
-			//
-			// shouldShowSpeechBubble(){
-			// 	return this.$store.state.Tour.isTourRunning || this.showSpeechBubble
-			// }
 		},
 
 		methods: {
 			onAgentClick() {
+			    //debugger
 				this.$store.commit(focusMutations.APP_FOCUS)
 				this.showSpeechBubble = true
 				this.agentState = agentStates.NORMAL
@@ -149,7 +155,6 @@
 					this.showSpeechBubble = false
 					this.agentState = agentStates.DRAGGING
 				}, 250)
-
 			},
 
 			onAgentMouseUp() {
@@ -184,6 +189,17 @@
 						setTimeout( () => this.currentTourKeyBeingPressed = null, 1)
 					}, delay)
 				}
+			},
+
+            appHasFocus: function (newValue){
+				if(newValue == true){
+					this.showSpeechBubble = newValue
+				}
+				else{
+					if(!this.isTourRunning){
+						this.showSpeechBubble = newValue
+					}
+				}
 			}
 		}
 
@@ -196,15 +212,17 @@
 	.agent {
 		-webkit-app-region: drag;
 
-		background-color: transparent;
+		//background-color: green;//transparent;
 		width: 100px;
-		height: 93px;
+		height: 100px;
 		background-size: contain;
 		background-repeat: no-repeat;
 		position: absolute;
 		right: 0px;
 		bottom: 0px;
 	}
+
+
 
 	#agentImage {
 		width: 100px;

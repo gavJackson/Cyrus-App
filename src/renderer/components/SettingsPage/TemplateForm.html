@@ -133,12 +133,10 @@
 					<a class="button" v-if="currentState == 'EDIT'"
 							v-on:click="onDeleteClicked()">{{ deleteButtonLabel }}</a>
 
-					<input type="submit" class="primary button"
-
+					<a class="button primary button"
 
 						   :class="{ 'invalid': isValid }"
-						    v-bind:value="saveButtonLabel"
-							v-on:click="saveForm()" />
+					   		v-on:click="saveForm()">{{ saveButtonLabel }}</a>
 				</div>
 
 			</div>

@@ -9,6 +9,7 @@ const state = {
 const mutations = {
 
 	[focusMutations.APP_FOCUS](state) {
+		//debugger
 		state.appHasFocus = true
 	},
 

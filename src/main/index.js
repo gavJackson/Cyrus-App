@@ -2,9 +2,7 @@
 
 import {app, BrowserWindow, default as electron, globalShortcut} from 'electron'
 import MenuBar from 'menubar'
-// import log from 'electron-log'
 
-// import System from '../renderer/store/modules/Snippets'
 
 
 /**
@@ -69,6 +67,9 @@ function createWindow(app) {
 	mainWindow = new BrowserWindow(data);
 	mainWindow.loadURL(winURL)
 	mainWindow.setResizable(false)
+    mainWindow.setFocusable(true)
+    mainWindow.setFullScreenable(false)
+	mainWindow.setMaximizable(false)
 
 	if (!haveLoadedBounds) {
 		var positioner = new Positioner(mainWindow)
