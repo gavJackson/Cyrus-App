@@ -187,7 +187,8 @@ const mutations = {
 
 
 	[snippetsMutations.LOAD](state) {
-		// /Users/gavinjackson/Library/Application Support/Cyrus-App/UserData/Snippets
+		// MAC: /Users/gavinjackson/Library/Application Support/Cyrus-App/UserData/Snippets
+		// WIN: C:\Users\gavinjackson\AppData\Roaming\CYRUS-App\UserData\Snippets
 		let startingLength = state.data.length
 
 		// TODO reinstate this when finished with working on the Tour

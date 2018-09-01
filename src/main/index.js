@@ -39,7 +39,7 @@ function createWindow(app) {
 		fs.writeFileSync(initPath, JSON.stringify({}));
 
 		// make snippets folder
-		fs.mkdirSync(path.join(dirname, "snippets"))
+		fs.mkdirSync(path.join(dirname, "Snippets"))
 
 	}
 
