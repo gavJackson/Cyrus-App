@@ -43,8 +43,12 @@
 		},
 
 		watch: {
+			currentTab: function(newValue){
+				setTimeout( () => this.setWrapping(), 1)
+			},
+
 			'item.language': function(newValue){
-				this.editor.setOption('wrap', (newValue == 'text' || newValue == 'textWithPlaceholders'))
+				this.setWrapping()
 			},
 
 			'item.snippet': function (newValue) {
@@ -201,6 +205,12 @@
 		},
 
 		methods: {
+			setWrapping: function (){
+				if(this.item){
+					this.editor.setOption('wrap', (this.item.language == 'text' || this.item.language == 'textWithPlaceholders'))
+				}
+			},
+
 			onDeleteClicked: function() {
 				window.clearInterval(this.deleteTimerId)
 

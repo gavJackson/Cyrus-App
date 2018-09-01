@@ -1,10 +1,11 @@
 	<div class="template-form">
-		<form :class="{ 'is-dirty': formIsDirty }">
+		<!--<form :class="{ 'is-dirty': formIsDirty }">-->
 			<input type="text"
 				   class="full-width"
 				   placeholder="Give your snippet a memorable name"
 				   ref="inputName"
 
+				   v-on:keyup.enter="$event.target.nextElementSibling.focus()"
 				   :class="{ 'invalid': invalidFields.indexOf('inputName') != -1 }"
 				   v-model="item.name"/>
 
@@ -146,5 +147,4 @@
 				 v-if="validationMessage && formIsDirty">
 				{{validationMessage}}
 			</div>
-		</form>
 	</div>

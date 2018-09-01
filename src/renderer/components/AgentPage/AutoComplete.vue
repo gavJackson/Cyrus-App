@@ -57,6 +57,7 @@ JavaScript
 		filters: {
 			highlightSearchTerm: function (word, searchTerm) {
 				if(searchTerm != ""){
+					let originalSearchTerm = searchTerm
 					// set up replacement patterns, we use placeholders during
 					// the search to ensure that we dont accidently replace a
 					// replacement giving us malformed HTML
@@ -105,7 +106,7 @@ JavaScript
 
 					// then do a basic check for the search term
 					if(searchTerm != ""){
-						var check = new RegExp(searchTerm, "ig");
+						var check = new RegExp(searchTerm + "|" + originalSearchTerm, "ig");
 						word = word.toString().replace(check, function (matchedText) {
 							return (replacements.TERM_START.placeholder + matchedText + replacements.TERM_END.placeholder);
 						});

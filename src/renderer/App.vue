@@ -235,11 +235,17 @@
 					border: none;
 					padding-left: 5px;
 					margin: 0px;
+					background-color: transparent;
 
 					&:focus {
 						background-color: transparent;
 					}
 				}
+				.new-tag{
+					color: white;
+					background-color: transparent;
+				}
+
 
 				& + label {
 				}

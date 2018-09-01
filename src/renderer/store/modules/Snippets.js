@@ -268,6 +268,7 @@ const actions = {
 
 const getters = {
 	applyFilter: (state) => (searchTerm) => {
+		let originalSearchTerm = searchTerm
 		let startsWithCapticalLetters = /([A-Z]{1,}\s?)/g
 		let colonRegExp = /(\w+:)/g
 		let startOrEndSpacesRegExp = /^(\s+)|(\s+)$/g
@@ -342,7 +343,13 @@ const getters = {
 					(snippet.category || "").toLowerCase().indexOf(searchTerm.toLowerCase()) != -1 ||
 					(snippet.language || "").toLowerCase().indexOf(searchTerm.toLowerCase()) != -1 ||
 					(snippet.tags).indexOf(searchTerm.toLowerCase()) != -1 ||
-					(snippet.description || "").toLowerCase().indexOf(searchTerm.toLowerCase()) != -1
+					(snippet.description || "").toLowerCase().indexOf(searchTerm.toLowerCase()) != -1 ||
+
+					(snippet.name || "").toLowerCase().indexOf(originalSearchTerm.toLowerCase()) > -1 ||
+					(snippet.category || "").toLowerCase().indexOf(originalSearchTerm.toLowerCase()) != -1 ||
+					(snippet.language || "").toLowerCase().indexOf(originalSearchTerm.toLowerCase()) != -1 ||
+					(snippet.tags).indexOf(originalSearchTerm.toLowerCase()) != -1 ||
+					(snippet.description || "").toLowerCase().indexOf(originalSearchTerm.toLowerCase()) != -1
 			});
 		}
 
