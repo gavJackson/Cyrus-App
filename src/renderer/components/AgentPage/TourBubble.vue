@@ -326,9 +326,10 @@
 	}
 
 	label{
-		margin-top: 10px;
-		margin-left: 20px;
+		margin-top: 10px !important;
+		margin-left: 20px !important;
 		display: inline-block;
+		padding-bottom: 50px;
 		/*float: right;*/
 	}
 

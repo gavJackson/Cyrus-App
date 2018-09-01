@@ -48,17 +48,14 @@
 			///////////////////////////////////////////////////////////
 
             onClick(){
-                //debugger
 				window.focus()
 			},
 
 			onFocus() {
-			    //debugger
 				this.$store.commit(focusMutations.APP_FOCUS)
 			},
 
 			onBlur() {
-			    //debugger
 				this.$store.commit(focusMutations.APP_BLUR)
 			},
 		},

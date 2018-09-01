@@ -69,7 +69,6 @@
 	},
 	"dependencies": {
 		"axios": "^0.16.1",
-		"electron-drag": "^1.2.2",
 		"electron-installer-dmg": "^2.0.0",
 		"electron-is": "^3.0.0",
 		"electron-log": "^2.2.17",

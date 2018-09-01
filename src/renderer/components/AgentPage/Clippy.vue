@@ -1,5 +1,5 @@
 <template>
-	<div class="agent" id="agent"
+	<div class="agent"
 
 		 @click="onAgentClick"
 		 @mousedown="onAgentMouseDown"
