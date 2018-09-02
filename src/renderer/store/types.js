@@ -47,12 +47,10 @@ export const searchMutations = {
 }
 
 export const analyticsMutations= {
-	SET_USER_NAME: 'SET_USER_NAME',
 	SET_CLIENT_ID: 'SET_CLIENT_ID',
+	GOOGLE_DOWN: 'GOOGLE_DOWN',
 }
 
 export const analyticsActions = {
 	PAGE_VIEW: 'PAGE_VIEW',
-	GET_FULLNAME: 'GET_FULLNAME',
-	GOOGLE_DOWN: 'GOOGLE_DOWN',
 }
