@@ -79,7 +79,7 @@
 
 <script>
 	import { mapState } from 'vuex'
-	import {tourMutations} from '../../store/types'
+	import { tourMutations, analyticsActions } from '../../store/types'
 	const shell = require('electron').shell;
 
 	export default {
@@ -133,6 +133,9 @@
 
 				shell.openExternal(url)
 
+				this.$store.dispatch(analyticsActions.PAGE_VIEW, ['/tour/video', 'Tour video link clicked'])
+
+
 			},
 
 			onTourClose(){
@@ -146,6 +149,8 @@
 					if(this.message.nextStep){
 						this.message.nextStep.call(this)
 					}
+
+					this.$store.dispatch(analyticsActions.PAGE_VIEW, ['/tour/step' + this.messageIndex, 'Tour step ' + this.messageIndex])
 
 					setTimeout( () => {
 						if(this.isTourRunning){

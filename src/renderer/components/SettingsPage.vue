@@ -29,7 +29,7 @@
 <script>
 	import TourBubble from './AgentPage/TourBubble'
 	import { mapState } from 'vuex'
-	import { tourMutations } from '../store/types'
+	import { tourMutations, analyticsActions } from '../store/types'
 
 	export default {
 		name: "SettingsPage",
@@ -73,6 +73,9 @@
 			routeTo (pRouteTo){
 				if (this.breadcrumbList[pRouteTo].link){
 					this.$router.push(this.breadcrumbList[pRouteTo].link)
+
+					this.$store.dispatch(analyticsActions.PAGE_VIEW, [this.breadcrumbList[pRouteTo].link, this.breadcrumbList[pRouteTo].name])
+
 				}
 			},
 

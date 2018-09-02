@@ -8,6 +8,7 @@
 </template>
 
 <script>
+	import { analyticsActions } from './../store/types'
 
 	import Clippy from './AgentPage/Clippy'
 	// import SpeechBubble from './AgentPage/SpeechBubble'
@@ -19,9 +20,9 @@
 			// 'speechBubble': SpeechBubble,
 		},
 
-		// created(){
-		// 	debugger
-		// }
+		created(){
+			this.$store.dispatch(analyticsActions.PAGE_VIEW, ['/agentPage', 'Agent Page'])
+		}
 
 
 	}

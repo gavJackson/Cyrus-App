@@ -45,3 +45,14 @@ export const tourMutations = {
 export const searchMutations = {
 	SET_SEARCH_TERM: 'SET_SEARCH_TERM'
 }
+
+export const analyticsMutations= {
+	SET_USER_NAME: 'SET_USER_NAME',
+	SET_CLIENT_ID: 'SET_CLIENT_ID',
+}
+
+export const analyticsActions = {
+	PAGE_VIEW: 'PAGE_VIEW',
+	GET_FULLNAME: 'GET_FULLNAME',
+	GOOGLE_DOWN: 'GOOGLE_DOWN',
+}

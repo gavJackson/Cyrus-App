@@ -6,7 +6,7 @@
 </template>
 
 <script>
-	import {focusMutations, snippetsMutations} from './store/types'
+	import {focusMutations, snippetsMutations, analyticsActions} from './store/types'
 	import is from 'electron-is'
 
 	export default {
@@ -30,6 +30,10 @@
 
 			// this.isWindows = is.windows()
 			this.isMac = is.macOS()
+
+			this.$store.dispatch(analyticsActions.PAGE_VIEW, ['/created', 'App created'])
+
+
 		},
 
 		destroyed: function () {
