@@ -1,6 +1,6 @@
 {
 	"name": "CYRUS-App",
-	"version": "0.1.25",
+	"version": "0.1.28",
 	"homepage": "http://www.digital-mojo.com/cyrus",
 	"bugs": {
 		"url": "https://github.com/gavJackson/CYRUS-App/issues",
@@ -17,8 +17,7 @@
 	"scripts": {
 		"inc": "npm --no-git-tag-version version patch",
 		"build": "npm run inc & node .electron-vue/build.js && electron-builder",
-		"build:win": "npm run inc & node .electron-vue/build.js && electron-builder -w",
-		"build:all": "npm run inc & node .electron-vue/build.js && electron-builder & node .electron-vue/build.js && electron-builder -w",
+		"build:win": "node .electron-vue/build.js && electron-builder -w",
 		"build:dir": "node .electron-vue/build.js && electron-builder --dir",
 		"build:clean": "cross-env BUILD_TARGET=clean node .electron-vue/build.js",
 		"build:web": "cross-env BUILD_TARGET=web node .electron-vue/build.js",
