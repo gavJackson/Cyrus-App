@@ -28,6 +28,7 @@
 				deleteButtonLabel: "Delete",
 				editor: null,
 				tagAddKeys: [13,188,9],	//ENTER, COMMA, TAB
+				isEditorFullScreen: false,
 
 				item: {
 					id: null,
@@ -89,6 +90,10 @@
 				else if(newValue <= 5 && newValue >= 1 ){
 					this.deleteButtonLabel = `Are you sure? ${newValue}`
 				}
+			},
+
+			isEditorFullScreen: function(newValue){
+				// debugger
 			}
 		},
 
@@ -160,6 +165,23 @@
 				return this.$store.state.Tour.isTourRunning
 			},
 
+			editorDimensions(){
+
+				let dimensions = {
+					width: 373,
+					height: 100,
+				}
+
+				if(this.isEditorFullScreen){
+					dimensions.width = 368
+					dimensions.height = 240
+				}
+
+				return dimensions
+
+
+			}
+
 		},
 
 		// loads an item to be edited
@@ -209,6 +231,10 @@
 				if(this.item){
 					this.editor.setOption('wrap', (this.item.language == 'text' || this.item.language == 'textWithPlaceholders'))
 				}
+			},
+
+			onFullScreenClicked: function() {
+				this.isEditorFullScreen = !this.isEditorFullScreen
 			},
 
 			onDeleteClicked: function() {

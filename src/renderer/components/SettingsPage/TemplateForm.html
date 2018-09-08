@@ -1,4 +1,8 @@
-	<div class="template-form">
+	<div class="template-form"
+
+		 :class="{ 'is-editor-fullscreen': isEditorFullScreen }">
+
+		<div class="form">
 		<!--<form :class="{ 'is-dirty': formIsDirty }">-->
 			<input type="text"
 				   class="full-width"
@@ -42,8 +46,10 @@
 				</div>
 
 			</div>
+		</div>
 
 			<div class="snippet-container">
+
 				<div class="lang-container"
 
 					 v-if="currentTab == 'SNIPPET'">
@@ -57,10 +63,21 @@
 
 				<ul class="tabs">
 					<li>
+						<a @click="onFullScreenClicked">
+							<span class="fa"
+
+								  :class="{  'fa-expand': !isEditorFullScreen,
+								   			 'fa-minus': isEditorFullScreen }"></span>
+						</a>
+					</li>
+					<li>
 						<a class="button in-active"
 
 								@click="setCurrentTab('SNIPPET')"
-								:class="{ 'selected': currentTab == 'SNIPPET' }">Snippet</a>
+								:class="{ 'selected': currentTab == 'SNIPPET' }">
+							Snippet
+
+						</a>
 					</li>
 
 					<li v-if="currentItemHasPlaceholders">
@@ -76,9 +93,11 @@
 							<span class="fa fa-info"></span>
 						</a>)
 					</li>
+
 				</ul>
 
 				<div class="tab-pane">
+
 					<div class="snippet"
 
 						 :class="{ 'invalid': invalidFields.indexOf('inputSnippet') != -1 }"
@@ -90,11 +109,12 @@
 								v-bind:lang="item.language"
 								theme="monokai"
 								wrap="true"
-								width="373"
-								height="110"></editor>
+
+								v-bind:width="editorDimensions.width"
+								v-bind:height="editorDimensions.height"></editor>
 
 						<div class="note body-font">
-							Wrap a word with <span style="color: yellow"><code>%</code></span> to turn it into a <span style="color: yellow">placeholder</span>, e.g. <span style="color: yellow"><code>%SAMPLE%</code></span>
+							{{ editorDimensions.width }} {{editorDimensions.height }}Wrap a word with <span style="color: yellow"><code>%</code></span> to turn it into a <span style="color: yellow">placeholder</span>, e.g. <span style="color: yellow"><code>%SAMPLE%</code></span>
 						</div>
 					</div>
 

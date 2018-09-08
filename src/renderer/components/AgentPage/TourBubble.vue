@@ -60,7 +60,7 @@
 			
 			///////////////////////////////////////////////////////////////// -->
 
-			<div class="dismiss-container tour">
+			<div class="dismiss-container tour" v-if="!isLastMessage">
 				<input type="checkbox" id="checkDismissTour" v-model="haveCheckedDismissEntireTour" />
 				<label for="checkDismissTour">
 					Dismiss tour, I already know how to search for and create snippets and placeholders.
@@ -100,6 +100,9 @@
 			messageIndex: state => state.Tour.messageIndex,
 			message: state => {
 				return state.Tour.messages[state.Tour.messageIndex]
+			},
+			isLastMessage: state => {
+				return state.Tour.messageIndex == state.Tour.messages.length - 1
 			},
 			nextStepButtonLabel: state => {
 				if(state.Tour.messageIndex == state.Tour.messages.length - 1)
@@ -309,6 +312,10 @@
 		border-radius: 10px;
 		position: relative;
 		margin-bottom: 10px;
+
+		label{
+			padding-bottom: 0px;
+		}
 	}
 
 	.dismiss-container{

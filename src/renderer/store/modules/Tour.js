@@ -168,7 +168,7 @@ const state = {
 		},
 		{
 			text: `This is our example spam email snippet.`,
-			height: '80',
+			height: '100',
 			arrowX: '150',
 			buttonLabel: 'Tell me more...',
 			delay: 0,

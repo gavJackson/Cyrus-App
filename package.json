@@ -1,6 +1,10 @@
 {
-	"name": "CYRUS-App",
-	"version": "0.1.28",
+	"name": "CYRUS",
+	"version": "0.1.33",
+	"author": "Gavin Jackson <gav_jackson@yahoo.com>",
+	"description": "CYRUS is a Windows and OSX desktop app built using Electron and VueJS.  CYRUS is a productivity tool and provides quick and easy access to snippets and templates which you can paste into any application.  CYRUS can be controlled entirely by keyboard and can be used to provide you with easy access to simple snippets or for more complex templates with placeholder replacements. All of this ends up in your clip board, ready to paste into any application.",
+	"license": "GPL-3.0-or-later",
+	"main": "./dist/electron/main.js",
 	"homepage": "http://www.digital-mojo.com/cyrus",
 	"bugs": {
 		"url": "https://github.com/gavJackson/CYRUS-App/issues",
@@ -10,10 +14,6 @@
 		"type": "git",
 		"url": "https://github.com/gavJackson/CYRUS-App.git"
 	},
-	"author": "Gavin Jackson <gav_jackson@yahoo.com>",
-	"description": "CYRUS is a Windows and OSX desktop app built using Electron and VueJS.  CYRUS is a productivity tool and provides quick and easy access to snippets and templates which you can paste into any application.  CYRUS can be controlled entirely by keyboard and can be used to provide you with easy access to simple snippets or for more complex templates with placeholder replacements. All of this ends up in your clip board, ready to paste into any application.",
-	"license": "GPL-3.0-or-later",
-	"main": "./dist/electron/main.js",
 	"scripts": {
 		"inc": "npm --no-git-tag-version version patch",
 		"build": "npm run inc & node .electron-vue/build.js && electron-builder",
@@ -33,8 +33,8 @@
 		"postinstall": "npm run lint:fix"
 	},
 	"build": {
-		"productName": "CYRUS-App",
-		"appId": "org.simulatedgreg.electron-vue",
+		"productName": "CYRUS",
+		"appId": "com.digital-mojo.cyrus-app",
 		"directories": {
 			"output": "build"
 		},
