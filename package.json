@@ -1,6 +1,6 @@
 {
 	"name": "CYRUS",
-	"version": "0.1.33",
+	"version": "0.1.35",
 	"author": "Gavin Jackson <gav_jackson@yahoo.com>",
 	"description": "CYRUS is a Windows and OSX desktop app built using Electron and VueJS.  CYRUS is a productivity tool and provides quick and easy access to snippets and templates which you can paste into any application.  CYRUS can be controlled entirely by keyboard and can be used to provide you with easy access to simple snippets or for more complex templates with placeholder replacements. All of this ends up in your clip board, ready to paste into any application.",
 	"license": "GPL-3.0-or-later",
@@ -75,6 +75,7 @@
 		"electron-packager": "^12.1.1",
 		"electron-positioner": "^3.0.1",
 		"menubar": "^5.2.3",
+		"simple-crypto-js": "^2.0.2",
 		"underscore": "^1.9.1",
 		"vue": "^2.3.3",
 		"vue-electron": "^1.0.6",

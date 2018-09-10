@@ -8,6 +8,7 @@ export const snippetsMutations  = {
 	SAVE_ITEM: 'SAVE_ITEM',
 	DELETE_ITEM: 'DELETE_ITEM',
 	ADD_EXAMPLES_FOR_TOUR: 'ADD_EXAMPLES_FOR_TOUR',
+	TOGGLE_ENCRYPTION: 'TOGGLE_ENCRYPTION',
 }
 
 export const systemMutations  = {

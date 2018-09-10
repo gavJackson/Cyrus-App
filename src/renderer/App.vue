@@ -242,7 +242,7 @@
 					background-color: transparent;
 
 					&:focus {
-						background-color: transparent;
+						background-color: transparent !important;
 					}
 				}
 				.new-tag{

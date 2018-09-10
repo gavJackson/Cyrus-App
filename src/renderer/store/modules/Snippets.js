@@ -3,8 +3,7 @@ import path from 'path'
 import fs from 'fs'
 import { snippetsMutations, categories, tourMutations } from '../types'
 import _ from 'underscore'
-
-
+import SimpleCrypto from "simple-crypto-js"
 import log from 'electron-log'
 
 // Renderer process has to get `app` module via `remote`, whereas the main process can get it directly
@@ -15,13 +14,36 @@ const paths = {
 	DATA_FILE: "My snippets.json"
 }
 
+const encryptionKey = "CYRUS-ROOLLZ-OK"
+let simpleCrypto = new SimpleCrypto(encryptionKey)
 
+///////////////////////////////////////////////////////////
+//
+// help functions
+//
+///////////////////////////////////////////////////////////
+
+function saveDataFile(data, isEncrypted=true){
+    let dataToSave = data.filter( (item) => item.category != categories.CLIPPY)
+    if(isEncrypted){
+        dataToSave = simpleCrypto.encrypt(dataToSave)
+    }
+    dataToSave = JSON.stringify(dataToSave, null, '\t')
+    fs.writeFileSync(path.join(userDataPath, paths.SNIPPETS, paths.DATA_FILE), dataToSave)
+}
 
 function parseDataFile(filePath, defaults) {
 	// We'll try/catch it in case the file doesn't exist yet, which will be the case on the first application run.
 	// `fs.readFileSync` will return a JSON string which we then parse into a Javascript object
 	try {
-		let data = JSON.parse(fs.readFileSync(filePath));
+		// debugger
+		let data = fs.readFileSync(filePath)
+		data = JSON.parse(data)
+		if(_.isString(data)){	// only attempt to decrypt non-objects, ie strings
+			// if(isEncrypted) {
+				data = simpleCrypto.decrypt(data, true)
+			// }
+		}
 
 		// TODO validate each item making sure it has all the known properties
 		let requiredProperties = ['name','category','language','tags','snippet'] //'description',
@@ -168,7 +190,8 @@ const state = {
 			}
 		},
 
-	]
+	],
+    encrypt: true
 
 }
 
@@ -187,12 +210,12 @@ const mutations = {
 
 
 	[snippetsMutations.LOAD](state) {
-		// MAC: /Users/gavinjackson/Library/Application Support/Cyrus-App/UserData/Snippets
-		// WIN: C:\Users\gavinjackson\AppData\Roaming\CYRUS-App\UserData\Snippets
+		// MAC: /Users/GJackson/Library/Application Support/CYRUS/UserData/Snippets
+		// WIN: C:\Users\gavinjackson\AppData\Roaming\CYRUS\UserData\Snippets
 		let startingLength = state.data.length
 
 		// TODO reinstate this when finished with working on the Tour
-		/*
+
 		let files =  fs.readdirSync(path.join(userDataPath, paths.SNIPPETS))
 		files = files.filter( (item) => item.indexOf('.json') != -1)
 
@@ -202,7 +225,6 @@ const mutations = {
 
 			state.data = state.data.concat(parseDataFile(filePath, []))
 		}
-		*/
 
 		state.hasUserGeneratedSnippets = startingLength != state.data.length
 
@@ -212,9 +234,6 @@ const mutations = {
 			state.hasAddedExamples = true
 
 			this.commit(tourMutations.START, null, { root: true })
-
-			// this messes the tour up from within settings mode
-			// setTimeout( () => this.commit(tourMutations.START, null, { root: true }), 2500)
 		}
 
 		// strip out any duplicates that might have snuck in (based on snippet names only)
@@ -244,9 +263,8 @@ const mutations = {
 			})
 		}
 
-		// now save the effected json file (ie based on the category)
-		let dataToSave = state.data.filter( (item) => item.category != categories.CLIPPY)
-		fs.writeFileSync(path.join(userDataPath, paths.SNIPPETS, paths.DATA_FILE), JSON.stringify(dataToSave, null, '\t'))
+        // now save the effected json file (ie based on the category)
+        saveDataFile(state.data, state.encrypt)
 	},
 
 
@@ -255,11 +273,17 @@ const mutations = {
 		state.data = state.data.filter( (item) => item.id != editedItem.id)
 
 		// now save the effected json file (ie based on the category)
-		let dataToSave = state.data.filter( (item) => item.category != categories.CLIPPY)
-		fs.writeFileSync(path.join(userDataPath, paths.SNIPPETS, paths.DATA_FILE), JSON.stringify(dataToSave, null, '\t'))
+		saveDataFile(state.data, state.encrypt)
 	},
 
+	[snippetsMutations.TOGGLE_ENCRYPTION](state, newValue) {
+		if(state.encrypt !== newValue){
+            state.encrypt = newValue
 
+            // now just save the data file to reflect the new setting
+            saveDataFile(state.data, state.encrypt)
+		}
+    },
 }
 
 const actions = {

@@ -64,7 +64,7 @@
 
 					this.$store.commit(tourMutations.JUMP_TO_SETTINGS_BIT)
 				}
-			}, 2500)
+			}, 100)
 		},
 
 		watch: { '$route'() { this.updateList() } },

@@ -23,7 +23,7 @@ const state = {
 		Pikachu: "static/images/agents/Pikachu/Pikachu.gif",
 	},
 
-	launchCyrusAtStartup: false
+	launchCyrusAtStartup: false,
 }
 
 const mutations = {

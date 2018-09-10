@@ -43,6 +43,14 @@
 				<!--<input type="checkbox" disabled />-->
 			</div>
 
+			<div class="field-container contains-checkbox">
+				<label>
+					Encrypt snippets
+				</label>
+
+				<input type="checkbox" checked disabled />
+			</div>
+
 
 			<!-- /////////////////////////////////////////////////////////////////
 
