@@ -55,3 +55,7 @@ export const analyticsMutations= {
 export const analyticsActions = {
 	PAGE_VIEW: 'PAGE_VIEW',
 }
+
+export const importExportActions = {
+	GENERATE_TEMPLATE: 'GENERATE_TEMPLATE',
+}
