@@ -1,6 +1,6 @@
 'use strict'
 
-import {app, BrowserWindow, default as electron, globalShortcut} from 'electron'
+import {app, BrowserWindow, default as electron, globalShortcut, Menu} from 'electron'
 import MenuBar from 'menubar'
 
 
@@ -117,7 +117,6 @@ if(MENU_MODE == false){
 		createWindow(app)
 
 		registerShortCutsKeys()
-
 	})
 
 	app.on('window-all-closed', () => {
