@@ -97,7 +97,7 @@ const state = {
 			"language": "text",
 			"description": "",
 			"tags": ["personal", "address"],
-			"snippet": "<ENTER_HERE>"
+			"snippet": "<ENTER_HERE>\n<ENTER_HERE>\n<ENTER_HERE>\n<ENTER_HERE>\n<ENTER_HERE>"
 		},
 		{
 			"name": "My work address",
@@ -105,7 +105,7 @@ const state = {
 			"language": "text",
 			"description": "",
 			"tags": ["work", "address"],
-			"snippet": "<ENTER_HERE>"
+			"snippet": "<ENTER_HERE>\n<ENTER_HERE>\n<ENTER_HERE>\n<ENTER_HERE>\n<ENTER_HERE>"
 		},
 		// {
 		// 	"name": "Stop sending me spam email template",
@@ -155,7 +155,10 @@ const actions = {
 		csv
 			.writeToPath(importSnippetsFilePath,
 				flattenForCSV(state.importTemplate),
-				{headers: true}
+				{
+					headers: true,
+					includeEndRowDelimiter: true
+				}
 			).on("finish", function(){
 				const dialogOptions = {type: 'info', buttons: ['Open now', 'Cancel'], message: 'CSV Template has been generated and added to your desktop.  Feel free to add more snippets (rows) or just fill in our suggestions.\n\nOnce you have filled in the template, you can import it back into CYRUS.'}
 				dialog.showMessageBox(dialogOptions, i => {
