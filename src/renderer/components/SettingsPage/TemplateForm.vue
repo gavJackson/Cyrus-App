@@ -149,16 +149,7 @@
 			},
 
 			languages() {
-				return [
-					{id: "text", label: "Plain text"},
-					// {id: "textWithPlaceholders", label: "Plain text (with placeholders)"},
-					// {id: "c#", label: "C#"},
-					{id: "css", label: "CSS"},
-					{id: "html", label: "HTML"},
-					{id: "javascript", label: "JavaScript"},
-					{id: "javascript", label: "JSON"},
-					{id: "xml", label: "XML"},
-				]
+				return this.$store.state.Snippets.languages
 			},
 
 			isTourRunning() {

@@ -60,6 +60,7 @@ function parseDataFile(filePath, defaults) {
 	} catch (error) {
 		// TODO read from global settings file on whether to report errors in the UI
 		log.error(error.toString())
+		// debugger
 
 		// if there was some kind of error, return the passed in defaults instead.
 		return defaults;
@@ -191,7 +192,18 @@ const state = {
 		},
 
 	],
-    encrypt: true
+    encrypt: false,
+
+	languages: [
+		{id: "text", label: "Plain text"},
+		// {id: "textWithPlaceholders", label: "Plain text (with placeholders)"},
+		// {id: "c#", label: "C#"},
+		{id: "css", label: "CSS"},
+		{id: "html", label: "HTML"},
+		{id: "javascript", label: "JavaScript"},
+		{id: "javascript", label: "JSON"},
+		{id: "xml", label: "XML"},
+	]
 
 }
 
@@ -228,6 +240,7 @@ const mutations = {
 
 		state.hasUserGeneratedSnippets = startingLength != state.data.length
 
+		debugger
 		// if there are no user generated snippets, add the sample ones to get us started
 		if(!state.hasUserGeneratedSnippets){
 			state.data = state.data.concat(state.examples)
@@ -249,7 +262,8 @@ const mutations = {
 	[snippetsMutations.SAVE_ITEM](state, editedItem) {
 		// For ADD: insert item into array
 		if(editedItem.id == null){
-			editedItem.id = state.data.length
+			// adds the `id` property to the start, makes for easier to read JSON
+			editedItem = {id: state.data.length, ...editedItem}
 			state.data.push(editedItem)
 		}
 		// For EDIT: update the internal JS array

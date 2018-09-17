@@ -1,10 +1,11 @@
-import {categories, importExportActions} from '../types'
+import {categories, importExportActions, snippetsMutations, tourMutations} from '../types'
 import csv from 'fast-csv'
 import electron from 'electron'
 import path from 'path'
 import fs from 'fs'
 const shell = require('electron').shell;
 const {dialog } = require('electron').remote
+import _ from 'underscore'
 
 ///////////////////////////////////////////////////////////
 //
@@ -29,6 +30,7 @@ function flattenForCSV(input){
 			description: item.description,
 			tags: item.tags.join(","),
 			snippet: item.snippet,
+			variables: ""
 		}
 
 		if(item.variables){
@@ -39,13 +41,13 @@ function flattenForCSV(input){
 		output.push(data)
 	} )
 
-	if(hasVariables){
-		output.forEach( (item, index) => {
-			if(!item.variables){
-				item.variables = ""
-			}
-		})
-	}
+	// if(hasVariables){
+	// 	output.forEach( (item, index) => {
+	// 		if(!item.variables){
+	// 			item.variables = ""
+	// 		}
+	// 	})
+	// }
 
 	return output
 }
@@ -107,31 +109,31 @@ const state = {
 			"tags": ["work", "address"],
 			"snippet": "<ENTER_HERE>\n<ENTER_HERE>\n<ENTER_HERE>\n<ENTER_HERE>\n<ENTER_HERE>"
 		},
-		// {
-		// 	"name": "Stop sending me spam email template",
-		// 	"category": categories.USER_GENERATED,
-		// 	"language": "text",
-		// 	"description": "",
-		// 	"tags": ["email"],
-		// 	"snippet": "%RECIPIENT%\n\nPlease take me off your email list.  %REASON%.\n\n%SIGN_OFF%\n\n<YOUR_NAME>",
-		// 	"variables": {
-		// 		"RECIPIENT": [
-		// 			"Dear Sir/Madam",
-		// 			"To Whom it may concern",
-		// 			"To unwelcome marketer"
-		// 		],
-		// 		"REASON": [
-		// 			"I do not remember signing up",
-		// 			"You are sending me too many emails",
-		// 			"I am no longer interested in your product"
-		// 		],
-		// 		"SIGN_OFF": [
-		// 			"Your sincerely",
-		// 			"Regards",
-		// 			"Faithfully"
-		// 		]
-		// 	}
-		// },
+		{
+			"name": "Stop sending me spam email template",
+			"category": categories.USER_GENERATED,
+			"language": "text",
+			"description": "",
+			"tags": ["email"],
+			"snippet": "%RECIPIENT%\n\nPlease take me off your email list.  %REASON%.\n\n%SIGN_OFF%\n\n<YOUR_NAME>",
+			"variables": {
+				"RECIPIENT": [
+					"Dear Sir/Madam",
+					"To Whom it may concern",
+					"To unwelcome marketer"
+				],
+				"REASON": [
+					"I do not remember signing up",
+					"You are sending me too many emails",
+					"I am no longer interested in your product"
+				],
+				"SIGN_OFF": [
+					"Your sincerely",
+					"Regards",
+					"Faithfully"
+				]
+			}
+		},
 	]
 }
 
@@ -173,7 +175,7 @@ const actions = {
 	},
 
 
-	[importExportActions.IMPORT_CSV] ({ commit, state }) {
+	[importExportActions.IMPORT_CSV] ({ commit, state, rootState }) {
 		const dialogOptions = {
 			title: 'Import snippets CSV ',
 			defaultPath: desktopPath,
@@ -184,10 +186,77 @@ const actions = {
 			}],
 		}
 
+		let languages = _.pluck(rootState.Snippets.languages, 'id')
+
+		var self = this
 		dialog.showOpenDialog(dialogOptions, files => {
 			if(files !== undefined){
-				// debugger
-				// TODO read the CSVs and process them (with a nice UI)
+				// only process the first file as not allowing multiple import
+				// let csvFile = files[0]
+				var stream = fs.createReadStream(files[0]);
+				var importedSnippets = []
+				let expectedHeaders = ["name", "language", "description", "tags", "snippet", "variables"]
+				let requiredHeaders = ["name", "snippet"]
+
+				csv
+					.fromStream(stream, {headers : expectedHeaders})
+					.validate(function(data){
+						let isValid = true
+						let header
+						// make sure the required headers have values (and that they are not the same words as the
+						// headers (ie the header row)
+						for(let i in requiredHeaders){
+							header = requiredHeaders[i]
+
+							if(data[header] == "" || data[header] == header){
+								isValid = false
+								break
+							}
+
+						}
+
+						// make sure language is one of the proper ones, if not default it to `text`
+						if(isValid && languages.indexOf(data.language) == -1){
+							debugger
+							data.language = 'text'
+						}
+
+
+
+						return isValid
+
+					})
+					.on("data-invalid", function(data){
+						//do something with invalid row
+						debugger
+					})
+					.on("data", function(data){
+						let includeSnippet = true
+						if(data.variables != ""){
+							try {
+								data.variables = JSON.parse(data.variables)
+							}
+							catch(err){
+								debugger
+								includeSnippet = false
+							}
+						}
+
+
+						data.category = categories.IMPORTED
+						data.tags = data.tags.split(",")
+
+						if(includeSnippet){
+							importedSnippets.push(data)
+						}
+
+					})
+					.on("end", function(){
+						for(let index in importedSnippets){
+							let snippet = importedSnippets[index]
+							self.commit(snippetsMutations.SAVE_ITEM, snippet, { root: true })
+						}
+					});
 			}
 		})
 
