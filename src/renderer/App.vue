@@ -215,7 +215,7 @@
 				background: @outlineColor;
 			}
 			::-webkit-scrollbar-thumb:window-inactive {
-				background: grey;
+				background: fade(@outlineColor, 60%);
 			}
 
 			///////////////////////////////

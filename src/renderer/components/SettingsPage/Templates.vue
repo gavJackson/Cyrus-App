@@ -173,9 +173,10 @@
 	.tags-container{
 		position: sticky;
 		top: 0px;
+		padding-top: 5px;
 		z-index: 1;
 		background-color: #292929;
-		max-height: 50px;
+		max-height: 55px;
 		overflow-x: auto;
 		overflow-y: fragments;
 		overflow: auto;

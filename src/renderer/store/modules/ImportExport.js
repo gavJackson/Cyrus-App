@@ -6,6 +6,7 @@ import fs from 'fs'
 const shell = require('electron').shell;
 const {dialog } = require('electron').remote
 import _ from 'underscore'
+import log from 'electron-log'
 
 ///////////////////////////////////////////////////////////
 //
@@ -162,7 +163,7 @@ const actions = {
 					includeEndRowDelimiter: true
 				}
 			).on("finish", function(){
-				const dialogOptions = {type: 'info', buttons: ['Open now', 'Cancel'], message: 'CSV Template has been generated and added to your desktop.  Feel free to add more snippets (rows) or just fill in our suggestions.\n\nOnce you have filled in the template, you can import it back into CYRUS.'}
+				const dialogOptions = {type: 'info', buttons: ['Open now', 'Cancel'], message: 'A CSV Template has been generated and added to your desktop.  Feel free to add more snippets (rows) or just fill in our suggestions.\n\nOnce you have filled in the template, you can import it (Step 2) back into CYRUS.'}
 				dialog.showMessageBox(dialogOptions, i => {
 					if(i == 0){	// ok button
 						shell.openItem(importSnippetsFilePath)
@@ -217,18 +218,17 @@ const actions = {
 
 						// make sure language is one of the proper ones, if not default it to `text`
 						if(isValid && languages.indexOf(data.language) == -1){
-							debugger
+							log.info(`importExport.INVALID_LANGUAGE: Incoming row has unrecognised language "${data.language}", defaulting to 'text'. Original data: "${JSON.stringify(data)}"`)
+
 							data.language = 'text'
 						}
-
-
 
 						return isValid
 
 					})
 					.on("data-invalid", function(data){
 						//do something with invalid row
-						debugger
+						log.error(`importExport.IMPORT_INVALID_ROW: Did not import invalid row: "${JSON.stringify(data)}"`)
 					})
 					.on("data", function(data){
 						let includeSnippet = true
@@ -237,7 +237,8 @@ const actions = {
 								data.variables = JSON.parse(data.variables)
 							}
 							catch(err){
-								debugger
+								log.error(`importExport.IMPORT_VARIABLES_PARSE_ERROR: Error parsing "${data.variables}": ${err.toString()}`)
+
 								includeSnippet = false
 							}
 						}
@@ -255,6 +256,9 @@ const actions = {
 						for(let index in importedSnippets){
 							let snippet = importedSnippets[index]
 							self.commit(snippetsMutations.SAVE_ITEM, snippet, { root: true })
+
+							window.location.hash = `/settings/menu/${importedSnippets.length} snippets imported`
+
 						}
 					});
 			}

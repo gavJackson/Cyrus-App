@@ -199,29 +199,20 @@ const state = {
 			}
 		},
 		{
-			text: `This is <strong>Settings mode</strong>.  From here you can add and edit your snippets as well as import and export options which allows you to share snippets.<br /><br />Lets <strong>Create a new snippet</strong>, I reckon a good one to start with would be your email address, perhaps call it <strong> My email address</strong>.`,
-			height: '230',
+			text: `This is <strong>Settings mode</strong>, where you can manage your snippets. Lets <strong>Import snippets</strong> to get you started.`,
+			height: '120',
 			arrowX: '200',	// pointing at create new template
-			delay: 1000,
-			nextStep: () => {
-				window.location.hash = '/settings/create'
-			}
-		},
-		{
-			text: `So this is the New Snippet form. Use this to enter your own snippets and I'll make sure they are always readily accessible allowing you to work smarter.`,
-			height: '130',
-			arrowX: '200',	// pointing in the middle
 			delay: 0,
 			nextStep: () => {
-
+				window.location.hash = '/settings/import'
 			}
 		},
 		{
-			text: `This is <strong>the end of the tour</strong>, I'll leave you on the Create new snippet form to crack on and add a few snippets, useful ones that could help you get started are: <ul><li>My email address</li><li>My home address</li><li>My mobile number</li></ul>I hope this tour has been helpful, you can restart it if you want to go through again.<br /><br />Happy snipping!<br /><br /><strong style="font-size: 30px">CYRUS</strong><br /><br />`,
-			height: '400',
+			text: `This is <strong>the end of the tour</strong>, I'll leave you on Import snippets to crack on and add a few snippets (click the <strong>download button</strong>). I hope this tour has been helpful and remember you can restart the tour it if you want to go through again.`,
+			height: '170',
 			arrowX: '-200',	// hiding
 			delay: 0,
-			buttonLabel: 'Close tour and enter my own snippet',
+			buttonLabel: 'Close tour',
 			nextStep: () => {
 
 			}

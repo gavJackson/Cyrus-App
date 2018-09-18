@@ -45,7 +45,7 @@ function parseDataFile(filePath, defaults) {
 			// }
 		}
 
-		// TODO validate each item making sure it has all the known properties
+		// validate each item making sure it has all the known properties
 		let requiredProperties = ['name','category','language','tags','snippet'] //'description',
 
 		data.forEach(item => {
@@ -226,8 +226,9 @@ const mutations = {
 		// WIN: C:\Users\gavinjackson\AppData\Roaming\CYRUS\UserData\Snippets
 		let startingLength = state.data.length
 
-		// TODO reinstate this when finished with working on the Tour
-
+		// ------ useful for tour debugging --------
+		// ------ reinstate this when finished with working on the Tour
+		//
 		let files =  fs.readdirSync(path.join(userDataPath, paths.SNIPPETS))
 		files = files.filter( (item) => item.indexOf('.json') != -1)
 
@@ -237,10 +238,11 @@ const mutations = {
 
 			state.data = state.data.concat(parseDataFile(filePath, []))
 		}
+		// ------ useful for tour debugging --------
 
 		state.hasUserGeneratedSnippets = startingLength != state.data.length
 
-		debugger
+		// debugger
 		// if there are no user generated snippets, add the sample ones to get us started
 		if(!state.hasUserGeneratedSnippets){
 			state.data = state.data.concat(state.examples)

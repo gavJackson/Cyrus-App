@@ -1,80 +1,85 @@
 <template>
-	<div class="thought-container animated fadeIn faster"
-		 v-bind:class="{ 'in-settings': isSettingsMode }"
-			 v-bind:style="{ 'height': message.height + 'px',
-							 '--arrow-position-x-var': (message.arrowX) + 'px',
-							 '--arrow-position-y-var': (270 - message.height) + 'px',
-							 '--arrow-position-settings-y-var': (360 - message.height) + 'px'}"
-			 v-if="message">
+	<div class="tour-bubble">
+		<div class="fade-out"></div>
 
-		<div class="bottom-gradient"></div>
+		<div class="thought-container animated fadeIn faster"
+			 v-bind:class="{ 'in-settings': isSettingsMode }"
+				 v-bind:style="{ 'height': message.height + 'px',
+								 '--arrow-position-x-var': (message.arrowX) + 'px',
+								 '--arrow-position-y-var': (270 - message.height) + 'px',
+								 '--arrow-position-settings-y-var': (360 - message.height) + 'px'}"
+				 v-if="message">
 
-		<div class="thought-dialog">
-			
-			<!-- /////////////////////////////////////////////////////////////////
-			
-			video nag
-			
-			///////////////////////////////////////////////////////////////// -->
-			
-			<div class="video-nag" v-if="!haveClickedOnVideoLink && !isSettingsMode && messageIsTallEnough">
-				<span v-if="!showNagDismiss">
-					Before you get started, please watch this
-				</span>
+			<div class="bottom-gradient"></div>
 
-				<span v-else>
-					Please watch this
-				</span>
+			<div class="thought-dialog">
 
-				<a @click="openLink('https://youtu.be/e_Iuim_uIxQ', $event)" target="_blank">2 minute video on YouTube</a> showing what I can do, it will really help make the rest of the tour make sense.
-				<div v-if="showNagDismiss">
-					<br />
-					<input type="checkbox" id="checkDismiss" v-model="haveCheckedDismiss" />
-					<label for="checkDismiss">
-						I don't need to see a video, I already know what to do.
+				<!-- /////////////////////////////////////////////////////////////////
+
+				video nag
+
+				///////////////////////////////////////////////////////////////// -->
+
+				<div class="video-nag" v-if="!haveClickedOnVideoLink && !isSettingsMode && messageIsTallEnough">
+					<span v-if="!showNagDismiss">
+						Before you get started, please watch this
+					</span>
+
+					<span v-else>
+						Please watch this
+					</span>
+
+					<a @click="openLink('https://youtu.be/e_Iuim_uIxQ', $event)" target="_blank">2 minute video on YouTube</a> showing what I can do, it will really help make the rest of the tour make sense.
+					<div v-if="showNagDismiss">
+						<br />
+						<input type="checkbox" id="checkDismiss" v-model="haveCheckedDismiss" />
+						<label for="checkDismiss">
+							I don't need to see a video, I already know what to do.
+						</label>
+					</div>
+				</div>
+
+				<!-- /////////////////////////////////////////////////////////////////
+
+				the actual message
+
+				///////////////////////////////////////////////////////////////// -->
+
+				<div class="tour-message" v-html="message.text"></div>
+
+
+				<!-- /////////////////////////////////////////////////////////////////
+
+				next button
+
+				///////////////////////////////////////////////////////////////// -->
+
+				<a class="button primary"
+						@click="onTourNext()">{{ message.buttonLabel || nextStepButtonLabel }}</a>
+
+				<!-- /////////////////////////////////////////////////////////////////
+
+				dismiss tour
+
+				///////////////////////////////////////////////////////////////// -->
+
+				<div class="dismiss-container tour" v-if="!isLastMessage">
+					<input type="checkbox" id="checkDismissTour" v-model="haveCheckedDismissEntireTour" />
+					<label for="checkDismissTour">
+						Dismiss tour, I already know how to search for and create snippets and placeholders.
 					</label>
 				</div>
+
+				<!--<em v-if="!isSettingsMode">-->
+					<!--<br />-->
+					<!--Btw you can dismiss this tour at any point by pressing any key (on your keyboard).-->
+				<!--</em>-->
+
 			</div>
-			
-			<!-- /////////////////////////////////////////////////////////////////
-			
-			the actual message
-			
-			///////////////////////////////////////////////////////////////// -->
-			
-			<div class="tour-message" v-html="message.text"></div>
-
-
-			<!-- /////////////////////////////////////////////////////////////////
-			
-			next button
-			
-			///////////////////////////////////////////////////////////////// -->
-
-			<a class="button primary"
-					@click="onTourNext()">{{ message.buttonLabel || nextStepButtonLabel }}</a>
-			
-			<!-- /////////////////////////////////////////////////////////////////
-			
-			dismiss tour
-			
-			///////////////////////////////////////////////////////////////// -->
-
-			<div class="dismiss-container tour" v-if="!isLastMessage">
-				<input type="checkbox" id="checkDismissTour" v-model="haveCheckedDismissEntireTour" />
-				<label for="checkDismissTour">
-					Dismiss tour, I already know how to search for and create snippets and placeholders.
-				</label>
-			</div>
-
-			<!--<em v-if="!isSettingsMode">-->
-				<!--<br />-->
-				<!--Btw you can dismiss this tour at any point by pressing any key (on your keyboard).-->
-			<!--</em>-->
 
 		</div>
-
 	</div>
+
 </template>
 
 <script>
@@ -184,6 +189,15 @@
 <style lang="less" scoped>
 	@import "../../assets/styles/global.less";
 
+	/*.fade-out{*/
+		/*position: fixed;*/
+		/*left: 0px;*/
+		/*right: 0px;*/
+		/*top: 0px;*/
+		/*bottom: 0px;*/
+		/*background-color: rgba(0,0,0,0.5);*/
+		/*z-index: 999999999;*/
+	/*}*/
 
 	.thought-container {
 		border-radius: 3px;
