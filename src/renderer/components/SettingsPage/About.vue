@@ -38,6 +38,10 @@
 				<td class="info">Email</td>
 				<td class="value"><a @click="openLink('mailto:digital.mojo.gavin@gmail.com?subject=About CYRUS...', $event)" target="_blank">digital.mojo.gavin@gmail.com</a></td>
 			</tr>
+			<tr>
+				<td class="info">Encryption</td>
+				<td class="value">{{ encryptionStatus }}<a style="float: right" @click="onEncryptionStatusClicked">[<span class="fa fa-info-circle"></span>&nbsp;About]</a></td>
+			</tr>
 			<!--<tr>-->
 				<!--<td class="info">Source</td>-->
 				<!--<td class="value"><a @click="openLink('https://github.com/gavJackson/Cyrus-App', $event)" target="_blank">github.com</a></td>-->
@@ -49,8 +53,9 @@
 </template>
 
 <script>
-	const {app} = require('electron').remote;
+	const { app, dialog } = require('electron').remote;
 	const shell = require('electron').shell;
+	import { mapState } from 'vuex'
 
 	export default {
 		name: "About",
@@ -62,13 +67,27 @@
 			}
 		},
 
+		computed: mapState({
+			encryptionStatus: state => state.Snippets.encrypt == true ? 'On' : 'Off',
+		}),
+
 		methods: {
 			openLink: function(url, event){
 				event.preventDefault()
 
 				shell.openExternal(url)
 
-			}
+			},
+
+			onEncryptionStatusClicked: function(){
+				let message = `When encryption is turned on, CYRUS encyrpts your snippets before writing them to disk.  This is especially important if you are using CYRUS to store sensitive snippets such as passwords or ID numbers however we do not recommend you store credit card numbers with CYRUS and if you do keep sensitive information in CYRUS, please be especially careful when exporting your snippets to share with friends!`
+				const dialogOptions = {type: 'info', buttons: ['OK'], message: message}
+
+				dialog.showMessageBox(dialogOptions, i => {
+					if(i == 0){	// ok button
+						// do nothing
+					}
+				})			}
 		},
 
 		created: function() {

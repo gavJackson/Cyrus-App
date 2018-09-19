@@ -107,7 +107,7 @@ const state = {
 			"name": "About CYRUS",
 			"category": categories.CLIPPY,
 			"language": "Clippy",
-			"description": "About CYRUS, version number and author details",
+			"description": "About CYRUS, FAQ, Frequenly asked questions, version number and author details",
 			"tags": [],
 			"snippet": "ABOUT"
 		},
