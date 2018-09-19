@@ -125,6 +125,17 @@
 
 		created(){
 			this.message =  this.$route.params.message
+
+			if(this.message){
+				let myNotification = new Notification('CYRUS', {
+					body: this.message,
+					silent: true,
+				})
+
+				// myNotification.onclick = () => {
+				// 	debugger
+				// }
+			}
 		},
 
 	}

@@ -192,7 +192,7 @@ const state = {
 		},
 
 	],
-    encrypt: false,
+    encrypt: true,
 
 	languages: [
 		{id: "text", label: "Plain text"},

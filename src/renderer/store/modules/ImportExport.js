@@ -303,7 +303,7 @@ const actions = {
 								let snippet = importedSnippets[index]
 								self.commit(snippetsMutations.SAVE_ITEM, snippet, { root: true })
 							}
-							window.location.hash = `/settings/menu/${importedSnippets.length} snippets imported`
+							window.location.hash = `/settings/menu/${importedSnippets.length} snippet(s) imported`
 						}
 					});
 			}

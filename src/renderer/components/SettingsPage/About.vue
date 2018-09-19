@@ -40,7 +40,15 @@
 			</tr>
 			<tr>
 				<td class="info">Encryption</td>
-				<td class="value">{{ encryptionStatus }}<a style="float: right" @click="onEncryptionStatusClicked">[<span class="fa fa-info-circle"></span>&nbsp;About]</a></td>
+				<td class="value">
+
+                    <span v-html="encryptionStatus">...</span>
+                    <a @click="onEncryptionStatusClicked">
+                        <!--[<span class="fa fa-info-circle"></span>&nbsp;About]-->
+                        <!--<span class="fa fa-info-circle"></span>-->
+                        (info)
+                    </a>
+                </td>
 			</tr>
 			<!--<tr>-->
 				<!--<td class="info">Source</td>-->
@@ -68,7 +76,7 @@
 		},
 
 		computed: mapState({
-			encryptionStatus: state => state.Snippets.encrypt == true ? 'On' : 'Off',
+			encryptionStatus: state => state.Snippets.encrypt == true ? '<span style="color: lightgreen"><span class="fa fa-check-circle"></span>&nbsp;On' : '<span style="color: orangered"><span class="fa fa-times-circle"></span>&nbsp;Off</span>',
 		}),
 
 		methods: {
