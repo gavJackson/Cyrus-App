@@ -36,7 +36,7 @@ npm run lint
 
 ### Cross browser / device testing:
 
-Provided by: ![Browserstack](/site/images/Browserstack-logo@2x.png)(http://www.BrowserStack.com)
+Provided by: [![Browserstack](/site/images/Browserstack-logo@2x.png)](http://www.BrowserStack.com)
 
 
 
