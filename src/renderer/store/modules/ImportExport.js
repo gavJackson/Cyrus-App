@@ -198,10 +198,17 @@ const actions = {
 				var importedSnippets = []
 				let expectedHeaders = ["name", "language", "description", "tags", "snippet", "variables"]
 				let requiredHeaders = ["name", "snippet"]
+				let failureCounters = {
+					numRows: 0,
+					invalid: 0,
+					duplicate: 0,
+					parseFail: 0,
+				}
 
 				csv
 					.fromStream(stream, {headers : expectedHeaders})
 					.validate(function(data){
+						failureCounters.numRows++
 						let isValid = true
 						let header
 						// make sure the required headers have values (and that they are not the same words as the
@@ -229,36 +236,74 @@ const actions = {
 					.on("data-invalid", function(data){
 						//do something with invalid row
 						log.error(`importExport.IMPORT_INVALID_ROW: Did not import invalid row: "${JSON.stringify(data)}"`)
+						failureCounters.invalid++
 					})
 					.on("data", function(data){
 						let includeSnippet = true
+
+						// make sure the variables is a valid JSON string
 						if(data.variables != ""){
 							try {
 								data.variables = JSON.parse(data.variables)
 							}
 							catch(err){
 								log.error(`importExport.IMPORT_VARIABLES_PARSE_ERROR: Error parsing "${data.variables}": ${err.toString()}`)
+								failureCounters.parseFail++
 
 								includeSnippet = false
 							}
 						}
 
+						// also make sure the snippet doesn't already exist
+						if(includeSnippet && self.getters.getNames().indexOf(data.name.toLowerCase()) != -1){
+							log.error(`importExport.IMPORT_DUPLICATE: Not importing "${data.name}" as a snippet with this name already exists`)
+							failureCounters.duplicate++
 
+							includeSnippet = false
+						}
+
+
+						// set up some defaults / process the data
 						data.category = categories.IMPORTED
 						data.tags = data.tags.split(",")
 
+						// if all good, add to array
 						if(includeSnippet){
 							importedSnippets.push(data)
 						}
 
 					})
 					.on("end", function(){
-						for(let index in importedSnippets){
-							let snippet = importedSnippets[index]
-							self.commit(snippetsMutations.SAVE_ITEM, snippet, { root: true })
+						if(importedSnippets.length == 0){
+							// error state as nothing imported
+							let message = `Did not import any snippets from the ${failureCounters.numRows} rows found in the CSV because:\n`
 
+							if(failureCounters.duplicate > 0){
+								message += `\n ${failureCounters.duplicate} row(s) already existed as snippets.`
+							}
+
+							if(failureCounters.invalid > 0){
+								message += `\n ${failureCounters.invalid} row(s) were not recognised as snippets.`
+							}
+
+							if(failureCounters.parseFail > 0){
+								message += `\n ${failureCounters.parseFail} row(s) had an invalid variables column.`
+							}
+							const dialogOptions = {type: 'error', buttons: ['OK'], message: message}
+
+							dialog.showMessageBox(dialogOptions, i => {
+								if(i == 0){	// ok button
+									// do nothing
+								}
+							})
+						}
+						else{
+							// something to import!
+							for(let index in importedSnippets){
+								let snippet = importedSnippets[index]
+								self.commit(snippetsMutations.SAVE_ITEM, snippet, { root: true })
+							}
 							window.location.hash = `/settings/menu/${importedSnippets.length} snippets imported`
-
 						}
 					});
 			}

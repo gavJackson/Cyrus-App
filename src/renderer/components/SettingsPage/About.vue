@@ -87,7 +87,8 @@
 					if(i == 0){	// ok button
 						// do nothing
 					}
-				})			}
+				})
+			}
 		},
 
 		created: function() {

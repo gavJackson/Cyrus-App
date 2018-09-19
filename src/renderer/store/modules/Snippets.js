@@ -438,7 +438,7 @@ const getters = {
 		return _.sortBy(tags, "count").reverse()
 	},
 
-	getNames: (state) => (idToExclude) => {
+	getNames: (state) => (idToExclude = -1) => {
 		let filteredData = _.filter(state.data, (item) => {
 			if(item == null || item.name == null){
 				return false
