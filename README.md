@@ -38,7 +38,7 @@ npm run lint
 
 Provided by: 
 
-http://www.BrowserStack.com ![Browserstack](/site/images/Browserstack-logo@2x.png)
+[![Browserstack](/site/images/Browserstack-logo@2x.png)](http://www.BrowserStack.com)
 
 
 
