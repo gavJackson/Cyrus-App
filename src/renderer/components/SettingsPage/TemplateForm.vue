@@ -1,7 +1,7 @@
 <template src="./TemplateForm.html"></template>
 
 <script>
-	import { snippetsMutations} from './../../store/types'
+	import { snippetsActions} from './../../store/types'
 	import editor from 'vue2-ace-editor'
 	import InputTag from 'vue-input-tag'
 	const {dialog } = require('electron').remote
@@ -290,7 +290,7 @@
 				this.formIsDirty = true
 
 				if(this.isValid){
-					this.$store.commit(snippetsMutations.SAVE_ITEM, this.item)
+					this.$store.dispatch(snippetsActions.SAVE_ITEM, this.item)
 
 					this.$router.push({name: 'menuWithMessage', params: { message: this.currentState == 'ADD' ? 'Template added' : 'Template updated' }})
 				}
@@ -298,7 +298,7 @@
 
 			deleteItem(){
 
-				this.$store.commit(snippetsMutations.DELETE_ITEM, this.item)
+				this.$store.dispatch(snippetsActions.DELETE_ITEM, this.item)
 
 				this.$router.push({name: 'menuWithMessage', params: { message:'Template deleted' }})
 			},

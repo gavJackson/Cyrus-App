@@ -6,7 +6,7 @@
 </template>
 
 <script>
-	import {focusMutations, snippetsMutations, analyticsActions} from './store/types'
+	import {focusMutations, snippetsActions, analyticsActions, systemMutations} from './store/types'
 	import is from 'electron-is'
 	const { app, dialog } = require('electron').remote;
 	const shell = require('electron').shell;
@@ -29,7 +29,9 @@
             window.addEventListener('click', this.onClick);
 
 
-			this.$store.commit(snippetsMutations.LOAD)
+			this.$store.dispatch(snippetsActions.LOAD)
+
+			// this.$store.commit(systemMutations.APP_CREATED)
 
 			// this.isWindows = is.windows()
 			this.isMac = is.macOS()

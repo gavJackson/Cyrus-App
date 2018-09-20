@@ -1,38 +1,27 @@
 import electron from 'electron'
 import path from 'path'
 import fs from 'fs'
-import { snippetsMutations, categories, tourMutations } from '../types'
+import {snippetsMutations, snippetsActions, categories, tourMutations, systemMutations} from '../types'
 import _ from 'underscore'
-import SimpleCrypto from "simple-crypto-js"
 import log from 'electron-log'
 
-// Renderer process has to get `app` module via `remote`, whereas the main process can get it directly
-// app.getPath('userData') will return a string of the user's app data directory path.
-const userDataPath = (electron.app || electron.remote.app).getPath('userData');
-const paths = {
-	SNIPPETS: "UserData/Snippets",
-	DATA_FILE: "My snippets.json"
-}
-
-const encryptionKey = "CYRUS-ROOLLZ-OK"
-let simpleCrypto = new SimpleCrypto(encryptionKey)
 
 ///////////////////////////////////////////////////////////
 //
-// help functions
+// helper functions
 //
 ///////////////////////////////////////////////////////////
 
-function saveDataFile(data, isEncrypted=true){
-    let dataToSave = data.filter( (item) => item.category != categories.CLIPPY)
-    if(isEncrypted){
-        dataToSave = simpleCrypto.encrypt(dataToSave)
+function saveDataFile(rootState, state){
+    let dataToSave = state.data.filter( (item) => item.category != categories.CLIPPY)
+    if(rootState.System.encrypt){
+        dataToSave = rootState.System.simpleCrypto.encrypt(dataToSave)
     }
     dataToSave = JSON.stringify(dataToSave, null, '\t')
-    fs.writeFileSync(path.join(userDataPath, paths.SNIPPETS, paths.DATA_FILE), dataToSave)
+    fs.writeFileSync(path.join(rootState.System.userDataPath, rootState.System.paths.SNIPPETS_FOLDER, rootState.System.paths.SNIPPET_DATA_FILE), dataToSave)
 }
 
-function parseDataFile(filePath, defaults) {
+function parseDataFile(rootState, filePath, defaults) {
 	// We'll try/catch it in case the file doesn't exist yet, which will be the case on the first application run.
 	// `fs.readFileSync` will return a JSON string which we then parse into a Javascript object
 	try {
@@ -41,7 +30,7 @@ function parseDataFile(filePath, defaults) {
 		data = JSON.parse(data)
 		if(_.isString(data)){	// only attempt to decrypt non-objects, ie strings
 			// if(isEncrypted) {
-				data = simpleCrypto.decrypt(data, true)
+				data = rootState.System.simpleCrypto.decrypt(data, true)
 			// }
 		}
 
@@ -67,8 +56,16 @@ function parseDataFile(filePath, defaults) {
 	}
 }
 
+///////////////////////////////////////////////////////////
+//
+// the store
+//
+///////////////////////////////////////////////////////////
 
 const state = {
+
+
+
 	// pre-populated with `Clippy` specific items (which should be at the top)
 	data: [
 		{
@@ -213,64 +210,82 @@ const mutations = {
 
 	[snippetsMutations.ADD_EXAMPLES_FOR_TOUR](state) {
 		// if there are no user generated snippets, add the sample ones to get us started
-		if(!state.hasAddedExamples){
+		if (!state.hasAddedExamples) {
 			state.data = state.data.concat(state.examples)
 
 			state.hasAddedExamples = true
 		}
 	},
 
+	[snippetsMutations.SET_HAS_USER_SNIPPETS_FLAG](state, newValue) {
+		state.hasAddedExamples = newValue
+	},
 
-	[snippetsMutations.LOAD](state) {
+	[snippetsMutations.SET_SNIPPET_DATA](state, newValue) {
+		state.data = newValue
+	},
+}
+
+
+const actions = {
+
+	[snippetsActions.LOAD]({ commit, state, rootState }) {
+
 		// MAC: /Users/GJackson/Library/Application Support/CYRUS/UserData/Snippets
 		// WIN: C:\Users\gavinjackson\AppData\Roaming\CYRUS\UserData\Snippets
 		let startingLength = state.data.length
+		let data = state.data
 
 		// ------ useful for tour debugging --------
 		// ------ reinstate this when finished with working on the Tour
 		//
-		let files =  fs.readdirSync(path.join(userDataPath, paths.SNIPPETS))
+		let files =  fs.readdirSync(path.join(rootState.System.userDataPath, rootState.System.paths.SNIPPETS_FOLDER))
 		files = files.filter( (item) => item.indexOf('.json') != -1)
 
 		for(let i=0; i < files.length; i++){
 
-			let filePath = path.join(userDataPath, paths.SNIPPETS, files[i])
+			let filePath = path.join(rootState.System.userDataPath, rootState.System.paths.SNIPPETS_FOLDER, files[i])
 
-			state.data = state.data.concat(parseDataFile(filePath, []))
+			data = data.concat(parseDataFile(rootState, filePath, []))
 		}
 		// ------ useful for tour debugging --------
 
-		state.hasUserGeneratedSnippets = startingLength != state.data.length
+		let hasUserGeneratedSnippets = startingLength != data.length
 
 		// debugger
 		// if there are no user generated snippets, add the sample ones to get us started
-		if(!state.hasUserGeneratedSnippets){
-			state.data = state.data.concat(state.examples)
-			state.hasAddedExamples = true
+		if(!hasUserGeneratedSnippets){
+			data = data.concat(state.examples)
 
-			this.commit(tourMutations.START, null, { root: true })
+			commit(tourMutations.START, null, { root: true })
 		}
 
 		// strip out any duplicates that might have snuck in (based on snippet names only)
-		state.data = _.uniq(state.data, false, 'name')
+		data = _.uniq(data, false, 'name')
 
 		// add an Id into each item
-		state.data.forEach(function(item, index){
+		data.forEach(function(item, index){
 			item.id = index;
 		});
+
+		// update store
+		commit(snippetsMutations.SET_HAS_USER_SNIPPETS_FLAG, hasUserGeneratedSnippets, { root: true })
+		commit(snippetsMutations.SET_SNIPPET_DATA, data, { root: true })
+
 	},
 
 
-	[snippetsMutations.SAVE_ITEM](state, editedItem) {
+	[snippetsActions.SAVE_ITEM]({ commit, state, rootState }, editedItem) {
 		// For ADD: insert item into array
+		let data = state.data
 		if(editedItem.id == null){
 			// adds the `id` property to the start, makes for easier to read JSON
 			editedItem = {id: state.data.length, ...editedItem}
-			state.data.push(editedItem)
+			data.push(editedItem)
 		}
 		// For EDIT: update the internal JS array
 		else{
-			state.data = state.data.map((item) => {
+			data = data.map((item) => {
 				if(item.id == editedItem.id){
 					item = editedItem
 				}
@@ -280,31 +295,33 @@ const mutations = {
 		}
 
         // now save the effected json file (ie based on the category)
-        saveDataFile(state.data, state.encrypt)
+        saveDataFile(rootState, state)
+		commit(snippetsMutations.SET_SNIPPET_DATA, data, { root: true })
+
 	},
 
 
-	[snippetsMutations.DELETE_ITEM](state, editedItem) {
+	[snippetsActions.DELETE_ITEM]({ commit, state, rootState }, editedItem) {
 		//remove from data
-		state.data = state.data.filter( (item) => item.id != editedItem.id)
+		let data = state.data
+		data = data.filter( (item) => item.id != editedItem.id)
 
 		// now save the effected json file (ie based on the category)
-		saveDataFile(state.data, state.encrypt)
+		saveDataFile(rootState, state)
+		commit(snippetsMutations.SET_SNIPPET_DATA, data, { root: true })
+
 	},
 
-	[snippetsMutations.TOGGLE_ENCRYPTION](state, newValue) {
+	[snippetsMutations.TOGGLE_ENCRYPTION](state, newValue, rootState) {
 		if(state.encrypt !== newValue){
             state.encrypt = newValue
 
             // now just save the data file to reflect the new setting
-            saveDataFile(state.data, state.encrypt)
+			saveDataFile(rootState, state)
 		}
     },
 }
 
-const actions = {
-
-}
 
 const getters = {
 	applyFilter: (state) => (searchTerm) => {
