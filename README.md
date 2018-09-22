@@ -7,6 +7,10 @@ Watch an intro video about CYRUS on YouTube:
 
 [![Intro video](https://img.youtube.com/vi/Mf8PFIL-4cQ/0.jpg)](https://www.youtube.com/watch?v=Mf8PFIL-4cQ)
 
+### Releases
+
+[BETA release (Windows and OSX installers)](https://github.com/gavJackson/Cyrus-App/releases/tag/0.1.41-closedBETA)
+
 
 #### Build Setup
 
