@@ -6,7 +6,7 @@
 </template>
 
 <script>
-	import {focusMutations, snippetsActions, analyticsActions, systemMutations} from './store/types'
+	import {focusMutations, snippetsActions, analyticsActions, systemActions} from './store/types'
 	import is from 'electron-is'
 	const { app, dialog } = require('electron').remote;
 	const shell = require('electron').shell;
@@ -18,7 +18,6 @@
 
 		data (){
 			return {
-				// isWindows: false,
 				isMac: false,
 			}
 		},
@@ -29,16 +28,12 @@
             window.addEventListener('click', this.onClick);
 
 
-			this.$store.dispatch(snippetsActions.LOAD)
-
-			// this.$store.commit(systemMutations.APP_CREATED)
-
-			// this.isWindows = is.windows()
 			this.isMac = is.macOS()
 
+			this.$store.dispatch(snippetsActions.LOAD)
+			this.$store.dispatch(systemActions.INIT)
 			this.$store.dispatch(analyticsActions.PAGE_VIEW, ['/created', 'App created'])
 
-			this.startNotificationTimer()
 
 		},
 
@@ -50,36 +45,6 @@
 		},
 
 		methods: {
-
-			///////////////////////////////////////////////////////////
-			//
-			// notifications
-			//
-			///////////////////////////////////////////////////////////
-
-			startNotificationTimer(){
-				// find out if running the BETA
-				if(app.getVersion().charAt(0) == '0') {
-					// show BETA prompt after 5 minutes
-					let delay = 300000
-					window.setTimeout(() => {
-						const dialogOptions = {
-							type: 'info',
-							buttons: ['Open Survey', 'Cancel'],
-							message: `Thanks for using the CYRUS beta, we'd love to find out what you think about CYRUS.  Please complete our short survey and you will also qualify for your free copy of CYRUS.`
-						}
-						dialog.showMessageBox(dialogOptions, i => {
-							if (i == 0) {	// ok button
-								shell.openExternal("https://www.surveymonkey.com/r/39GD22K")
-							}
-							else if (i == 1) {	// cancel button
-								// do nothing
-							}
-						})
-
-					}, delay)
-				}
-			},
 
 			///////////////////////////////////////////////////////////
 			//

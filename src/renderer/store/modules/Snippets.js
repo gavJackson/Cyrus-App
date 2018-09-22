@@ -120,7 +120,7 @@ const state = {
 			"name": "Enter settings mode",
 			"category": categories.CLIPPY,
 			"language": "Clippy",
-			"description": "Create or edit snippets, import / export snippets, help, about, manage snippets, general settings",
+			"description": "Create or edit snippets, import / export snippets, help, about, manage snippets, general settings, menu",
 			"tags": [],
 			"snippet": "SETTINGS_MENU"
 		},

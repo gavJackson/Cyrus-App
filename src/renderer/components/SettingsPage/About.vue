@@ -36,7 +36,7 @@
 			</tr>
 			<tr>
 				<td class="info">Email</td>
-				<td class="value"><a @click="openLink('mailto:digital.mojo.gavin@gmail.com?subject=About CYRUS...', $event)" target="_blank">digital.mojo.gavin@gmail.com</a></td>
+				<td class="value"><a @click="openLink('mailto:digital.mojo.gavin@gmail.com?subject=CYRUS: About', $event)" target="_blank">digital.mojo.gavin@gmail.com</a></td>
 			</tr>
 			<tr>
 				<td class="info">Encryption</td>

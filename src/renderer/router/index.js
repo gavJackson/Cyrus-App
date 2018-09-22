@@ -83,6 +83,17 @@ export default new Router({
 					}
 				},
 				{
+					path: 'feedback',
+					component: require('@/components/SettingsPage/Feedback').default,
+					meta: {
+						breadcrumb: [
+							{ name: 'Settings', link: '/settings/menu' },
+							{ name: 'Feedback' },
+
+						]
+					}
+				},
+				{
 					path: 'export',
 					component: require('@/components/SettingsPage/Export').default,
 					meta: {

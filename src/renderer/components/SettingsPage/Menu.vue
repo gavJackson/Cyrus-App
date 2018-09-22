@@ -25,13 +25,11 @@
 			</li>
 
 			<li>
-				<a @click="openLink('https://github.com/gavJackson/Cyrus-App/issues', $event)"
-				   target="_blank"
-				   class="icon-link not-a-link">
-					<div class="far fa fa-bug fa-3x fa-border fa-fw"></div>
+				<router-link tag="a" class="icon-link not-a-link" to="/settings/feedback">
+					<div class="far fa fa-comments fa-3x fa-border fa-fw"></div>
 
-					<div class="label">Report issue</div>
-				</a>
+					<div class="label">Feedback</div>
+				</router-link>
 			</li>
 
 			<li>
@@ -103,8 +101,6 @@
 </template>
 
 <script>
-	const shell = require('electron').shell;
-
 	export default {
 		name: "Menu",
 
@@ -114,14 +110,6 @@
 			}
 		},
 
-		methods: {
-			openLink: function(url, event){
-				event.preventDefault()
-
-				shell.openExternal(url)
-
-			}
-		},
 
 		created(){
 			this.message =  this.$route.params.message
@@ -131,10 +119,6 @@
 					body: this.message,
 					silent: true,
 				})
-
-				// myNotification.onclick = () => {
-				// 	debugger
-				// }
 			}
 		},
 

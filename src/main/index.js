@@ -77,10 +77,15 @@ function createWindow(app) {
 	}
 
 	mainWindow.on('close', () => {
-		var data = {
-			bounds: mainWindow.getBounds()
-		};
-		fs.writeFileSync(initPath, JSON.stringify(data));
+		try {
+			data = JSON.parse(fs.readFileSync(initPath, 'utf8'))
+		}
+		catch (e) {
+			data = {}
+		}
+
+		data.bounds = mainWindow.getBounds()
+		fs.writeFileSync(initPath, JSON.stringify(data, null, '\t'));
 	})
 
 	mainWindow.on('closed', () => {
