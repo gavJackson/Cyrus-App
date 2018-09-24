@@ -101,10 +101,11 @@
 		.close{
 			opacity: 0.5;
 			position: absolute;
-			right: 10px;
-			top: 10px;
+			right: 0px;
+			top: 0px;
+			padding: 10px;
 			cursor: pointer;
-			z-index: 1;
+			z-index: 999999999;
 
 			&:hover{
 				opacity: 1;
