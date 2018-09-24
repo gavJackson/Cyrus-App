@@ -284,7 +284,6 @@ const actions = {
 		if(editedItem.id == null){
 			// adds the `id` property to the start, makes for easier to read JSON
 			// editedItem = {id: state.data.length, ...editedItem}
-			debugger
 			editedItem.id = state.data.length
 			data.push(editedItem)
 
