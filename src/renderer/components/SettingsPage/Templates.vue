@@ -40,6 +40,8 @@
 			<div class="scroller">
 				<ul>
 					<li class="item-container" v-for="item in data">
+						<a v-bind:href="'#/settings/edit/' + item.id">#/settings/edit/{{ item.id }}</a>
+
 						 <router-link tag="div" :to="{ name: 'edit', params: { id: item.id } }">
 
 							 <div class="tags">

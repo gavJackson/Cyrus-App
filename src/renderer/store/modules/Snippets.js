@@ -1,9 +1,10 @@
 import electron from 'electron'
 import path from 'path'
 import fs from 'fs'
-import {snippetsMutations, snippetsActions, categories, tourMutations, systemMutations} from '../types'
+import {snippetsMutations, snippetsActions, categories, tourMutations, systemMutations, systemActions} from '../types'
 import _ from 'underscore'
 import log from 'electron-log'
+const { dialog } = require('electron').remote
 
 
 ///////////////////////////////////////////////////////////
@@ -63,8 +64,7 @@ function parseDataFile(rootState, filePath, defaults) {
 ///////////////////////////////////////////////////////////
 
 const state = {
-
-
+	BETA_SNIPPET_LIMIT: 25,
 
 	// pre-populated with `Clippy` specific items (which should be at the top)
 	data: [
@@ -72,7 +72,7 @@ const state = {
 			"name": "Create new snippet",
 			"category": categories.CLIPPY,
 			"language": "Clippy",
-			"description": "Create a new live template snippet for Clippy",
+			"description": "Create or add a new live template snippet for Clippy",
 			"tags": [],
 			"snippet": "CREATE_NEW_TEMPLATE"
 		},
@@ -277,12 +277,22 @@ const actions = {
 
 	[snippetsActions.SAVE_ITEM]({ commit, state, rootState }, editedItem) {
 		// For ADD: insert item into array
-		let data = state.data
+		let data = state.data.slice(0)  // clone
+		let limitReached = false
+
+		// debugger
 		if(editedItem.id == null){
 			// adds the `id` property to the start, makes for easier to read JSON
-			editedItem = {id: state.data.length, ...editedItem}
+			// editedItem = {id: state.data.length, ...editedItem}
+			debugger
+			editedItem.id = state.data.length
 			data.push(editedItem)
+
+			if(data.length >= state.BETA_SNIPPET_LIMIT) {
+				limitReached = true
+			}
 		}
+
 		// For EDIT: update the internal JS array
 		else{
 			data = data.map((item) => {
@@ -294,9 +304,24 @@ const actions = {
 			})
 		}
 
-        // now save the effected json file (ie based on the category)
-        saveDataFile(rootState, state)
-		commit(snippetsMutations.SET_SNIPPET_DATA, data, { root: true })
+		if(limitReached){
+			const dialogOptions = {
+				type: 'error',
+				buttons: ['Ok'],
+				message: `This is the BETA version of CYRUS and is limited to ${state.BETA_SNIPPET_LIMIT} snippets, so this one will not be saved`
+			}
+			dialog.showMessageBox(dialogOptions, i => {
+				if (i == 0) {	// ok button
+					// do nothing
+				}
+			})
+		}
+		else{
+	        // now save the effected json file (ie based on the category)
+	        saveDataFile(rootState, state)
+			commit(snippetsMutations.SET_SNIPPET_DATA, data, { root: true })
+		}
+
 
 	},
 

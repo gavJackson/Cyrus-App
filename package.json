@@ -17,6 +17,7 @@
 	"scripts": {
 		"inc": "npm --no-git-tag-version version patch",
 		"build": "npm run inc & node .electron-vue/build.js && electron-builder",
+		"build:noVer": "node .electron-vue/build.js && electron-builder",
 		"build:win": "node .electron-vue/build.js && electron-builder -w",
 		"build:dir": "node .electron-vue/build.js && electron-builder --dir",
 		"build:clean": "cross-env BUILD_TARGET=clean node .electron-vue/build.js",

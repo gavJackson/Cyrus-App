@@ -160,7 +160,7 @@
 
 				let dimensions = {
 					width: 373,
-					height: 100,
+					height: 110,
 				}
 
 				if(this.isEditorFullScreen){
