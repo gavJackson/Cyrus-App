@@ -35,6 +35,39 @@
 			this.$store.dispatch(analyticsActions.PAGE_VIEW, ['/created', 'App created'])
 
 
+			///////////////////////////////
+			// init paste handler
+			///////////////////////////////
+
+			const keyCodes = {
+				CTRL: 17,
+				CMD: 91,
+				V: 86,
+			}
+			// detect ctrl or cmd
+			document.onkeydown = function(event){
+				let toReturn = true
+				if(event.ctrlKey || event.metaKey){
+					if(event.which == keyCodes.V){
+						// handle ace-editor differently
+						if(document.activeElement.classList.contains('ace_text-input')){
+							window.dispatchEvent(new CustomEvent("TEXT_PASTED_INTO_ACE_EDITOR", {
+								detail: {
+									clipboard: clipboard.readText()
+								}
+							}));
+						}
+						else{
+							document.activeElement.value += clipboard.readText()
+							document.activeElement.dispatchEvent(new Event('input'))
+
+						}
+						toReturn = false
+					}
+				}
+
+				return toReturn
+			}
 		},
 
 		destroyed: function () {
@@ -72,6 +105,7 @@
 	//
 	///////////////////////////////////////////////////////////
 
+	const { clipboard } = require('electron')
 	const electron = require('electron');
 	const remote = electron.remote;
 	const Menu = remote.Menu;
@@ -115,6 +149,7 @@
 			node = node.parentNode;
 		}
 	});
+
 
 
 

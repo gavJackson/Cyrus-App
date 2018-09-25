@@ -215,6 +215,12 @@
 					that.$refs.inputName.focus()
 				}
 			}, 1)
+
+			window.addEventListener('TEXT_PASTED_INTO_ACE_EDITOR', (event) => {
+				if(event.detail.clipboard != "" || event.detail.clipboard != null || event.detail.clipboard != undefined){
+                    this.item.snippet += event.detail.clipboard
+				}
+			} );
 		},
 
 		methods: {
