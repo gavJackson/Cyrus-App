@@ -120,7 +120,7 @@ const state = {
 
 
 	simpleCrypto : new SimpleCrypto("CYRUS-ROOLLZ-OK"),
-	encrypt: true,
+	encrypt: false,
 
 
 	///////////////////////////////

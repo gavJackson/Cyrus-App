@@ -62,6 +62,7 @@ function createWindow(app) {
 	data.resizable = false
 	data.frame = false
 	data.hasShadow = false
+	// data.skipTaskbar = true
 
 	mainWindow = new BrowserWindow(data);
 	mainWindow.loadURL(winURL)

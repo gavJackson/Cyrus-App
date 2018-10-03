@@ -232,12 +232,13 @@ JavaScript
 
 			selectedSnippetWithPlaceholdersPreview() {
 				let preview = this.selectedSnippetWithPlaceholders
+                let currentPlaceHolderRegExp = new RegExp(this.currentPlaceholder,"g")
 				preview = preview.replace(/</g, '&lt;')
 				preview = preview.replace(/>/g, '&gt;')
-				preview = preview.replace(this.currentPlaceholder, `<span class="placeholder-being-replaced">${this.currentPlaceholder}</span>`)
+				preview = preview.replace(currentPlaceHolderRegExp, `<span class="placeholder-being-replaced">${this.currentPlaceholder}</span>`)
 
 				if (this.currentPlaceholderInput != "") {
-					preview = preview.replace(this.currentPlaceholder, this.currentPlaceholderInput)
+					preview = preview.replace(currentPlaceHolderRegExp, this.currentPlaceholderInput)
 				}
 
 				return preview
@@ -479,7 +480,6 @@ JavaScript
 
 
 			replaceNextSnippet() {
-
 				let placeholders = this.selectedSnippetWithPlaceholders.match(placeholdersRegExp) || []
 
 				this.placeHolderArrowCounter = 0
@@ -523,8 +523,10 @@ JavaScript
 
 			doPlaceHolderEnter(){
 
+				let currentPlaceHolderRegExp = new RegExp(this.currentPlaceholder,"g")
+
 				// if(this.currentPlaceholderInput != ""){
-				this.selectedSnippetWithPlaceholders = this.selectedSnippetWithPlaceholders.replace(this.currentPlaceholder, this.currentPlaceholderInput)
+				this.selectedSnippetWithPlaceholders = this.selectedSnippetWithPlaceholders.replace(currentPlaceHolderRegExp, this.currentPlaceholderInput)
 				this.currentPlaceholderInput = ""
 				// }
 

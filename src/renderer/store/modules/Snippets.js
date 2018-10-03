@@ -14,10 +14,19 @@ const { dialog } = require('electron').remote
 ///////////////////////////////////////////////////////////
 
 function saveDataFile(rootState, state){
-    let dataToSave = state.data.filter( (item) => item.category != categories.CLIPPY)
+	// let dataToSave = state.data.slice(0)  // clone
+
+	let dataToSave = state.data.filter( (item) => item.category != categories.CLIPPY)
+	// dataToSave.forEach(item => {
+	// 	item.isSelected = false
+	// 	delete item.isSelected
+	// })
+
+
     if(rootState.System.encrypt){
         dataToSave = rootState.System.simpleCrypto.encrypt(dataToSave)
     }
+    // debugger
     dataToSave = JSON.stringify(dataToSave, null, '\t')
     fs.writeFileSync(path.join(rootState.System.userDataPath, rootState.System.paths.SNIPPETS_FOLDER, rootState.System.paths.SNIPPET_DATA_FILE), dataToSave)
 }
@@ -44,6 +53,7 @@ function parseDataFile(rootState, filePath, defaults) {
 					throw new SyntaxError(`parseDataFile.SNIPPET_MISSING_PROPERTY: Invalid snippet in JSON file '${filePath}' missing required property '${prop}'`, filePath)
 				}
 			})
+			item.isSelected = false
 		})
 
 		return data
@@ -223,6 +233,19 @@ const mutations = {
 
 	[snippetsMutations.SET_SNIPPET_DATA](state, newValue) {
 		state.data = newValue
+		state.data.forEach(item => item.isSelected = false)
+	},
+
+	[snippetsMutations.TOGGLE_SELECT_ITEM](state, payload) {
+		let found = state.data.filter(item => item.id == payload.id)
+
+		if(found.length == 1){
+			found[0].isSelected = payload.isSelected
+		}
+	},
+
+	[snippetsMutations.DESELECT_ALL_ITEMS](state) {
+		state.data.forEach(item => item.isSelected = false)
 	},
 }
 
@@ -285,6 +308,8 @@ const actions = {
 			// adds the `id` property to the start, makes for easier to read JSON
 			// editedItem = {id: state.data.length, ...editedItem}
 			editedItem.id = state.data.length
+			editedItem.isSelected = false
+
 			data.push(editedItem)
 
 			if(data.length >= state.BETA_SNIPPET_LIMIT) {
@@ -297,6 +322,7 @@ const actions = {
 			data = data.map((item) => {
 				if(item.id == editedItem.id){
 					item = editedItem
+					item.isSelected = false
 				}
 
 				return item
@@ -317,8 +343,9 @@ const actions = {
 		}
 		else{
 	        // now save the effected json file (ie based on the category)
-	        saveDataFile(rootState, state)
+			// commit(snippetsMutations.DESELECT_ALL_ITEMS, data, { root: true })
 			commit(snippetsMutations.SET_SNIPPET_DATA, data, { root: true })
+	        saveDataFile(rootState, state)
 		}
 
 
@@ -331,8 +358,9 @@ const actions = {
 		data = data.filter( (item) => item.id != editedItem.id)
 
 		// now save the effected json file (ie based on the category)
-		saveDataFile(rootState, state)
+		// commit(snippetsMutations.DESELECT_ALL_ITEMS, data, { root: true })
 		commit(snippetsMutations.SET_SNIPPET_DATA, data, { root: true })
+		saveDataFile(rootState, state)
 
 	},
 
@@ -495,6 +523,13 @@ const getters = {
 
 
 		return names
+	},
+
+
+	getSelectedSnippets: (state) => () => {
+		return _.filter(state.data, (item) => {
+			return item.isSelected
+		})
 	},
 
 }

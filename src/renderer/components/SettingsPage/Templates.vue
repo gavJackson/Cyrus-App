@@ -1,81 +1,101 @@
 <template>
-	<div class="templates-list-container">
+	<div class="templates-page"  :class="{ 'has-selected-snippets': getSelectedSnippets.length > 0 }">
+		<div class="templates-list-container">
+			<div v-if="data.length == 0">
+				<h1>Snippets</h1>
 
-		<div v-if="data.length == 0">
-			<h1>Snippets</h1>
+				<p>
+					This page would list all your snippets and provide you with a way of filtering your snippets by the tags you can use to organise your snippets....but you do not have any set up yet.
+				</p>
 
-			<p>
-				This page would list all your snippets and provide you with a way of filtering your snippets by the tags you can use to organise your snippets....but you do not have any set up yet.
-			</p>
+				<router-link tag="a" class="button primary xcreate-new-button" to="/settings/create">
+					Click here to create a new snippet
+				</router-link>
 
-			<router-link tag="a" class="button primary xcreate-new-button" to="/settings/create">
-				Click here to create a new snippet
-			</router-link>
+			</div>
+
+			<div v-else>
+				<div class="tags-container" v-if="tags.length > 0">
+					<ul>
+						<li class="tag"
+							v-for="item in tags"
+
+							 :class="{ 'in-active': selectedTags.indexOf(item.tag) == -1}"
+							@click="selectItem(item.tag, $event)">
+							{{ item.tag }} ({{ item.count }})
+						</li>
+					</ul>
+				</div>
+
+
+				<router-link tag="a" class="button primary create-new-button" to="/settings/create">
+					Create new
+				</router-link>
+
+				<h1>Snippets</h1>
+				<div style="margin-top: -10px">({{ numRecords }})</div>
+
+				<br />
+
+				<div class="scroller">
+					<ul>
+						<li class="item-container" v-for="item in data">
+							<label v-bind:for="'check' + item.id">
+								<router-link tag="a" :to="{ name: 'edit', params: { id: item.id } }" class="button primary go-button">
+									<span class=" fa fa-chevron-right"></span>
+									&nbsp;
+									Edit
+								</router-link>
+
+								<input class="check" type="checkbox"
+
+									   @change="onSelectedChanged(item.id, $event)"
+									   v-bind:value="item.isSelected"
+									   v-bind:id="'check' + item.id" />
+
+								<!--<a v-bind:href="'#/settings/edit/' + item.id">{{item.name}}</a>-->
+								<!--<br />-->
+								{{ item.id }}
+								<div class="name code">{{ item.isSelected }}  {{item.name}}</div>
+								<div class="description code">{{item.description}}</div>
+
+
+								 <div class="tags">
+									 <ul>
+										 <li class="tag"
+
+											 :class="{ 'in-active': selectedTags.indexOf(item) == -1}"
+											 v-for="item in item.tags"
+											 @click="selectItem(item, $event)">
+											 {{ item }}
+										 </li>
+									 </ul>
+								 </div>
+							</label>
+						</li>
+					</ul>
+				</div>
+
+
+			</div>
 
 		</div>
 
-		<div v-else>
-			<div class="tags-container" v-if="tags.length > 0">
-				<ul>
-					<li class="tag"
-						v-for="item in tags"
+		<div class="action-buttons">
+			{{ getSelectedSnippets.length }}
+			selected (<a>clear</a>)
 
-						 :class="{ 'in-active': selectedTags.indexOf(item.tag) == -1}"
-						@click="selectItem(item.tag, $event)">
-						{{ item.tag }} ({{ item.count }})
-					</li>
-				</ul>
-			</div>
-
-
-			<router-link tag="a" class="button primary create-new-button" to="/settings/create">
-				Create new
-			</router-link>
-
-			<h1>Snippets</h1>
-			<div style="margin-top: -10px">({{ numRecords }})</div>
-
-			<br />
-
-			<div class="scroller">
-				<ul>
-					<li class="item-container" v-for="item in data">
-						<a v-bind:href="'#/settings/edit/' + item.id">#/settings/edit/{{ item.id }}</a>
-
-						 <router-link tag="div" :to="{ name: 'edit', params: { id: item.id } }">
-
-							 <div class="tags">
-								 <ul>
-									 <li class="tag"
-
-										 :class="{ 'in-active': selectedTags.indexOf(item) == -1}"
-										 v-for="item in item.tags"
-										 @click="selectItem(item, $event)">
-										 {{ item }}
-									 </li>
-								 </ul>
-							 </div>
-
-							 <div class="name code">{{item.name}}</div>
-
-							 <!--<div class="icons-container">-->
-								 <!--<span class="fa fa-edit" title="Edit template"></span>-->
-							 <!--</div>-->
-
-							 <div class="description code">{{item.description}}</div>
-
-						 </router-link>
-					</li>
-				</ul>
-			</div>
+			<span class="right">
+				<a class="button">Delete</a>
+				<a class="button primary">Export</a>
+			</span>
 		</div>
-
-
 	</div>
 </template>
 
 <script>
 	import _ from 'underscore'
+	import { snippetsMutations } from '../../store/types'
 
 	export default {
 		name: "Templates",
@@ -113,6 +133,10 @@
 				return this.$store.state.Snippets.hasUserGeneratedSnippets
 			},
 
+			getSelectedSnippets() {
+				return this.$store.getters.getSelectedSnippets()
+			},
+
 			userDataLength(){
 				let data = this.$store.state.Snippets.data.filter(item => {
 					let inc = item.language != 'Clippy'
@@ -141,6 +165,11 @@
 				}
 
 				return false
+			},
+
+			onSelectedChanged (id, e){
+				this.$store.commit(snippetsMutations.TOGGLE_SELECT_ITEM, {id: id, isSelected: e.target.checked})
+
 			}
 		}
 	}
@@ -154,15 +183,45 @@
 		padding: 0px;
 	}
 
+	.templates-page{
+		position: absolute;
+		left: 0px;
+		right: 0px;
+		top: 10px;
+		bottom: 0px;
+
+		.action-buttons{
+			box-sizing: border-box;
+			display: none;
+			height: 30px;
+			position: absolute;
+			bottom: 10px;
+			right: 10px;
+			left: 10px;
+
+			.right{
+				float: right;
+			}
+		}
+
+		&.has-selected-snippets{
+			.templates-list-container {
+				bottom: 50px;// !important;
+			}
+
+			.action-buttons{
+				display: block;
+			}
+		}
+	}
+
 	.templates-list-container{
-		overflow: auto;
 		overflow: auto;
 		position: absolute;
 		top: 90px;
 		bottom: 10px;
 		left: 10px; right: 10px;
 		top: 10px;
-
 	}
 
 	.create-new-button{
@@ -202,32 +261,76 @@
 
 	}
 
+
+
 	.scroller{
+		padding: 0px;
+		margin: 0px;
 
 
 		.item-container{
-			transition: all 0.25s ease-in-out;
-			background-color: rgba(255,255,255, 0.15);
-			display: block;
-			margin-bottom: 10px;
-			margin-right: 5px;
-			position: relative;
-			min-height: 60px;
-			padding: 10px;
-			cursor: pointer;
-			box-sizing: border-box;
+			padding: 0px;
+			margin: 0px;
+			margin-bottom: -22px;
 
-			&:hover, & *:hover{
-				text-decoration: none;
+			label {
+				margin: 0px;
+				transition: all 0.25s ease-in-out;
+				background-color: fade(black, 0%);
+				display: block;
+				margin-bottom: 10px;
+				margin-right: 5px;
+				position: relative;
+				min-height: 60px;
+				padding: 20px;
+				padding-left: 30px;
+				padding-right: 40px;
+				cursor: pointer;
+				box-sizing: border-box;
+				border-bottom: 1px solid fade(white, 20%);
+
+				&:hover, & *:hover {
+					text-decoration: none;
+				}
+
+				&:hover {
+					background-color: fade(black, 20%);
+				}
+			}
+			.go-button{
+				-webkit-transition: all 0.25s ease-in-out;
+				-moz-transition: all 0.25s ease-in-out;
+				-ms-transition: all 0.25s ease-in-out;
+				-o-transition: all 0.25s ease-in-out;
+				transition: all 0.25s ease-in-out;
+				border-radius: 30px;
+				float: right;
+				margin-left: 10px;
+				margin-bottom: 10px;
+				min-width: 0px;
+				height: 30px;
+				overflow: hidden;
+				width: 30px;
+				white-space: nowrap;
+				direction: rtl;
+				position: absolute;
+				right: 10px;
+				top: 10px;
+
+				&:hover{
+					width: 80px;
+				}
 			}
 
-			&:hover{
-				background-color: rgba(255,255,255, 0.25);
+			.check{
+				position: absolute;
+				left: 10px;
+				top: 10px;
 			}
 
 			.name{
 				font-size: 13px;
-				padding-bottom: 10px;
+				padding-bottom: 5px;
 			}
 
 			.icons-container{
@@ -243,11 +346,12 @@
 			}
 
 			.tags{
-				float: right;
+				/*float: right;*/
 				/*max-width: 45%;*/
-				text-align: right;
+				text-align: left;
 				white-space: nowrap;
 				overflow: auto;
+				margin-top: 10px;
 
 				li{
 					display: inline-block;
