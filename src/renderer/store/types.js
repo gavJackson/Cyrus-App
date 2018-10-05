@@ -5,6 +5,7 @@ export const focusMutations = {
 
 export const snippetsMutations  = {
 	SAVE_ITEM: 'SAVE_ITEM',
+	UPDATE_ITEM: 'UPDATE_ITEM',
 	DELETE_ITEM: 'DELETE_ITEM',
 	TOGGLE_SELECT_ITEM: 'TOGGLE_SELECT_ITEM',
 	DESELECT_ALL_ITEMS: 'DESELECT_ALL_ITEMS',

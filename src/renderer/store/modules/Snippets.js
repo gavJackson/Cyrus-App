@@ -45,7 +45,7 @@ function parseDataFile(rootState, filePath, defaults) {
 		}
 
 		// validate each item making sure it has all the known properties
-		let requiredProperties = ['name','category','language','tags','snippet'] //'description',
+		let requiredProperties = ['id', 'name','category','language','tags','snippet'] //'description',
 
 		data.forEach(item => {
 			requiredProperties.forEach(prop => {
@@ -239,6 +239,7 @@ const mutations = {
 	[snippetsMutations.TOGGLE_SELECT_ITEM](state, payload) {
 		let found = state.data.filter(item => item.id == payload.id)
 
+		// debugger
 		if(found.length == 1){
 			found[0].isSelected = payload.isSelected
 		}
@@ -246,6 +247,29 @@ const mutations = {
 
 	[snippetsMutations.DESELECT_ALL_ITEMS](state) {
 		state.data.forEach(item => item.isSelected = false)
+	},
+
+
+	[snippetsMutations.UPDATE_ITEM](state, editedItem) {
+
+		if(editedItem.id == null) {
+			editedItem.id = state.data.length
+
+			state.data.push(editedItem)
+		}
+		else{
+			state.data.forEach((item) => {
+				if(item.id == editedItem.id){
+					item.name = editedItem.name
+					item.description = editedItem.description
+					item.language = editedItem.language
+					item.tags = editedItem.tags
+					item.snippet = editedItem.snippet
+					item.variables = editedItem.variables
+					item.category = editedItem.category
+				}
+			})
+		}
 	},
 }
 
@@ -299,37 +323,12 @@ const actions = {
 
 
 	[snippetsActions.SAVE_ITEM]({ commit, state, rootState }, editedItem) {
-		// For ADD: insert item into array
-		let data = state.data.slice(0)  // clone
-		let limitReached = false
 
-		// debugger
-		if(editedItem.id == null){
-			// adds the `id` property to the start, makes for easier to read JSON
-			// editedItem = {id: state.data.length, ...editedItem}
-			editedItem.id = state.data.length
-			editedItem.isSelected = false
+		commit(snippetsMutations.UPDATE_ITEM, editedItem, { root: true })
 
-			data.push(editedItem)
+		let limitReached = state.data.length >= state.BETA_SNIPPET_LIMIT
 
-			if(data.length >= state.BETA_SNIPPET_LIMIT) {
-				limitReached = true
-			}
-		}
-
-		// For EDIT: update the internal JS array
-		else{
-			data = data.map((item) => {
-				if(item.id == editedItem.id){
-					item = editedItem
-					item.isSelected = false
-				}
-
-				return item
-			})
-		}
-
-		if(limitReached){
+		if(rootState.System.isBETA && limitReached){
 			const dialogOptions = {
 				type: 'error',
 				buttons: ['Ok'],
@@ -342,9 +341,10 @@ const actions = {
 			})
 		}
 		else{
+			// data
 	        // now save the effected json file (ie based on the category)
-			// commit(snippetsMutations.DESELECT_ALL_ITEMS, data, { root: true })
-			commit(snippetsMutations.SET_SNIPPET_DATA, data, { root: true })
+			commit(snippetsMutations.DESELECT_ALL_ITEMS, { root: true })
+			// commit(snippetsMutations.SET_SNIPPET_DATA, data, { root: true })
 	        saveDataFile(rootState, state)
 		}
 
@@ -524,7 +524,6 @@ const getters = {
 
 		return names
 	},
-
 
 	getSelectedSnippets: (state) => () => {
 		return _.filter(state.data, (item) => {

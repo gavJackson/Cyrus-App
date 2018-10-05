@@ -88,7 +88,7 @@
 					this.deleteButtonLabel = "Delete"
 				}
 				else if(newValue <= 5 && newValue >= 1 ){
-					this.deleteButtonLabel = `Are you sure? ${newValue}`
+					this.deleteButtonLabel = `Confirm delete? ${newValue}`
 				}
 			},
 
