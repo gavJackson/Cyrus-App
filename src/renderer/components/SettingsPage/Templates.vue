@@ -122,7 +122,7 @@
 
 <script>
 	import _ from 'underscore'
-	import { snippetsMutations, snippetsActions } from '../../store/types'
+	import { categories, snippetsMutations, snippetsActions } from '../../store/types'
 
 	export default {
 		name: "Templates",
@@ -143,7 +143,7 @@
 
 			data() {
 				let data = this.$store.state.Snippets.data.filter(item => {
-					let inc = item.language != 'Clippy'
+					let inc = item.category != categories.CLIPPY
 
 					if(inc){
 						if(this.selectedTags.length > 0){
@@ -151,8 +151,8 @@
 						}
 					}
 
-					if(!inc){
-						// item.isSelected = false
+					if(!inc && item.isSelected ){
+						debugger
 						this.$store.commit(snippetsMutations.TOGGLE_SELECT_ITEM, {id: item.id, isSelected: false })
 					}
 
@@ -171,8 +171,11 @@
 				return this.$store.state.Snippets.hasUserGeneratedSnippets
 			},
 
+			// TODO there is a bug where we cannot select a newly created snippet
 			getSelectedSnippets() {
-				return this.$store.getters.getSelectedSnippets()
+				return _.filter(this.$store.state.Snippets.data, (item) => {
+					return item.isSelected
+				})
 			},
 
 			userDataLength(){
@@ -195,7 +198,8 @@
 				else{
 					return 'De-select all'
 				}
-			}
+			},
+
 		},
 
 		methods: {

@@ -525,11 +525,11 @@ const getters = {
 		return names
 	},
 
-	getSelectedSnippets: (state) => () => {
-		return _.filter(state.data, (item) => {
-			return item.isSelected
-		})
-	},
+	// getSelectedSnippets: (state) => () => {
+	// 	return _.filter(state.data, (item) => {
+	// 		return item.isSelected
+	// 	})
+	// },
 
 }
 
