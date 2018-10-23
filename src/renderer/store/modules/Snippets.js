@@ -210,7 +210,9 @@ const state = {
 		{id: "javascript", label: "JavaScript"},
 		{id: "javascript", label: "JSON"},
 		{id: "xml", label: "XML"},
-	]
+	],
+
+	counter: 0,
 
 }
 
@@ -239,7 +241,9 @@ const mutations = {
 	[snippetsMutations.TOGGLE_SELECT_ITEM](state, payload) {
 		let found = state.data.filter(item => item.id == payload.id)
 
-		// debugger
+		// I do not know why, by if i do not modify a simple state item Vue.js doesn't trigger the change event to the
+		// subscribers (ie get selected items), this increment hack works, but its not very nice
+		state.counter++
 		if(found.length == 1){
 			found[0].isSelected = payload.isSelected
 		}
@@ -256,6 +260,7 @@ const mutations = {
 			editedItem.id = state.data.length
 
 			state.data.push(editedItem)
+			// state.data.$set(state.data.length, editedItem)
 		}
 		else{
 			state.data.forEach((item) => {

@@ -152,7 +152,6 @@
 					}
 
 					if(!inc && item.isSelected ){
-						debugger
 						this.$store.commit(snippetsMutations.TOGGLE_SELECT_ITEM, {id: item.id, isSelected: false })
 					}
 
@@ -171,11 +170,12 @@
 				return this.$store.state.Snippets.hasUserGeneratedSnippets
 			},
 
-			// TODO there is a bug where we cannot select a newly created snippet
 			getSelectedSnippets() {
-				return _.filter(this.$store.state.Snippets.data, (item) => {
-					return item.isSelected
-				})
+				// there is a bug where we cannot select a newly created snippet, adding this counter thing seems to force
+				// this to re-evaluate
+				var counter = this.$store.state.Snippets.counter
+
+				return this.$store.state.Snippets.data.filter( (item) => item.isSelected )
 			},
 
 			userDataLength(){
