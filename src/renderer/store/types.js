@@ -82,4 +82,5 @@ export const analyticsActions = {
 export const importExportActions = {
 	GENERATE_TEMPLATE: 'GENERATE_TEMPLATE',
 	IMPORT_CSV: 'IMPORT_CSV',
+	EXPORT_CSV: 'EXPORT_CSV',
 }

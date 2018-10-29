@@ -16,7 +16,8 @@ import log from 'electron-log'
 
 const desktopPath = (electron.app || electron.remote.app).getPath('desktop');
 const paths = {
-	IMPORT_TEMPLATE: "SnippetsToImport.csv",
+	IMPORT_TEMPLATE: "TemplatesToImport.csv",
+	EXPORT_TEMPLATE: "ExportedTemplates.csv",
 }
 
 function flattenForCSV(input){
@@ -173,6 +174,52 @@ const actions = {
 					}
 				})
 			});
+	},
+
+
+	// shows a save dialog, then generates as CSV and save it in that location
+	[importExportActions.EXPORT_CSV] ({ commit, state, rootState }) {
+		const dialogOptions = {
+			title: 'Export templates',
+			buttonLabel: 'Export',
+			message: 'Export selected templates as a CSV file',
+			nameFieldLabel: 'CSV file',
+			defaultPath: path.join(desktopPath, paths.EXPORT_TEMPLATE),
+		}
+
+		dialog.showSaveDialog(dialogOptions, filename => {
+			// user presses export we get a filename
+			if(filename){
+				let templatesToExport = _.filter(rootState.Snippets.data, (item) => {
+					return item.isSelected
+				})
+
+				csv
+					.writeToPath(filename,
+						flattenForCSV(templatesToExport),
+						{
+							headers: true,
+							includeEndRowDelimiter: true
+						}
+					).on("finish", function(){
+					const dialogOptions = {type: 'info', buttons: ['Open now', 'Cancel'], message: 'A CSV of your selected templates has been generated, you can share this with other CYRUS users or use this to bulk add/edit your own templates. Would you like to look at it now?'}
+					dialog.showMessageBox(dialogOptions, i => {
+						if(i == 0){	// ok button
+							shell.openItem(filename)
+						}
+						else if(i == 1){	// cancel button
+							// do nothing
+						}
+					})
+				});
+
+				debugger
+
+			// TODO de-select all selected items..
+			}
+
+		})
+
 	},
 
 

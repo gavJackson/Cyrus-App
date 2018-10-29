@@ -101,7 +101,9 @@
 					{{ deleteButtonLabel }}
 				</a>
 
-				<a class="button primary">Export</a>
+				<a class="button primary"
+
+				   @click="onExportClicked">Export</a>
 			</span>
 		</div>
 
@@ -122,7 +124,7 @@
 
 <script>
 	import _ from 'underscore'
-	import { categories, snippetsMutations, snippetsActions } from '../../store/types'
+	import { categories, snippetsMutations, snippetsActions, importExportActions } from '../../store/types'
 
 	export default {
 		name: "Templates",
@@ -263,6 +265,11 @@
 				// this.$router.push({name: 'menuWithMessage', params: { message:'Template deleted' }})
 			},
 
+
+			onExportClicked(){
+				this.$store.dispatch(importExportActions.EXPORT_CSV)
+			},
+
 		},
 
 		watch: {
@@ -334,7 +341,7 @@
 
 	.create-new-button{
 		float: right;
-		margin-top: 10px;
+		margin-top: 5px;
 		margin-right: 10px;
 	}
 
