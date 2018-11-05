@@ -213,13 +213,10 @@ const actions = {
 					})
 				});
 
-				debugger
-
-			// TODO de-select all selected items..
+				// de-select all selected items..
+				commit(snippetsMutations.DESELECT_ALL_ITEMS, { root: true })
 			}
-
 		})
-
 	},
 
 
