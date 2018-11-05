@@ -1,6 +1,7 @@
 <template>
-    <div id="app" v-bind:class="{ 'is-win': !isMac,
-	 							  'is-mac': isMac }">
+    <div id="app" class="clippy"
+         v-bind:class="{ 'is-win': !isMac,
+                         'is-mac': isMac }">
         <router-view></router-view>
     </div>
 </template>
@@ -155,12 +156,12 @@
     }
 
     .body-font {
-        font-family: @bodyFont;
+        font-family: @codeFont;
     }
 
     body {
         color: @textColor;
-        font-family: @bodyFont;
+        font-family: @codeFont;
 
         ///////////////////////////////////////////////////////////
         //
@@ -358,7 +359,7 @@
     }
 
     hr {
-        border-bottom: 1px solid @borderColor;
+        border-bottom: 1px solid rgba(0,0,0,0.5);
     }
 
     ///////////////////////////////
@@ -469,20 +470,26 @@
     ///////////////////////////////
 
     .bottom-bordered {
-        border-bottom: 1px solid @borderColor;
+        border-bottom: 1px solid rgba(0,0,0,0.5);
     }
 
     .top-bordered {
-        border-top: 1px solid @borderColor;
+        border-top: 1px solid rgba(0,0,0,0.5);
     }
 
     .dialog {
-        box-shadow: 10px 11px 35px 4px rgba(0, 0, 0, 0.56);
+        .gradient(@codeBackground, @codeBackground, darken(@codeBackground, 10%));
 
+        box-shadow: 10px 11px 35px 4px rgba(0, 0, 0, 0.56);
+        color: @codeText;
         border-radius: 5px;
-        background-color: @backgroundColor;
-        border: 1px solid @borderColor;
+        //background-color: @backgroundColor;
+        //border: 1px solid @borderColor;
         padding: 10px;
+
+        input{
+            color: @codeText;
+        }
     }
 
     ///////////////////////////////
@@ -501,7 +508,7 @@
     }
 
     .highlight {
-        background-color: fade(@highlightColor, 35%);
+        background-color: fade(cyan, 35%);
         display: inline-block;
         padding: 2px 1px;
         margin-left: -2px;
@@ -512,8 +519,8 @@
         }
 
         &.capital-letter {
-            background-color: fade(@highlightColor, 50%);
-            border: 1px solid darken(@highlightColor, 10%);
+            background-color: fade(cyan, 50%);
+            border: 1px solid darken(cyan, 10%);
             padding: 2px 1px;
             margin-left: 5px;
         }
@@ -627,7 +634,7 @@
         bottom: 0px;
         height: 50px;
         background-color: transparent;
-        background: -webkit-linear-gradient(top, fade(@backgroundColor, 0%) 20%, @backgroundColor 90%); /* Chrome10-25,Safari5.1-6 */
+        background: -webkit-linear-gradient(top, fade(@codeBackground, 0%) 20%, @codeBackground 90%); /* Chrome10-25,Safari5.1-6 */
         z-index: 1;
         pointer-events: none;
     }
@@ -689,5 +696,100 @@
     textarea {
         -webkit-app-region: no-drag;
     }
+
+    ///////////////////////////////////////////////////////////
+    //
+    // App Themes
+    //
+    ///////////////////////////////////////////////////////////
+
+    #app{
+        &.xclippy {
+
+            .body-font {
+                font-family: @bodyFont;
+            }
+
+            body {
+                font-family: @bodyFont;
+            }
+            /*border: 2px solid red;*/
+            //.gradient(@codeBackground, @codeBackground, darken(@codeBackground, 10%));
+
+            hr {
+                border-bottom: 1px solid @borderColor;
+            }
+
+            .bottom-bordered {
+                border-bottom: 1px solid @borderColor;
+            }
+
+            .top-bordered {
+                border-top: 1px solid @borderColor;
+            }
+
+            .dialog {
+                background: none;
+                background-color: @backgroundColor;
+                border: 1px solid @borderColor;
+                color: #333333;
+                font-family: @codeFont;
+                font-size: 15px;
+
+                input {
+                    color: #333333;
+                }
+            }
+
+            .bottom-gradient {
+                background: -webkit-linear-gradient(top, fade(@backgroundColor, 0%) 20%, @backgroundColor 90%); /* Chrome10-25,Safari5.1-6 */
+            }
+
+            .highlight {
+                background-color: fade(@highlightColor, 35%);
+
+                &.capital-letter {
+                    background-color: fade(@highlightColor, 50%);
+                    border: 1px solid darken(@highlightColor, 10%);
+                }
+            }
+
+            .tour-start-dialog,
+            .speech-bubble {
+                font-family: @bodyFont;
+                color: #333333;
+                background-color: @backgroundColor;
+
+                &:after {
+                    border-top-color: @backgroundColor;
+                }
+            }
+
+            .user-input {
+                font-size: 15px;
+
+            }
+
+            .thought-container {
+                background-color: @tourBackground;
+                background: -moz-linear-gradient(top, @tourBackground 10%, @backgroundColor 100%); /* FF3.6-15 */
+                background: -webkit-linear-gradient(top, @tourBackground 10%,@backgroundColor 100%); /* Chrome10-25,Safari5.1-6 */
+                background: linear-gradient(to bottom, @tourBackground 10%,@backgroundColor 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+
+                &:before{
+                    border-bottom-color: @tourBackground;
+                }
+
+                &:not(.in-settings) {
+                    // Track
+                    ::-webkit-scrollbar-track {
+                        background: mix(@tourBackground, black, 75%);
+                    }
+                }
+            }
+        }
+
+    }
+
 
 </style>

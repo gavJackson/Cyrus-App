@@ -272,25 +272,26 @@
 
 	.tour-start-dialog{
 		position: absolute;
-		color: white;
+		/*color: white;*/
 		bottom: 100px;
 		left: -300px;
 		width: 320px;
-		color: @textColor;
+		color: @codeText;
+		font-size: 13px;
 
 		&:after{
 			content: '';
 			position: absolute;
 			bottom: 0;
-			left: 65%;
+			left: 75%;
 			width: 0;
 			height: 0;
-			border: 26px solid transparent;
-			border-top-color: #ffffcd;
+			border: 13px solid transparent;
+			border-top-color: @codeBackground;
 			border-bottom: 0;
 			border-right: 0;
 			margin-left: 40px;
-			margin-bottom: -26px;
+			margin-bottom: -13px;
 		}
 	}
 

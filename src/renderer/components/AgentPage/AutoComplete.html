@@ -106,7 +106,9 @@
 	<div v-if="currentState == 'COPIED_TO_CLIPBOARD'"
 		 class="copied-to-clipboard">
 
-		<strong>Copied to clipboard</strong> now ready to paste...
+		<div class="copied-message">
+			<strong>Copied to clipboard</strong> now ready to paste
+		</div>
 
 		<div class="preview"
 			 v-bind:class="{ 'enable-wrap': enableWrapOnPreview }"

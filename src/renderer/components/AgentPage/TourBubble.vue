@@ -189,16 +189,6 @@
 <style lang="less" scoped>
 	@import "../../assets/styles/global.less";
 
-	/*.fade-out{*/
-		/*position: fixed;*/
-		/*left: 0px;*/
-		/*right: 0px;*/
-		/*top: 0px;*/
-		/*bottom: 0px;*/
-		/*background-color: rgba(0,0,0,0.5);*/
-		/*z-index: 999999999;*/
-	/*}*/
-
 	.thought-container {
 		border-radius: 3px;
 		position: absolute;
@@ -211,10 +201,10 @@
 		font-family: @bodyFont;
 		font-size: 16px;
 
-		background-color: @tourBackground;
-		background: -moz-linear-gradient(top, @tourBackground 10%, @backgroundColor 100%); /* FF3.6-15 */
-		background: -webkit-linear-gradient(top, @tourBackground 10%,@backgroundColor 100%); /* Chrome10-25,Safari5.1-6 */
-		background: linear-gradient(to bottom, @tourBackground 10%,@backgroundColor 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+		background-color: @codeBackground;
+		background: -moz-linear-gradient(top, darken(@codeBackground, 10%), @codeBackground 10% 100%); /* FF3.6-15 */
+		background: -webkit-linear-gradient(top, darken(@codeBackground, 10%), @codeBackground 10% 100%); /* Chrome10-25,Safari5.1-6 */
+		background: linear-gradient(to bottom, darken(@codeBackground, 10%), @codeBackground 10% 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 
 		&:before {
 			display: block;
@@ -227,7 +217,7 @@
 			position: fixed;
 			pointer-events: none;
 			border-color: rgba(136, 183, 213, 0);
-			border-bottom-color: @tourBackground;
+			border-bottom-color: @codeBackground;
 			border-width: 20px;
 			margin-left: -20px;
 		}
@@ -244,7 +234,7 @@
 
 			// Track
 			::-webkit-scrollbar-track {
-				background: mix(@tourBackground, black, 75%);
+				background: darken(@codeBackground, 5%);
 			}
 
 			// Handle
@@ -253,6 +243,7 @@
 				border-radius: 0px;
 				background: @outlineColor;
 			}
+
 			::-webkit-scrollbar-thumb:window-inactive {
 				background: grey;
 			}

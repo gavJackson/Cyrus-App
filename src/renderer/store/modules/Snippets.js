@@ -323,7 +323,6 @@ const actions = {
 		// update store
 		commit(snippetsMutations.SET_HAS_USER_SNIPPETS_FLAG, hasUserGeneratedSnippets, { root: true })
 		commit(snippetsMutations.SET_SNIPPET_DATA, data, { root: true })
-
 	},
 
 
