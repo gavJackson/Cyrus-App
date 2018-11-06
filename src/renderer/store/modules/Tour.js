@@ -109,7 +109,7 @@ function typeWriterEffect(word, stepNumber, state) {
 }
 
 var tourKeyboardInputs = {
-	STEP_1: 'e  m  ail',
+	STEP_1: 'e m ail',
 	STEP_2: '↓  ↑   ⏎',
 	STEP_3: 'PASTE',
 	STEP_4: '↓⏎',
@@ -125,9 +125,10 @@ const state = {
 
 	messages: [
 		{
-			text: `You control me with your keyboard by telling me <strong>What do you want to do</strong> to search for snippets or functions that I can perform.<br /><br />As you have not set up any snippets of your own, I've added a couple of examples and we'll use them in this tour to find out how I can help you work smarter.<br /><br />First lets search for our email snippets. During the tour the keys that I am pressing will appear below.`,
-			height: '290',
-			arrowX: '-80',
+			text: `Type in here to search for snippets or functions that I can perform.<br /><br />We'll search for one of our sample email snippets.`,
+			xheight: '290',
+			height: '230',
+			arrowX: '80',
 			buttonLabel: 'Lets get started',
 			delay: getTypeWriterDuration(tourKeyboardInputs.STEP_1),
 			nextStep: () => {
@@ -135,7 +136,7 @@ const state = {
 			}
 		},
 		{
-			text: `Our search has returned two results as both example snippets have the word <em>email</em> in their names. When you have more than one result you can scroll through them with the <strong>UP</strong> and <strong>DOWN</strong> keys. Pressing <strong>ENTER</strong> selects one.`,
+			text: `Search results narrow down as you type and are shown here.  You can use your keyboard to select one.`,
 			height: '170',
 			arrowX: '80',
 			buttonLabel: 'Show me',
@@ -146,10 +147,10 @@ const state = {
 			}
 		},
 		{
-			text: `Normally, I would disappear now to let you carry on with what you were doing, but for this tour I am going to hang around to show you how snippets with <em>Placeholders</em> work.  A placeholder is a replaceable bit of text in the  snippet.  We are going to paste (<strong>${PASTE_KEYS}</strong>) what we just found in the search box above to find our next snippet.`,
+			text: `Normally, I would disappear now but now I am going to show you how snippets with <em>Placeholders</em> work (replaceable bit of text in a snippet).  We'll are paste (<strong>${PASTE_KEYS}</strong>) what we just found in the search box.`,
 			height: '230',
 			arrowX: '80',
-			buttonLabel: 'Search for the placeholder example',
+			buttonLabel: 'Paste',
 			delay: getTypeWriterDuration(tourKeyboardInputs.STEP_3),
 			nextStep: () => {
 				typeWriterEffect(tourKeyboardInputs.STEP_3, 3, state)
@@ -157,7 +158,7 @@ const state = {
 			}
 		},
 		{
-			text: `Now we are going to select the second result by pressing <strong>DOWN</strong> and then <strong>ENTER</strong>, and as this one has <strong>Placeholders</strong> we will need to fill them in before it can go into our clipboard.  `,
+			text: `Now we are going to select the second result which has <strong>Placeholders</strong> that will need to be filled in before it can go into our clipboard.  `,
 			height: '160',
 			arrowX: '80',
 			delay: getTypeWriterDuration(tourKeyboardInputs.STEP_4, 2000),
@@ -167,17 +168,17 @@ const state = {
 			}
 		},
 		{
-			text: `This is our example spam email snippet.`,
-			height: '100',
+			text: `This is snippet has placeholders...`,
+			height: '90',
 			arrowX: '150',
-			buttonLabel: 'Tell me more...',
+			buttonLabel: 'Ok',
 			delay: 0,
 			nextStep: () => {
 
 			}
 		},
 		{
-			text: `We are now going to fill in all three placeholders from this example snippet, (Recipient, Reason and Sign off).<br /><br />Each placeholder is a word surrounded by %, e.g. <strong>%RECIPIENT%</strong> and can either be free text or if options have been defined, you can scroll through them using the <strong>UP</strong> and <strong>DOWN</strong> keys.<br /><br />Hitting, <strong>ENTER</strong> moves through the placeholders until all are satisfied and then the snippet with the replacements are placed in your clipboard ready to be pasted into another application (<strong>${PASTE_KEYS}</strong>).`,
+			text: `There are three placeholders in this example snippet, (Recipient, Reason and Sign off).<br /><br />Each placeholder is a word surrounded by %, e.g. <strong>%RECIPIENT%</strong> and can be free text or picked from a list of options.  Once all placeholders are satisfied the completed snippet goes into your clipboard ready to be pasted into another application (<strong>${PASTE_KEYS}</strong>).`,
 			height: '290',
 			arrowX: '-80',
 			buttonLabel: 'Lets fill in placeholders',
@@ -188,7 +189,7 @@ const state = {
 			}
 		},
 		{
-			text: `Try pasting your snippet into another application (<strong>${PASTE_KEYS}</strong>).<br /><br>The next thing I want to show you is <strong>how to create your own snippets</strong> and a nifty searching trick.<br /><br />You can search for functions not just snippets AND you can use <strong>CAPITAL</strong> letters to search for the first letters of each word, so to get into <strong>S</strong>ettings <strong>M</strong>ode we can enter <strong>SMode</strong>.`,
+			text: `Try pasting your snippet into another application (<strong>${PASTE_KEYS}</strong>).<br /><br>The next thing I want to show you is a nifty searching trick: You can search for functions not just snippets and you can use <strong>CAPITAL</strong> letters to search for the first letters of each word, so to get into <strong>S</strong>ettings <strong>M</strong>ode we can enter <strong>SMode</strong>.`,
 			height: '290',
 			arrowX: '-80',
 			buttonLabel: 'Show me the nifty searching trick',

@@ -44,10 +44,12 @@
 
 		<div class="tour-start-dialog dialog animated fadeIn" v-if="shouldShowTourStarter">
 
-			Hi there! I'm <strong>CYRUS</strong>, thanks for installing me. I'm a productivity tool and I aim to provide you with quick and easy access to snippets (<strong>which are useful bits of text</strong>) which I put into your clipboard so you can paste them into any other application.
+			Hi! I'm CYRUS, I'm a productivity tool and I give quick and easy access to useful bits of text (<strong>snippets</strong>).
 			<br /><br />
-			You do not have any snippets set up yet, so I will take you through a tour of my features. Press <strong>{{keys}}</strong> or
-			<a class="button primary">Click here</a> to begin the tour.
+			I can be activated even when you are in another application, by pressing <br /><strong>{{keys}}</strong>.
+			<br /><br />
+			Lets start with a tour of my features, try the shortcut keys or..
+			<br /><br /><a class="button primary">Click here</a> to begin the tour.
 
 		</div>
 

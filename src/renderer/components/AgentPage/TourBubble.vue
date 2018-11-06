@@ -6,13 +6,33 @@
 			 v-bind:class="{ 'in-settings': isSettingsMode }"
 				 v-bind:style="{ 'height': message.height + 'px',
 								 '--arrow-position-x-var': (message.arrowX) + 'px',
-								 '--arrow-position-y-var': (270 - message.height) + 'px',
-								 '--arrow-position-settings-y-var': (360 - message.height) + 'px'}"
+								 '--arrow-position-y-var': (290 - message.height) + 'px',
+								 '--arrow-position-settings-y-var': (380 - message.height) + 'px'}"
 				 v-if="message">
 
 			<div class="bottom-gradient"></div>
 
 			<div class="thought-dialog">
+
+
+
+				<!-- /////////////////////////////////////////////////////////////////
+
+				the actual message
+
+				///////////////////////////////////////////////////////////////// -->
+
+				<div class="tour-message" v-html="message.text"></div>
+
+
+				<!-- /////////////////////////////////////////////////////////////////
+
+				next button
+
+				///////////////////////////////////////////////////////////////// -->
+
+				<a class="button primary"
+						@click="onTourNext()">{{ message.buttonLabel || nextStepButtonLabel }}</a>
 
 				<!-- /////////////////////////////////////////////////////////////////
 
@@ -38,24 +58,6 @@
 						</label>
 					</div>
 				</div>
-
-				<!-- /////////////////////////////////////////////////////////////////
-
-				the actual message
-
-				///////////////////////////////////////////////////////////////// -->
-
-				<div class="tour-message" v-html="message.text"></div>
-
-
-				<!-- /////////////////////////////////////////////////////////////////
-
-				next button
-
-				///////////////////////////////////////////////////////////////// -->
-
-				<a class="button primary"
-						@click="onTourNext()">{{ message.buttonLabel || nextStepButtonLabel }}</a>
 
 				<!-- /////////////////////////////////////////////////////////////////
 
@@ -202,9 +204,9 @@
 		font-size: 16px;
 
 		background-color: @codeBackground;
-		background: -moz-linear-gradient(top, darken(@codeBackground, 10%), @codeBackground 10% 100%); /* FF3.6-15 */
-		background: -webkit-linear-gradient(top, darken(@codeBackground, 10%), @codeBackground 10% 100%); /* Chrome10-25,Safari5.1-6 */
-		background: linear-gradient(to bottom, darken(@codeBackground, 10%), @codeBackground 10% 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+		//background: -moz-linear-gradient(top, darken(@codeBackground, 10%), @codeBackground 10% 100%); /* FF3.6-15 */
+		//background: -webkit-linear-gradient(top, darken(@codeBackground, 10%), @codeBackground 10% 100%); /* Chrome10-25,Safari5.1-6 */
+		//background: linear-gradient(to bottom, darken(@codeBackground, 10%), @codeBackground 10% 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 
 		&:before {
 			display: block;
@@ -218,7 +220,7 @@
 			pointer-events: none;
 			border-color: rgba(136, 183, 213, 0);
 			border-bottom-color: @codeBackground;
-			border-width: 20px;
+			border-width: 10px;
 			margin-left: -20px;
 		}
 
@@ -276,7 +278,9 @@
 		width: 100%;
 		overflow: auto;
 		padding: 10px;
-		padding-bottom: 50px;
+		/*padding-bottom: 50px;*/
+		font-family: @codeFont;
+		font-size: 13px;
 
 	}
 
@@ -316,7 +320,7 @@
 		padding: 10px;
 		border-radius: 10px;
 		position: relative;
-		margin-bottom: 10px;
+		margin-top: 10px;
 
 		label{
 			padding-bottom: 0px;
@@ -331,7 +335,7 @@
 
 		&.tour{
 			border-top: 1px solid @borderColor;
-			margin-top: 40px;
+			margin-top: 10px;
 		}
 	}
 

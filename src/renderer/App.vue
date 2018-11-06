@@ -227,6 +227,7 @@
                     margin-top: -34px;
                     margin-left: 10px;
                 }
+
             }
 
             input[type=checkbox] {
@@ -359,7 +360,7 @@
     }
 
     hr {
-        border-bottom: 1px solid rgba(0,0,0,0.5);
+        border-bottom: 1px solid @borderColor;
     }
 
     ///////////////////////////////
@@ -470,15 +471,15 @@
     ///////////////////////////////
 
     .bottom-bordered {
-        border-bottom: 1px solid rgba(0,0,0,0.5);
+        border-bottom: 1px solid @borderColor;
     }
 
     .top-bordered {
-        border-top: 1px solid rgba(0,0,0,0.5);
+        border-top: 1px solid @borderColor;
     }
 
     .dialog {
-        .gradient(@codeBackground, @codeBackground, darken(@codeBackground, 10%));
+        .gradient(@codeBackground, @codeBackground, lighten(@codeBackground, 15%));
 
         box-shadow: 10px 11px 35px 4px rgba(0, 0, 0, 0.56);
         color: @codeText;
@@ -535,7 +536,7 @@
         padding: 10px;
         box-sizing: border-box;
         margin-top: 10px;
-        background-color: fade(@codeBackground, 80%);
+        background-color: rgba(0, 0, 0, 0.5);
         color: @codeText;
         width: 300px;
         height: 175px;
@@ -704,7 +705,9 @@
     ///////////////////////////////////////////////////////////
 
     #app{
-        &.xclippy {
+        &.clippy {
+
+            @borderColor: #94944c;
 
             .body-font {
                 font-family: @bodyFont;
@@ -728,7 +731,7 @@
                 border-top: 1px solid @borderColor;
             }
 
-            .dialog {
+            .dialog:not(.settings-mode) {
                 background: none;
                 background-color: @backgroundColor;
                 border: 1px solid @borderColor;
@@ -767,7 +770,21 @@
 
             .user-input {
                 font-size: 15px;
+                /*font-weight: bold;*/
+                font-family: @bodyFont;
 
+                &::-webkit-input-placeholder {
+                    font-family: @bodyFont;
+
+                    color: fade(#333333, 70%);
+                }
+            }
+
+            .button,
+            .dismiss-container,
+            .autocomplete-result{
+                font-size: 13px;
+                font-family: @bodyFont;
             }
 
             .thought-container {
@@ -787,6 +804,16 @@
                     }
                 }
             }
+
+            .dismiss-container.tour{
+                border-top-color: @borderColor;
+            }
+
+            .thought-dialog {
+                font-family: @bodyFont;
+                font-size: 15px;
+            }
+
         }
 
     }
