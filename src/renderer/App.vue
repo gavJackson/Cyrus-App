@@ -155,6 +155,10 @@
 
     }
 
+    .comic{
+        font-family: @bodyFont;
+    }
+
     .body-font {
         font-family: @codeFont;
     }
@@ -705,7 +709,7 @@
     ///////////////////////////////////////////////////////////
 
     #app{
-        &.clippy {
+        &.xclippy {
 
             @borderColor: #94944c;
 
@@ -757,6 +761,7 @@
                 }
             }
 
+
             .tour-start-dialog,
             .speech-bubble {
                 font-family: @bodyFont;
@@ -780,14 +785,16 @@
                 }
             }
 
+            .tour-start-dialog,
             .button,
             .dismiss-container,
             .autocomplete-result{
                 font-size: 13px;
-                font-family: @bodyFont;
+                font-family: @bodyFont !important;
             }
 
             .thought-container {
+                color: #333333;
                 background-color: @tourBackground;
                 background: -moz-linear-gradient(top, @tourBackground 10%, @backgroundColor 100%); /* FF3.6-15 */
                 background: -webkit-linear-gradient(top, @tourBackground 10%,@backgroundColor 100%); /* Chrome10-25,Safari5.1-6 */

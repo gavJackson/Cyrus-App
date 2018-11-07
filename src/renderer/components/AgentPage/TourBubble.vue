@@ -256,10 +256,10 @@
 			position: fixed;
 			/*border:2px solid red;*/
 
-			@bgFrom: mix(@backgroundColor, black, 80%);
-			@bgTo: @backgroundColor;
+			@bgFrom: darken(@codeBackground, 15%);
+			@bgTo: @codeBackground;
 
-			color: black;
+			//color: black;
 			background-color: @bgFrom;
 			background: -moz-linear-gradient(top, @bgFrom 10%, @bgTo 100%); /* FF3.6-15 */
 			background: -webkit-linear-gradient(top, @bgFrom 10%,@bgTo 100%); /* Chrome10-25,Safari5.1-6 */

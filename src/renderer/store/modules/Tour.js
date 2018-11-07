@@ -147,7 +147,7 @@ const state = {
 			}
 		},
 		{
-			text: `Normally, I would disappear now but now I am going to show you how snippets with <em>Placeholders</em> work (replaceable bit of text in a snippet).  We'll are paste (<strong>${PASTE_KEYS}</strong>) what we just found in the search box.`,
+			text: `The snippet is in your clipboard, ready to be pasted into another application.  Normally I would disappear now, but I am going to show you how snippets with <em>Placeholders</em> work (replaceable bit of text in a snippet).<br /><br />We'll paste (<strong>${PASTE_KEYS}</strong>) what we just found in the search box ton continue the tour.`,
 			height: '230',
 			arrowX: '80',
 			buttonLabel: 'Paste',
@@ -178,7 +178,7 @@ const state = {
 			}
 		},
 		{
-			text: `There are three placeholders in this example snippet, (Recipient, Reason and Sign off).<br /><br />Each placeholder is a word surrounded by %, e.g. <strong>%RECIPIENT%</strong> and can be free text or picked from a list of options.  Once all placeholders are satisfied the completed snippet goes into your clipboard ready to be pasted into another application (<strong>${PASTE_KEYS}</strong>).`,
+			text: `There are three placeholders in this example snippet, (Recipient, Reason and Sign off).<br /><br />Each placeholder is a word surrounded by %, e.g. <strong>%RECIPIENT%</strong> and can be free text or picked from a list of options.<br /><br />Once all placeholders are satisfied the completed snippet goes into your clipboard ready to be pasted into another application (<strong>${PASTE_KEYS}</strong>).`,
 			height: '290',
 			arrowX: '-80',
 			buttonLabel: 'Lets fill in placeholders',
@@ -200,17 +200,17 @@ const state = {
 			}
 		},
 		{
-			text: `This is <strong>Settings mode</strong>, where you can manage your snippets. Lets <strong>Import snippets</strong> to get you started.`,
+			text: `This is <strong>Settings mode</strong>, where you can manage your snippets. <strong>Import snippets</strong> is a good place to get started.`,
 			height: '120',
 			arrowX: '200',	// pointing at create new template
-			delay: 0,
+			delay: 2000,
 			nextStep: () => {
 				window.location.hash = '/settings/import'
 			}
 		},
 		{
-			text: `This is <strong>the end of the tour</strong>, I'll leave you on Import snippets to crack on and add a few snippets (click the <strong>download button</strong>). I hope this tour has been helpful and remember you can restart the tour it if you want to go through again.`,
-			height: '170',
+			text: `This is <strong>the end of the tour</strong>, I'll leave here to crack on and import a few snippets.<br /><br/>I hope this tour has been helpful and remember that together we can work smarter!<br /><br /><br /><br /><h1 class="comic">CYRUS</h1><br /><br />`,
+			height: '400',
 			arrowX: '-200',	// hiding
 			delay: 0,
 			buttonLabel: 'Close tour',
@@ -218,10 +218,7 @@ const state = {
 
 			}
 		},
-
-
 	]
-
 }
 
 const mutations = {
