@@ -99,7 +99,7 @@
 			content: '';
 			position: absolute;
 			bottom: 0;
-			left: 75%;
+			left: 50%;
 			width: 0;
 			height: 0;
 			border: 13px solid transparent;

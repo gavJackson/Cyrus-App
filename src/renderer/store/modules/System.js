@@ -141,9 +141,11 @@ const state = {
 	// agent
 	///////////////////////////////
 
-	currentAgent: "Clippy",
+	// currentAgent: "Clippy",
+	currentAgent: "Kitty",
 
 	agents: {
+		Kitty: "static/images/agents/Kitty/Kitty.png",
 		Clippy: "static/images/agents/clippy/ClippyWithPaper.png",
 		PooEggCrack: "static/images/agents/PooEggCrack/PooEggCrack-normal.png",
 		Pikachu: "static/images/agents/Pikachu/Pikachu.gif",

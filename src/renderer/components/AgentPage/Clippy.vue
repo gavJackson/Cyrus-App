@@ -21,13 +21,17 @@
 
 		<!--<img id="agentImage" v-bind:src="agentImage" />-->
 
-		<img id="agentImage"
-			 src="static/images/agents/Clippy/ClippyWithPaper.png"/>
+		<div class="agent-image Kitty"
+			 v-bind:class="agentState"
+			 v-bind:data-image="agentImage" />
+
+		<!--<img id="agentImage"-->
+			 <!--src="static/images/agents/Clippy/ClippyWithPaper.png"/>-->
 
 		<div class="agent-state">
 			BETA v{{ versionNumber }}
 			<!--{{ shouldShowTourStarter }} {{ showSpeechBubble }} {{ appHasFocus }}-->
-			<!--{{ agentState }}-->
+			<br />{{ agentState }}
 		</div>
 
 		<!-- /////////////////////////////////////////////////////////////////
@@ -88,6 +92,7 @@
 				currentTourKeyBeingPressed: null,
 				letterChanged: false,
 				versionNumber: null,
+				blinkTimer: null,
 			}
 		},
 
@@ -179,6 +184,22 @@
 		},
 
 		watch: {
+			agentState: function (newValue, oldValue) {
+				if(newValue == 'NORMAL'){
+					this.blinkTimer = setTimeout( () => {
+						this.agentState = 'BLINK'
+					}, 5000)
+				}
+				else if(newValue == 'BLINK'){
+					this.blinkTimer = setTimeout( () => {
+						this.agentState = 'NORMAL'
+					}, 250)
+				}
+				else{
+					clearInterval(this.blinkTimer)
+				}
+			},
+
 			currentTourKeyBeingPressed: function (newValue, oldValue) {
 				if(newValue != null){
 					this.letterChanged = true
@@ -215,8 +236,8 @@
 		-webkit-app-region: drag;
 
 		//background-color: green;//transparent;
-		width: 100px;
-		height: 100px;
+		width: 150px;
+		height: 150px;
 		background-size: contain;
 		background-repeat: no-repeat;
 		position: absolute;
@@ -224,6 +245,42 @@
 		bottom: 0px;
 	}
 
+	.agent-image{
+		width: 150px;
+		height: 150px;
+		-webkit-touch-callout: none; /* iOS Safari */
+		-webkit-user-select: none; /* Safari */
+		pointer-events: none;
+		background-repeat: no-repeat;
+		background-position: bottom left;
+
+		&.Kitty{
+			background-image: url('/static/images/agents/Kitty/Kitty.png');
+
+			&.SEARCHING{
+				background-image: url('/static/images/agents/Kitty/Kitty-sleep.png');
+			}
+
+			&.FOUND{
+				background-image: url('/static/images/agents/Kitty/Kitty-curl.png');
+			}
+
+			&.PLACEHOLDER,
+			&.BLINK{
+				background-image: url('/static/images/agents/Kitty/Kitty-blink.png');
+			}
+
+			&.DRAGGING{
+				background-image: url('/static/images/agents/Kitty/Kitty-drag.png');
+			}
+
+		}
+
+		&.Clippy{
+			background-size: contain;
+			background-image: url('/static/images/agents/Clippy/ClippyWithPaper.png');
+		}
+	}
 
 
 	#agentImage {
@@ -239,10 +296,12 @@
 	}
 
 	.agent-state{
+		display: none;
+
 		position: absolute;
 		text-align: center;
 		bottom: 0px;
-		right: 100px;
+		left: -100px;
 		margin: 0px auto;
 		padding: 2px 5px;
 		font-size: 10px;

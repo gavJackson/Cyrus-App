@@ -58,13 +58,13 @@
 		mounted (){
 			this.updateList()
 
-			setTimeout( () => {
-				if(this.isTourRunning){
-					window.location.hash = '/settings/menu'
-
-					this.$store.commit(tourMutations.JUMP_TO_SETTINGS_BIT)
-				}
-			}, 100)
+			// setTimeout( () => {
+			// 	if(this.isTourRunning){
+			// 		window.location.hash = '/settings/menu'
+			//
+			// 		this.$store.commit(tourMutations.JUMP_TO_SETTINGS_BIT)
+			// 	}
+			// }, 100)
 		},
 
 		watch: { '$route'() { this.updateList() } },
